@@ -122,4 +122,15 @@
   body {
     @apply bg-background text-foreground;
   }
+  .font-inter {
+    font-family: var(--font-inter), sans-serif;
+  }
+
+  .font-roboto {
+    font-family: var(--font-roboto), sans-serif;
+  }
+
+  .font-monoton {
+    font-family: var(--font-monoton), cursive;
+  }
 }
