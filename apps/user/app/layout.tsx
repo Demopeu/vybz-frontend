@@ -1,8 +1,18 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Geist } from 'next/font/google';
+import { Inter, Monoton, Roboto } from 'next/font/google';
 
-const geist = Geist({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const monoton = Monoton({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-monoton',
+});
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-roboto',
+});
 
 export const metadata: Metadata = {
   title: 'VYBZ',
@@ -15,8 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={geist.className}>{children}</body>
+    <html
+      lang="en"
+      className={`${inter.variable} ${monoton.variable} ${roboto.variable}`}
+    >
+      <body className="font-inter">{children}</body>
     </html>
   );
 }
