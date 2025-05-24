@@ -8,8 +8,8 @@
     "check-types": "turbo run check-types",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "graph": "turbo run build lint check-types --graph=graph.png",
-    "check-before-commit": "turbo run lint check-types --filter=...[origin/main]",
-    "check-before-push": "turbo run build --filter=...[origin/main]"
+    "check-before-commit": "turbo run lint check-types --filter=...[origin/dev]",
+    "check-before-push": "turbo run build --filter=...[origin/dev]"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
