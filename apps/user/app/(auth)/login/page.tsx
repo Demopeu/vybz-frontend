@@ -13,16 +13,16 @@ export default function page() {
         <source src="/background/intro.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <section>
-        <p>이제는 유명가수, 버스킹까지 완벽한 이무진</p>
+      <article className='text-left'>
+        <h1>이제는 유명가수, 버스킹까지 완벽한 이무진</h1>
         <p>조회수 886,215회 2021.7.1.</p>
-        <p>이제는 유명 가수, 버스킹까지 완벽한 이무진(Lee Mujin)</p>
+        <h2>이제는 유명 가수, 버스킹까지 완벽한 이무진(Lee Mujin)</h2>
         <p>#오픈마이크</p>
         <p>#비긴어게인</p>
         <p>#싱어게인</p>
         <p>#이무진</p>
-        <p>이무진 공식 VYBZ 구독하기</p>
-      </section>
+        <h3>이무진 공식 VYBZ 구독하기</h3>
+      </article>
       <div>LIVE</div>
       <p>Are you a busker?</p>
       <p>버스커 로그인으로 이동</p>
