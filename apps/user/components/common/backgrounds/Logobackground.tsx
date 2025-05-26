@@ -1,9 +1,8 @@
-import React from 'react';
 import Image from 'next/image';
 
 export default function Logobackground() {
   return (
-    <React.Fragment>
+    <>
       <Image
         src="/background/logopage2.jpg"
         alt="Background"
@@ -16,6 +15,6 @@ export default function Logobackground() {
         fill
         className="object-cover z-0 opacity-50 mix-blend-lighten brightness-80"
       />
-    </React.Fragment>
+    </>
   );
 }

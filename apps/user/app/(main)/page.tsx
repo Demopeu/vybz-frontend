@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Logobackground from '@/components/Logobackground';
+import Logobackground from '@/components/common/backgrounds/Logobackground';
 
 export default function page() {
   return (
