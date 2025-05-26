@@ -54,7 +54,7 @@ export const options: NextAuthOptions = {
     async session({ session, token }) {
       session.user = {
         userUuid: token.userUuid as string,
-        isLogined: !!token.accessToken,
+        isLogined: Boolean(token.accessToken),
       };
       return session;
     },
