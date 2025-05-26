@@ -17,9 +17,9 @@ export const options: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       if (profile && account) {
-        console.log('profile', profile);
-        console.log('account', account);
-        console.log('user', user);
+        // console.log('profile', profile);
+        // console.log('account', account);
+        // console.log('user', user);
         try {
           const res = await fetch(
             `${process.env.BASE_API_URL}/api/v1/oauth/sign-in`,
@@ -42,10 +42,11 @@ export const options: NextAuthOptions = {
           return true;
         } catch (error) {
           console.error('error', error);
-          return '/login';
+          throw new Error('OAuthTokenMissing');
         }
+      } else {
+        throw new Error('OAuthProfileMissing');
       }
-      return true;
     },
     async jwt({ token, user }) {
       return { ...token, ...user };
@@ -58,7 +59,13 @@ export const options: NextAuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? url : baseUrl;
+      const isInternalUrl = url.startsWith(baseUrl);
+
+      if (isInternalUrl && url !== baseUrl) {
+        return url;
+      }
+
+      return `${baseUrl}/main`;
     },
   },
   pages: {

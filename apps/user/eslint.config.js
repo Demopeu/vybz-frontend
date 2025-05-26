@@ -19,6 +19,7 @@ export default [
             'GOOGLE_CLIENT_ID',
             'GOOGLE_CLIENT_SECRET',
             'BASE_API_URL',
+            'NEXTAUTH_URL',
           ],
         },
       ],
