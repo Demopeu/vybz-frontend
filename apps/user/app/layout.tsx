@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter, Monoton, Roboto } from 'next/font/google';
+import { Inter, Monoton, Roboto, Poppins } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const monoton = Monoton({
@@ -12,6 +12,12 @@ const roboto = Roboto({
   subsets: ['latin'],
   weight: ['400', '700'],
   variable: '--font-roboto',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  variable: '--font-poppins',
 });
 
 export const metadata: Metadata = {
@@ -27,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${monoton.variable} ${roboto.variable}`}
+      className={`${inter.variable} ${monoton.variable} ${roboto.variable} ${poppins.variable}`}
     >
       <body className="font-inter">{children}</body>
     </html>
