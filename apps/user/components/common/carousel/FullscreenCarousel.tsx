@@ -11,6 +11,7 @@ import { Button } from '@repo/ui/components/ui/button';
 import { cn } from '@repo/ui/lib/utils';
 import { VideoCarouselDataType } from '@/types/ResponseDataTypes';
 import VideoSlideBox from '@/components/common/carousel/Slide/VideoSlideBox ';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default function FullscreenCarousel({
   data,
@@ -74,6 +75,25 @@ export default function FullscreenCarousel({
 
   return (
     <section className="w-full min-h-screen overflow-hidden">
+      <div className="w-full max-w-2xl mx-auto mt-10">
+        <Swiper spaceBetween={20} slidesPerView={1} loop>
+          <SwiperSlide>
+            <div className="bg-red-500 text-white text-center py-20 rounded-xl">
+              Slide 1
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="bg-blue-500 text-white text-center py-20 rounded-xl">
+              Slide 2
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="bg-green-500 text-white text-center py-20 rounded-xl">
+              Slide 3
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </div>
       {currentVideo && (
         <video
           ref={videoRef}
