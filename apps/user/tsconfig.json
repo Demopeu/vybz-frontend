@@ -10,7 +10,8 @@
     "paths": {
       "@/*": ["./*"],
       "@components/*": ["./components/*"],
-      "@app/*": ["./app/*"]
+      "@app/*": ["./app/*"],
+      "@repo/ui/*": ["../../packages/ui/src/*"] 
     },
     "typeRoots": ["./types", "./node_modules/@types"]
   },

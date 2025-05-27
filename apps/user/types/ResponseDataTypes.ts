@@ -1,4 +1,4 @@
-export interface CommonResponseType<T> {
+export type CommonResponseType<T> = {
   httpStatus: string;
   isSuccess: boolean;
   message: string;
@@ -6,17 +6,24 @@ export interface CommonResponseType<T> {
   result: T;
 }
 
-export interface UserDataType {
+export type UserDataType = {
   accessToken: string;
   refreshToken: string;
   name: string;
   userUuid: string;
 }
 
-export interface LoginArticleDataType {
+export type LoginArticleDataType = {
   title: string;
   views: string;
   description: string;
   hashtags: string[];
   cta: string;
+}
+
+export type VideoCarouselDataType = {
+  id: string
+  videoSrc: string
+  thumbnailSrc: string
+  title: string
 }
