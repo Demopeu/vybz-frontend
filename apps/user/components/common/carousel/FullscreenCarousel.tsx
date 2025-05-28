@@ -60,7 +60,7 @@ export default function FullscreenCarousel({
   };
 
   return (
-    <section className="w-full h-screen overflow-hidden relative">
+    <section className="w-full min-h-screen overflow-hidden relative pt-26">
       {bgVideoSrc && (
         <video
           ref={bgVideoRef}
