@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const Home = ({
+export const Reels = ({
   width = 24,
   height = 24,
   ...props
@@ -20,8 +20,11 @@ export const Home = ({
     strokeLinejoin="round"
     {...props}
   >
-    <path d="M3 9.5L12 3l9 6.5" />
-    <path d="M9 22V12h6v10" />
-    <path d="M3 9.5V22h18V9.5" />
+    <path d="M4 11.5V20h16v-8.5" />
+    <path d="m4 4 16 4.5" />
+    <path d="m12 13-1-2.5" />
+    <path d="m8 12-1-2.5" />
+    <path d="m16 13-1-2.5" />
+    <path d="m20 12-1-2.5" />
   </svg>
 );

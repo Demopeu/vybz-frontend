@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const Home = ({
+export const Search = ({
   width = 24,
   height = 24,
   ...props
@@ -20,8 +20,7 @@ export const Home = ({
     strokeLinejoin="round"
     {...props}
   >
-    <path d="M3 9.5L12 3l9 6.5" />
-    <path d="M9 22V12h6v10" />
-    <path d="M3 9.5V22h18V9.5" />
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
   </svg>
 );

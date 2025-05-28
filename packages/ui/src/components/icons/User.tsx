@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const Home = ({
+export const User = ({
   width = 24,
   height = 24,
   ...props
@@ -20,8 +20,7 @@ export const Home = ({
     strokeLinejoin="round"
     {...props}
   >
-    <path d="M3 9.5L12 3l9 6.5" />
-    <path d="M9 22V12h6v10" />
-    <path d="M3 9.5V22h18V9.5" />
+    <circle cx="12" cy="8" r="4" />
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
   </svg>
 );
