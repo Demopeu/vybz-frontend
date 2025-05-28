@@ -8,10 +8,9 @@ import { FooterData } from '@/data/FooterData';
 export default function MainFooter() {
   const pathname = usePathname();
   const router = useRouter();
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
 
-  // 현재 활성화된 탭 인덱스 찾기
   useEffect(() => {
     const index = FooterData.findIndex(
       ({ path }) => pathname === path || pathname.startsWith(`${path}/`)
@@ -19,53 +18,44 @@ export default function MainFooter() {
     if (index !== -1) {
       setActiveIndex(index);
     }
-  }, [pathname, activeIndex]);
+  }, [pathname]);
 
-  // 탭 전환 핸들러
   const handleTabChange = (path: string, index: number) => {
-    if (index === activeIndex) return;
+    if (index === activeIndex || isAnimating) return;
 
-    setIsTransitioning(true);
+    setIsAnimating(true);
     setActiveIndex(index);
 
-    // 애니메이션 완료 후 페이지 이동
     setTimeout(() => {
       router.push(path);
-      setIsTransitioning(false);
-    }, 300);
+      setIsAnimating(false);
+    }, 400);
   };
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 bg-transparent backdrop-blur-sm text-white z-50 h-16">
+    <footer className="fixed bottom-0 left-0 right-0 backdrop-brightness-85 text-white z-50 h-16">
       <div className="relative w-full h-full flex justify-around items-center">
-        {/* 움직이는 배경 원 */}
         {activeIndex !== -1 && (
           <div
-            className={`absolute rounded-full bg-cyan-400 transition-all duration-300 ease-in-out
-              ${isTransitioning ? 'scale-90 opacity-80' : 'scale-100 opacity-100'}`}
+            className="absolute bottom-2 w-12 h-12 rounded-full bg-cyan-400 z-0 transition-all duration-400"
             style={{
-              width: '3rem',
-              height: '3rem',
-              left: `calc((100% / ${FooterData.length}) * ${activeIndex} + ((100% / ${FooterData.length}) - 3rem) / 2)`,
-              transform: `translateX(0) scale(${isTransitioning ? '0.8' : '1'})`,
+              left: `calc((100% / ${FooterData.length}) * ${activeIndex} + (100% / ${FooterData.length} / 2) - 1.5rem)`,
             }}
           />
         )}
 
-        {/* 버튼들 */}
-        <div className="flex justify-around items-center w-full">
+        <div className="flex justify-around items-center w-full z-10">
           {FooterData.map(({ id, icon: Icon, path }, index) => {
             const isActive = index === activeIndex;
             return (
               <Button
                 key={id}
                 onClick={() => handleTabChange(path, index)}
-                className={`w-12 h-12 rounded-full border-none flex items-center justify-center transition-all duration-300 z-10 relative bg-transparent
-                  ${isActive ? 'scale-110' : 'scale-100'}`}
+                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 relative border-none bg-transparent [&_svg]:size-5
+                  ${isActive ? 'scale-110 bg-transparent pointer-events-none hover:bg-transparent' : 'scale-100 hover:bg-white/20'} 
+                `}
               >
                 <Icon
-                  width={24}
-                  height={24}
                   className={`transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/70'}`}
                 />
               </Button>
