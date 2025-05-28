@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import type { LiveCardProps } from './LiveCardType';
+import type { LiveCardProps } from '../../types/LiveCardType';
 import Link from 'next/link';
 
 export default function LiveCard({
