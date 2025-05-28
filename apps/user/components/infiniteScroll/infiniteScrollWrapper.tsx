@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { InfiniteScrollProps } from './types';
+import { InfiniteScrollProps } from './InfiniteScrollTypes';
 
 export default function InfiniteScrollWrapper({
   children,
