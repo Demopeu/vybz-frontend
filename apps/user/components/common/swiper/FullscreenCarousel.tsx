@@ -10,7 +10,7 @@ import { Maximize, Volume2, VolumeX } from '@repo/ui/components/icons';
 import { useRouter } from 'next/navigation';
 import { Button } from '@repo/ui/components/ui/button';
 
-export default function FullscreenCarousel({
+export default function FullscreenSwiper({
   data,
 }: {
   data: VideoCarouselDataType[];

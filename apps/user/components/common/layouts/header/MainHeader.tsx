@@ -6,7 +6,7 @@ export default function MainHeader() {
   return (
     <header className="w-full h-20 flex items-center justify-between px-4 absolute top-0 left-0 z-20 bg-transparent">
       <Link href="/main">
-        <p className="font-monoton text-2xl text-white">VYBZ</p>
+        <p className="font-monoton text-3xl text-white">VYBZ</p>
       </Link>
       <div className="space-x-2">
         <Button
@@ -21,7 +21,7 @@ export default function MainHeader() {
           size="icon"
           className="bg-transparent text-white"
         >
-          <Send className="!w-6 !h-6" />
+          <Send className="!w-7 !h-7" />
         </Button>
       </div>
     </header>

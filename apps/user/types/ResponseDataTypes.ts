@@ -31,3 +31,12 @@ export type CategoryDataType = {
   id: string;
   name: string;
 }
+
+export type LiveFreeViewType = {
+  id: string;
+  buskerId: string;
+  buskerName: string;
+  liveName: string;
+  buskerProfileImage: string;
+  isMembership: boolean;
+}

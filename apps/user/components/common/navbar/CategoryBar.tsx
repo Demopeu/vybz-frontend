@@ -30,7 +30,7 @@ export default function CategoryBar({
               className={`text-lg p-4 rounded-md transition-all
                 ${
                   selected === category.name
-                    ? 'bg-cyan-300 text-black border-cyan-300'
+                    ? 'bg-cyan-400 text-black border-cyan-400 hover:bg-cyan-300'
                     : 'text-white border-white hover:bg-white/10'
                 }`}
             >
