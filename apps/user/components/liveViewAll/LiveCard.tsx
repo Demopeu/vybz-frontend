@@ -14,9 +14,9 @@ export default function LiveCard(props: LiveCardType) {
           height={120}
           className="object-cover bg-gray-500 rounded-xl"
         />
-        <footer className="w-28 text-center mt-1 text-xs">
-          <p className="font-semibold truncate">{props.title}</p>
-          <p className="font-semibold truncate">{props.nickname}</p>
+        <footer className="w-28 text-center mt-1 font-semibold truncate">
+          <p>{props.title}</p>
+          <p>{props.nickname}</p>
           {props.membership && <MembershipBadge />}
         </footer>
       </Link>
