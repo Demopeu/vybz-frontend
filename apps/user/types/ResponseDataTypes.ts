@@ -25,5 +25,4 @@ export type VideoCarouselDataType = {
   id: string
   videoSrc: string
   thumbnailSrc: string
-  title: string
 }
