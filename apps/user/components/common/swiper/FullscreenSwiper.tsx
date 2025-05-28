@@ -59,6 +59,19 @@ export default function FullscreenSwiper({
     }
   };
 
+  const handleMaximizeClick = useCallback(
+    (e: React.MouseEvent, id: string) => {
+      e.stopPropagation();
+      router.push(`/reels/${id}`);
+    },
+    [router]
+  );
+
+  const handleToggleMute = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsMuted((prev) => !prev);
+  }, []);
+
   return (
     <section className="w-full min-h-screen overflow-hidden relative pt-26">
       {bgVideoSrc && (
@@ -114,10 +127,7 @@ export default function FullscreenSwiper({
                     size="icon"
                     variant="ghost"
                     className="bg-transparent text-white"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsMuted((prev) => !prev);
-                    }}
+                    onClick={handleToggleMute}
                   >
                     {isMuted ? (
                       <VolumeX style={{ width: '30px', height: '30px' }} />
@@ -129,10 +139,7 @@ export default function FullscreenSwiper({
                     size="icon"
                     variant="ghost"
                     className="bg-transparent text-white"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      router.push(`/reels/${item.id}`);
-                    }}
+                    onClick={(e) => handleMaximizeClick(e, item.id)}
                   >
                     <Maximize style={{ width: '30px', height: '30px' }} />
                   </Button>
