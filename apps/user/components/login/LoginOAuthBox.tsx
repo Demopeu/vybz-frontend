@@ -18,11 +18,11 @@ export default function LoginOAuthBox() {
     <section className="w-full space-y-2 px-6">
       <Button
         variant="outline"
-        className="w-full bg-white text-gray-800 border border-gray-300 h-14 flex items-center justify-center gap-2"
+        className="w-full bg-gray-800 text-white border-none h-14 flex items-center justify-center gap-2"
         onClick={handleGoogleLogin}
       >
         <Image src="/logo/google.png" alt="Google" width={20} height={20} />
-        <p className="text-xl font-semibold">구글 로그인</p>
+        <p className="text-lg font-semibold">Continue with Google</p>
       </Button>
       <Button
         variant="outline"
@@ -30,7 +30,7 @@ export default function LoginOAuthBox() {
         onClick={handleKakaoLogin}
       >
         <Image src="/logo/kakao.png" alt="Kakao" width={20} height={20} />
-        <p className="text-xl font-semibold">카카오 로그인</p>
+        <p className="text-lg font-semibold">Continue with Kakao</p>
       </Button>
     </section>
   );

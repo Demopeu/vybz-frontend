@@ -26,3 +26,8 @@ export type VideoCarouselDataType = {
   videoSrc: string
   thumbnailSrc: string
 }
+
+export type CategoryDataType = {
+  id: string;
+  name: string;
+}

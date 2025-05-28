@@ -70,7 +70,7 @@ export default function FullscreenCarousel({
           loop
           muted
           playsInline
-          className="w-full h-full object-cover absolute top-0 left-0 -z-10 brightness-50 transition-opacity duration-500"
+          className="fixed w-screen h-screen object-cover top-0 left-0 -z-10 brightness-20 transition-opacity duration-500"
         />
       )}
       <Swiper
