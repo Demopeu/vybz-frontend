@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Logobackground from '@/components/Logobackground';
+import Logobackground from '@/components/common/backgrounds/Logobackground';
 
 export default function page() {
   return (
@@ -10,7 +10,7 @@ export default function page() {
       </Link>
       <section className="relative z-10">
         <Image
-          src="/logo.png"
+          src="/logo/logo.png"
           alt="Logo"
           width={272}
           height={153}

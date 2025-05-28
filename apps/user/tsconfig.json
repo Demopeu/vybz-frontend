@@ -11,7 +11,8 @@
       "@/*": ["./*"],
       "@components/*": ["./components/*"],
       "@app/*": ["./app/*"]
-    }
+    },
+    "typeRoots": ["./types", "./node_modules/@types"]
   },
   "include": [
     "**/*.ts",

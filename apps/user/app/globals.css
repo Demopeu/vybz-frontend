@@ -133,4 +133,8 @@
   .font-monoton {
     font-family: var(--font-monoton), cursive;
   }
+
+  .font-poppins {
+    font-family: var(--font-poppins), sans-serif;
+  }
 }
