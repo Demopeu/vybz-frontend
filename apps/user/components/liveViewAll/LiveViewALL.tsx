@@ -1,14 +1,9 @@
 'use client';
 
-import React from 'react';
 import LiveCard from './LiveCard';
-import type { LiveCardProps } from '../../types/LiveCardType';
+import type { LiveCardType } from '@/types/LiveCardType';
 
-type LiveCardListProps = {
-  lives: LiveCardProps[];
-};
-
-export default function LiveCardList({ lives }: LiveCardListProps) {
+export default function LiveCardList({ lives }: { lives: LiveCardType[] }) {
   return (
     <section aria-label="Live performers list">
       <ul className="grid grid-cols-3 gap-2">

@@ -1,14 +1,10 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { InfiniteScrollProps } from '../../types/InfiniteScrollTypes';
+import { InfiniteScrollProps } from '@/types/InfiniteScrollTypes';
 
-export default function InfiniteScrollWrapper({
-  children,
-  hasNextPage,
-  isLoading,
-  onIntersect,
-}: InfiniteScrollProps) {
+export default function InfiniteScrollWrapper(props: InfiniteScrollProps) {
+  const { children, hasNextPage, isLoading, onIntersect } = props;
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -20,7 +16,7 @@ export default function InfiniteScrollWrapper({
           onIntersect();
         }
       },
-      { threshold: 0.5 }
+      { threshold: 1.0 }
     );
 
     const sentinel = sentinelRef.current;

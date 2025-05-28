@@ -1,6 +1,7 @@
-export type LiveCardProps = {
+export type LiveCardType = {
   id: string;
+  title: string;
   nickname: string;
   imageUrl: string;
-  likes: number;
+  membership: boolean;
 };

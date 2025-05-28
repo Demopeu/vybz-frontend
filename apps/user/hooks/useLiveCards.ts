@@ -2,11 +2,11 @@
 
 import { useCallback, useState } from 'react';
 import { generateLiveCards } from '@/mock/liveMockApi';
-import type { LiveCardProps } from '@/types/LiveCardType';
+import type { LiveCardType } from '@/types/LiveCardType';
 
 export function useLiveCards() {
   const [page, setPage] = useState(1);
-  const [lives, setLives] = useState<LiveCardProps[]>(generateLiveCards(0));
+  const [lives, setLives] = useState<LiveCardType[]>(generateLiveCards(0));
   const [hasNextPage, setHasNextPage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
