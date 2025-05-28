@@ -17,7 +17,7 @@ export default function LoginFooter() {
         width={272}
         height={153}
         priority
-        className="py-7 px-24 mx-auto"
+        className="py-7 px-24 mx-auto brightness-200"
       />
     </footer>
   );

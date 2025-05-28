@@ -15,7 +15,7 @@ export default function page() {
           width={272}
           height={153}
           priority
-          className="pt-40 mx-auto"
+          className="pt-40 mx-auto brightness-200"
         />
         <p className="font-roboto pt-8 opacity-75">Feel the VYBZ.</p>
         <p className="font-roboto opacity-75">Share your moment.</p>

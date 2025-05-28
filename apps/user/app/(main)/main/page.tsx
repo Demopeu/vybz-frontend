@@ -1,3 +1,22 @@
+import MainHeader from '@/components/common/layouts/header/MainHeader';
+import FullscreenSwiper from '@/components/common/swiper/FullscreenSwiper';
+import CategoryBar from '@/components/common/navbar/CategoryBar';
+import LiveFreeViewSection from '@/components/main/LiveFreeViewSection';
+
+import { videoSlideData } from '@/data/swiperData';
+import { CategoryData } from '@/data/categoryData';
+import { liveFreeViewData } from '@/data/swiperData';
+
 export default function page() {
-  return <div>page</div>;
+  const DummyData = videoSlideData;
+  const DummyCategoryData = CategoryData;
+  const DummyLiveFreeViewData = liveFreeViewData;
+  return (
+    <main>
+      <MainHeader />
+      <FullscreenSwiper data={DummyData} />
+      <CategoryBar categories={DummyCategoryData} />
+      <LiveFreeViewSection data={DummyLiveFreeViewData} />
+    </main>
+  );
 }

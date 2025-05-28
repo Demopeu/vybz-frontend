@@ -1,4 +1,5 @@
 import './globals.css';
+import 'swiper/css';
 import type { Metadata } from 'next';
 import { Inter, Monoton, Roboto, Poppins } from 'next/font/google';
 
