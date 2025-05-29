@@ -10,4 +10,7 @@ export { Home } from './Home';
 export { Search } from './Search';
 export { User } from './User';
 export { Reels } from './Reels';
+export { ChevronLeft } from './ChevronLeft';
+export { Check } from './Check';
+export { Camera } from './Camera';
 
