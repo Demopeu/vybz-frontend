@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const Reels = ({
+export const Camera = ({
   width = 24,
   height = 24,
   ...props
@@ -20,13 +20,7 @@ export const Reels = ({
     strokeLinejoin="round"
     {...props}
   >
-    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-    <path d="M7 3v18" />
-    <path d="M3 7.5h4" />
-    <path d="M3 16.5h4" />
-    <path d="M17 3v18" />
-    <path d="M17 7.5h4" />
-    <path d="M17 16.5h4" />
-    <path d="M7 12h10" />
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2Z" />
+    <circle cx="12" cy="13" r="4" />
   </svg>
 );
