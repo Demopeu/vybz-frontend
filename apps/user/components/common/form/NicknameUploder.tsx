@@ -7,9 +7,9 @@ export default function NicknameUploder({
 }) {
   return (
     <section
-      className={`w-full rounded-xl bg-neutral-800 px-4 py-3 text-left text-indigo-200 ${className}`}
+      className={`w-full rounded-xl bg-div-background px-4 py-3 text-left text-indigo-200 ${className}`}
     >
-      <p className="text-sm">별칭</p>
+      <p className="text-sm">닉네임</p>
       <input
         type="text"
         name="nickname"

@@ -22,9 +22,12 @@ export default function TextareaUploader({
   const [value, setValue] = useState(defaultValue);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
-  }, []);
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement>) => {
+      setValue(event.target.value);
+    },
+    []
+  );
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -42,7 +45,7 @@ export default function TextareaUploader({
 
   return (
     <section
-      className={`relative w-full rounded-xl bg-neutral-800 px-4 py-3 text-left text-indigo-200 ${className}`}
+      className={`relative w-full rounded-xl bg-div-background px-4 py-3 text-left text-indigo-200 ${className}`}
     >
       <p className="text-sm mb-1">소개</p>
       <textarea

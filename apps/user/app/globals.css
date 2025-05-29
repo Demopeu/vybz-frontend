@@ -2,6 +2,10 @@
 @import '@repo/tailwind-config';
 @import '@repo/ui/styles.css';
 
+@theme {
+  --color-div-background: oklch(0.25 0.01 250);
+}
+
 @source "../../../packages/ui/src/components/ui";
 @source "../../../packages/ui/src/components/**/*.{ts,tsx}";
 
@@ -48,7 +52,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0.16 0.02 255);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
