@@ -2,14 +2,15 @@ import AvatarUploader from '@/components/common/form/AvatarUploader';
 import NicknameUploder from '@/components/common/form/NicknameUploder';
 import TextareaUploader from '@/components/common/form/TextareaUploader';
 import { Button } from '@repo/ui/components/ui/button';
+import { ProfileData } from '@/data/profileData';
 
 export default function Page() {
   return (
     <main className="min-h-screen text-end px-7 pt-10 text-white font-poppins">
-      <AvatarUploader src="/logo/logo.png" />
-      <NicknameUploder defaultValue="카리나" className="mt-6" />
+      <AvatarUploader src={ProfileData.profileImage} />
+      <NicknameUploder defaultValue={ProfileData.nickname} className="mt-6" />
       <TextareaUploader
-        defaultValue="안녕하세요. 카리나입니다"
+        defaultValue={ProfileData.introduction}
         className="mt-12"
       />
 

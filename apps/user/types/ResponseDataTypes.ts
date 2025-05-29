@@ -40,3 +40,22 @@ export type LiveFreeViewType = {
   buskerProfileImage: string;
   isMembership: boolean;
 }
+
+export type ProfileDataType = {
+  id: string;
+  nickname: string;
+  introduction: string;
+  profileImage: string;
+}
+
+export type SearchResult = {
+  id: number;
+  title: string;
+  buskerName: string;
+  buskerUrl: string;
+}
+
+export type RecentSearchItem = {
+  id: number;
+  title: string;
+}

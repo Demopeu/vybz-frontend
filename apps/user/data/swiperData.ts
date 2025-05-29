@@ -25,7 +25,7 @@ export const videoSlideData: VideoCarouselDataType[] = [
       buskerId: "busker1",
       buskerName: "카리나",
       liveName: "우리동네 아이돌",
-      buskerProfileImage: "/background/logopage1.jpg",
+      buskerProfileImage: "/buskerUrl.jpg",
       isMembership: true,
     },
     {
@@ -33,7 +33,7 @@ export const videoSlideData: VideoCarouselDataType[] = [
       buskerId: "busker2",
       buskerName: "윈터",
       liveName: "겨울 특집 라이브",
-      buskerProfileImage: "/background/logopage1.jpg",
+      buskerProfileImage: "/buskerUrl.jpg",
       isMembership: true,
     },
     {
@@ -41,7 +41,7 @@ export const videoSlideData: VideoCarouselDataType[] = [
       buskerId: "busker3",
       buskerName: "닝닝",
       liveName: "신나는 공연",
-      buskerProfileImage: "/background/logopage1.jpg",
+      buskerProfileImage: "/buskerUrl.jpg",
       isMembership: false,
     },
   ]
