@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, ChangeEvent } from 'react';
+import { useState, useRef, useEffect, useCallback, ChangeEvent } from 'react';
 
 export default function TextareaUploader({
   defaultValue = '',
@@ -22,9 +22,9 @@ export default function TextareaUploader({
   const [value, setValue] = useState(defaultValue);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(event.target.value);
-  };
+  }, []);
 
   useEffect(() => {
     if (textareaRef.current) {
