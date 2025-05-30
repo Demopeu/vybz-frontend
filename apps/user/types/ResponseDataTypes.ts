@@ -59,3 +59,11 @@ export type RecentSearchItem = {
   id: number;
   title: string;
 }
+
+export type SubscriptionType = {
+  id: string;
+  name: string;
+  months: number;
+  avatarUrl: string;
+  subscribedSince: string;
+}
