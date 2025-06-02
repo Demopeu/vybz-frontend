@@ -2,6 +2,7 @@ import ImageBackground from '@/components/common/backgrounds/ImageBackground';
 import FavoriteBuskerCard from '@/components/mypage/subscriptions/FavoriteBuskerCard';
 import SubscriptionSection from '@/components/mypage/subscriptions/SubscriptionSection';
 import ExpiredSubscriptionSection from '@/components/mypage/subscriptions/ExpiredSubscriptionSection';
+
 import { ProfileData } from '@/data/profileData';
 import { subscriptionData } from '@/data/MypageData';
 
@@ -12,8 +13,7 @@ export default function page() {
       <FavoriteBuskerCard
         name={ProfileData.nickname}
         months={6}
-        buskerUrl={ProfileData.profileImage}
-        nextRenewalDate="2025-06-01"
+        registrationDate="2025-06-01"
       />
       <SubscriptionSection subscriptions={subscriptionData} />
       <ExpiredSubscriptionSection subscriptions={subscriptionData} />

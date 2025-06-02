@@ -24,15 +24,16 @@ export default function SubscriptionSection({
               className="object-cover"
             />
           </div>
-          <div>
-            <p className="font-semibold leading-tight">{sub.name}</p>
+
+          <div className="ml-4 flex-1">
+            <h3 className="font-semibold leading-tight">{sub.name}</h3>
             <p className="text-gray-300 text-sm">{sub.months}개월 구독중</p>
             <p className="text-gray-400 text-xs mt-1">
               가입일: {sub.subscribedSince}
             </p>
           </div>
 
-          <Button className="text-blue-400 text-sm font-medium border border-blue-400 px-3 py-1 rounded-md hover:bg-blue-400 hover:text-white transition">
+          <Button className="text-blue-400 text-sm font-medium border border-blue-400 px-3 py-1 rounded-md">
             구독 관리하기
           </Button>
         </div>
