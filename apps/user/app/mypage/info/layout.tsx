@@ -1,5 +1,5 @@
 import FormHeader from '@/components/common/layouts/header/FormHeader';
-import { updateProfile } from '@/app/actions';
+import { updateProfile } from '@/actions';
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
