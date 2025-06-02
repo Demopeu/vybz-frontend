@@ -13,7 +13,7 @@ export async function auth() {
 export async function isUserLoggedIn(): Promise<boolean> {
   try {
     const session = await getServerSession(options);
-    return !!session;
+    return Boolean(session);
   } catch (error) {
     console.error('세션 확인 중 오류 발생:', error);
     return false;
