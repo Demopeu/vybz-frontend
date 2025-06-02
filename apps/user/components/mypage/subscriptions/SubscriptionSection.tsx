@@ -10,9 +10,9 @@ export default function SubscriptionSection({
   return (
     <section className="px-4 py-6">
       <h2 className="text-2xl font-bold mb-4">구독중인 Busker</h2>
-      {subscriptions.map((sub, idx) => (
+      {subscriptions.map((sub) => (
         <div
-          key={idx}
+          key={sub.id}
           className="flex items-center justify-between bg-div-background rounded-xl px-4 py-3 shadow-md my-4"
         >
           <div className="w-12 h-12 rounded-full overflow-hidden">
