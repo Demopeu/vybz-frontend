@@ -2,10 +2,10 @@ import { Button } from '@repo/ui/components/ui/button';
 import { ChevronLeft, Check } from '@repo/ui/components/icons';
 import Link from 'next/link';
 
-export default function FormHeader(data: { title: string }) {
+export default function FormHeader(data: { title: string; href: string }) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 text-white bg-transparent">
-      <Link href="/mypage" className="flex-shrink-0">
+      <Link href={data.href} className="flex-shrink-0">
         <ChevronLeft width={28} height={28} />
       </Link>
 

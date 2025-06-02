@@ -4,7 +4,7 @@ import { updateProfile } from '@/app/actions';
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <form action={updateProfile}>
-      <FormHeader title="프로필 편집" />
+      <FormHeader title="프로필 편집" href="/mypage" />
       {children}
     </form>
   );
