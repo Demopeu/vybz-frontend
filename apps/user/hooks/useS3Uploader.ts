@@ -1,6 +1,8 @@
+'use client';
+
 import { useState } from 'react';
 
-interface UseS3UploaderOptions {
+export interface UseS3UploaderOptions {
   apiUrl?: string;
   headers?: Record<string, string>;
   onSuccess?: (url: string, response: any) => void;
@@ -8,7 +10,14 @@ interface UseS3UploaderOptions {
   validateFile?: (file: File) => boolean | Promise<boolean>;
 }
 
-interface S3UploadResult {
+export interface S3UploadMeta {
+  type: string;
+  userId: string;
+  originalName: string;
+  fileType: string;
+}
+
+export interface S3UploadResult {
   url: string;
   response: any;
 }
@@ -18,7 +27,10 @@ export function useS3Uploader(options: UseS3UploaderOptions = {}) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const uploadFile = async (file: File): Promise<S3UploadResult | null> => {
+  const uploadFile = async (
+    file: File,
+    meta: S3UploadMeta
+  ): Promise<S3UploadResult | null> => {
     if (validateFile) {
       const isValid = await validateFile(file);
       if (!isValid) {
@@ -36,8 +48,7 @@ export function useS3Uploader(options: UseS3UploaderOptions = {}) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...headers },
         body: JSON.stringify({
-          fileName: `uploads/${Date.now()}-${file.name}`,
-          fileType: file.type,
+          ...meta, 
           fileContent: base64Content,
         }),
       });
