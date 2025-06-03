@@ -5,7 +5,7 @@ import { useState } from 'react';
 export interface UseS3UploaderOptions {
   apiUrl?: string;
   headers?: Record<string, string>;
-  onSuccess?: (url: string, response: any) => void;
+  onSuccess?: (url: string, response: unknown ) => void;
   onError?: (error: Error) => void;
   validateFile?: (file: File) => boolean | Promise<boolean>;
 }
@@ -19,7 +19,7 @@ export interface S3UploadMeta {
 
 export interface S3UploadResult {
   url: string;
-  response: any;
+  response: unknown ;
 }
 
 export function useS3Uploader(options: UseS3UploaderOptions = {}) {

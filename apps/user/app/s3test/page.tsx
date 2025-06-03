@@ -4,20 +4,23 @@ import { useState } from 'react';
 import { useS3Uploader, S3UploadMeta } from '@/hooks/useS3Uploader';
 import { FileInput } from '@/components/fileInput/FileInput';
 
+
+interface FileData {
+  file: File;
+  type: string;
+  userId: string;
+  originalName: string;
+  fileType: string;
+}
+
 export default function S3TestPage() {
   const { uploadFile, uploading, error } = useS3Uploader();
-  const [fileData, setFileData] = useState<{
-    file: File;
-    type: string;
-    userId: string;
-    originalName: string;
-    fileType: string;
-  } | null>(null);
+  const [fileData, setFileData] = useState<FileData | null>(null);
 
-  const userId = '12345'; // 아이디 없어서 그냥 박음
-  const type = 'reels'; 
+  const userId = '12345';
+  const type = 'reels';
 
-  const handleFileReady = (data: any) => {
+  const handleFileReady = (data: FileData) => {
     setFileData(data);
   };
 
