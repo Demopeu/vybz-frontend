@@ -1,4 +1,4 @@
-import ImageBackground from '@/components/common/backgrounds/ImageBackground';
+import ImageBackgroundWrapper from '@/components/common/layouts/wrapper/backgrounds/ImageBackgroundWrapper';
 import FavoriteBuskerCard from '@/components/mypage/subscriptions/FavoriteBuskerCard';
 import SubscriptionSection from '@/components/mypage/subscriptions/SubscriptionSection';
 import ExpiredSubscriptionSection from '@/components/mypage/subscriptions/ExpiredSubscriptionSection';
@@ -8,8 +8,10 @@ import { subscriptionData } from '@/data/MypageData';
 
 export default function page() {
   return (
-    <main className="text-white font-poppins">
-      <ImageBackground src={ProfileData.profileImage} />
+    <ImageBackgroundWrapper
+      src={ProfileData.profileImage}
+      className="text-white font-poppins"
+    >
       <FavoriteBuskerCard
         name={ProfileData.nickname}
         months={6}
@@ -17,6 +19,6 @@ export default function page() {
       />
       <SubscriptionSection subscriptions={subscriptionData} />
       <ExpiredSubscriptionSection subscriptions={subscriptionData} />
-    </main>
+    </ImageBackgroundWrapper>
   );
 }

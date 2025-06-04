@@ -1,13 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Logobackground from '@/components/common/backgrounds/Logobackground';
+import LogobackgroundWrapper from '@/components/common/layouts/wrapper/backgrounds/LogobackgroundWrapper';
 
 export default function page() {
   return (
-    <main className="h-full text-center text-xl text-white bg-black">
-      <Link href="/login">
-        <Logobackground />
-        <section className="relative z-20">
+    <Link href="/login">
+      <LogobackgroundWrapper className="h-full text-center text-xl text-white bg-black">
+        <section>
           <Image
             src="/logo/logo.png"
             alt="Logo"
@@ -20,12 +19,12 @@ export default function page() {
           <p className="font-roboto opacity-75">Share your moment.</p>
           <p className="font-monoton pt-72 text-4xl">VYBZ</p>
         </section>
-        <footer className="z-20">
+        <footer>
           <p className="pt-14 text-xs opacity-55">
             © 2025 VYBZ. All Rights RESERVED.
           </p>
         </footer>
-      </Link>
-    </main>
+      </LogobackgroundWrapper>
+    </Link>
   );
 }

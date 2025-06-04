@@ -22,6 +22,10 @@
     "test": {
       "dependsOn": ["^test"],
       "outputs": []
+    },
+    "start": {
+      "dependsOn": ["^start"],
+      "outputs": []
     }
   }
 }
