@@ -38,7 +38,6 @@ export default function LikeButton() {
       <Button
         type="button"
         size="icon"
-        variant="ghost"
         onClick={handleClick}
         className="w-12 h-12 rounded-full border bg-gray-400/30 backdrop-blur-md cursor-pointer [&_svg]:size-6"
       >

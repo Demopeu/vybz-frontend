@@ -1,16 +1,15 @@
-import { Button } from '@repo/ui/components/ui/button';
-import ChatBar from '@/components/common/form/ChatBar';
 import { UseChat } from '@/context/ChatContext';
+import ChatBar from '@/components/common/form/ChatBar';
+import BuskerInfoBox from '@/components/live/BuskerInfoBox';
+
+import { BuskerLiveData } from '@/data/profileData';
 
 export default function page() {
+  const data = BuskerLiveData;
   return (
-    <main className="h-screen">
-      <section className="flex">
-        <div className="flex">
-          <Button>Follow</Button>
-          <div></div>
-        </div>
-      </section>
+    <main className="h-screen text-white font-poppins px-4">
+      <BuskerInfoBox data={data} className="pt-20" />
+
       <UseChat>
         <ChatBar className="px-4" />
       </UseChat>
