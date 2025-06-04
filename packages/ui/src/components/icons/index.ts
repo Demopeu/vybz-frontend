@@ -14,4 +14,7 @@ export { ChevronLeft } from './ChevronLeft';
 export { Check } from './Check';
 export { Camera } from './Camera';
 export { X } from './X';
+export { Heart } from './Heart';
+export { SendHorizontal } from './SendHorizontal';
+export { Smile } from './Smile';
 
