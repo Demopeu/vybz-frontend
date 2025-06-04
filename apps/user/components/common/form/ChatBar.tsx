@@ -4,11 +4,10 @@ import { use } from 'react';
 import { cn } from '@repo/ui/lib/utils';
 import { Input } from '@repo/ui/components/ui/input';
 import { Button } from '@repo/ui/components/ui/button';
-import { SendHorizontal } from '@repo/ui/components/icons';
-import LikeButton from '@/components/common/button/LikeButton';
 import { Smile } from '@repo/ui/components/icons';
 import { ChatContext } from '@/context/ChatContext';
 import Emojibox from '@/components/live/EmojiBox';
+import ChatBarButtonBox from '@/components/live/ChatBarButtonBox';
 
 export default function ChatForm({ className }: { className?: string }) {
   const { showEmojibox, toggleShowEmojibox, comment, setComment } =
@@ -39,16 +38,7 @@ export default function ChatForm({ className }: { className?: string }) {
           />
         </label>
 
-        <div className="flex items-center space-x-2">
-          <Button
-            type="submit"
-            size="icon"
-            className="w-12 h-12 rounded-full border bg-gray-400/30 backdrop-blur-md text-white cursor-pointer [&_svg]:size-8"
-          >
-            <SendHorizontal />
-          </Button>
-          <LikeButton />
-        </div>
+        <ChatBarButtonBox />
       </form>
       {showEmojibox && <Emojibox />}
     </section>

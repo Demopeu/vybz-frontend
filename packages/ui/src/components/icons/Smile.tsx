@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const Smile = ({
+export const SmileIcon = ({
   width = 24,
   height = 24,
   stroke = 'currentColor',
@@ -30,3 +30,4 @@ export const Smile = ({
     <line x1="15" y1="9" x2="15.01" y2="9" />
   </svg>
 );
+export const Smile = React.memo(SmileIcon);
