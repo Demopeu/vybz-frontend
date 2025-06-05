@@ -14,4 +14,19 @@ declare module 'next-auth' {
     refreshToken?: string;
     userUuid?: string;
   }
+
+  interface Profile {
+    sub?: string;
+    name?: string;
+    email?: string;
+
+    id?: number;
+    kakao_account?: {
+      email?: string;
+      profile?: {
+        nickname?: string;
+      };
+    };
+  }
+
 }
