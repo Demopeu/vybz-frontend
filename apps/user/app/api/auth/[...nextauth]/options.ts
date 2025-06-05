@@ -16,38 +16,62 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      if (profile && account) {
-        // console.log('profile', profile);
-        // console.log('account', account);
-        // console.log('user', user);
-        try {
-          const res = await fetch(
-            `${process.env.BASE_API_URL}/api/v1/oauth/sign-in`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                provider: account.provider,
-                accessToken: account.access_token,
-              }),
-              cache: 'no-cache',
-            }
-          );
-          const data = (await res.json()) as CommonResponseType<UserDataType>;
-          user.accessToken = data.result.accessToken;
-          user.refreshToken = data.result.refreshToken;
-          user.userUuid = data.result.userUuid;
-          return true;
-        } catch (error) {
-          console.error('error', error);
-          throw new Error('OAuthTokenMissing');
-        }
-      } else {
+      if (!profile || !account) {
         throw new Error('OAuthProfileMissing');
       }
+    
+      const getUserInfo = () => {
+        const { provider } = account;
+    
+        const extractors = {
+          kakao: () => ({
+            providerId: String(profile.id),
+            email: profile.kakao_account?.email ?? '',
+            nickname: profile.kakao_account?.profile?.nickname ?? '',
+          }),
+          google: () => ({
+            providerId: profile.sub,
+            email: profile.email ?? '',
+            nickname: profile.name ?? '',
+          }),
+        };
+    
+        const extractor = extractors[provider as keyof typeof extractors];
+        if (!extractor) throw new Error('UnsupportedOAuthProvider');
+
+        console.log('extractor', extractor);
+    
+        return {
+          provider,
+          ...extractor(),
+        };
+      };
+    
+      try {
+        const userInfo = getUserInfo();
+    
+        const res = await fetch(
+          `${process.env.BASE_API_URL}/api/v1/oauth/sign-in`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userInfo),
+            cache: 'no-cache',
+          }
+        );
+    
+        const data = (await res.json()) as CommonResponseType<UserDataType>;
+        user.accessToken = data.result.accessToken;
+        user.refreshToken = data.result.refreshToken;
+        user.userUuid = data.result.userUuid;
+    
+        return true;
+      } catch (error) {
+        console.error('OAuth sign-in error:', error);
+        throw new Error('OAuthTokenMissing');
+      }
     },
+    
     async jwt({ token, user }) {
       return { ...token, ...user };
     },
