@@ -1,5 +1,5 @@
 import { VideoCarouselDataType } from "@/types/ResponseDataTypes";
-import { LiveFreeViewType } from "@/types/ResponseDataTypes";
+import { LiveFreeViewType, RealsUrlDataType } from "@/types/ResponseDataTypes";
 
 export const videoSlideData: VideoCarouselDataType[] = [
     {
@@ -19,7 +19,7 @@ export const videoSlideData: VideoCarouselDataType[] = [
     },
   ]
 
-  export const liveFreeViewData: LiveFreeViewType[] = [
+export const liveFreeViewData: LiveFreeViewType[] = [
     {
       id: "1",
       buskerId: "busker1",
@@ -43,5 +43,63 @@ export const videoSlideData: VideoCarouselDataType[] = [
       liveName: "신나는 공연",
       buskerProfileImage: "/buskerUrl.jpg",
       isMembership: false,
+    },
+  ]
+
+export const reelsVideoData: RealsUrlDataType[] = [
+    {
+      realsId: 1,
+      realsUrl: "/background/intro.mp4",
+      realsThumbnailUrl: "/background/intro.mp4",
+      realsDescription: "반갑습니다",
+      buskerId: "1",
+      buskerName: "카리나",
+      buskerProfileImage: "/buskerUrl.jpg",
+      realsLikeCount: 830000,
+      realsCommentCount: 551,
+    },
+    {
+      realsId: 2,
+      realsUrl: "/background/intro.mp4",
+      realsThumbnailUrl: "/background/intro.mp4",
+      realsDescription: "안녕하세요",
+      buskerId: "2",
+      buskerName: "윈터",
+      buskerProfileImage: "/buskerUrl.jpg",
+      realsLikeCount: 10,
+      realsCommentCount: 10,
+    },
+    {
+      realsId: 3,
+      realsUrl: "/background/intro.mp4",
+      realsThumbnailUrl: "/background/intro.mp4",
+      realsDescription: "안녕하세요",
+      buskerId: "3",
+      buskerName: "닝닝",
+      buskerProfileImage: "/buskerUrl.jpg",
+      realsLikeCount: 10,
+      realsCommentCount: 10,
+    },
+    {
+      realsId: 4,
+      realsUrl: "/background/intro.mp4",
+      realsThumbnailUrl: "/background/intro.mp4",
+      realsDescription: "안녕하세요",
+      buskerId: "4",
+      buskerName: "카리나",
+      buskerProfileImage: "/buskerUrl.jpg",
+      realsLikeCount: 10,
+      realsCommentCount: 10,
+    },
+    {
+      realsId: 5,
+      realsUrl: "/background/intro.mp4",
+      realsThumbnailUrl: "/background/intro.mp4",
+      realsDescription: "안녕하세요",
+      buskerId: "5",
+      buskerName: "카리나",
+      buskerProfileImage: "/buskerUrl.jpg",
+      realsLikeCount: 10,
+      realsCommentCount: 10,
     },
   ]

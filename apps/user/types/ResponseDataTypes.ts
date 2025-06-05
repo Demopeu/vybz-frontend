@@ -77,3 +77,16 @@ export type BuskerLiveDataType = {
   liveViews: number;
 
 }
+
+export type RealsUrlDataType = {
+  realsId: number
+  realsUrl: string
+  realsThumbnailUrl: string
+  realsDescription: string
+  realsLikeCount: number
+  realsCommentCount: number
+  buskerId: string
+  buskerName: string
+  buskerProfileImage: string
+
+}
