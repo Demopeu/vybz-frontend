@@ -13,5 +13,8 @@ export { Reels } from './Reels';
 export { ChevronLeft } from './ChevronLeft';
 export { Check } from './Check';
 export { Camera } from './Camera';
-export { X } from './x';
+export { X } from './X';
+export { Heart } from './Heart';
+export { SendHorizontal } from './SendHorizontal';
+export { Smile } from './Smile';
 

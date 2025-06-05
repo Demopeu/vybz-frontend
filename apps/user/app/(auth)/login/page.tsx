@@ -1,16 +1,15 @@
 import LoginArticle from '@/components/login/LoginArticle';
-import LoginBackground from '@/components/login/LoginBackground';
+import VideoBackgroundWrapper from '@/components/common/layouts/wrapper/backgrounds/VideoBackgroundWrapper';
 import LoginFooter from '@/components/login/LoginFooter';
 import { loginArticleData } from '@/data/loginData';
 import LiveBadge from '@/components/common/badge/LiveBadge';
 
 export default function page() {
   return (
-    <main className=" text-white font-poppins">
-      <LoginBackground />
+    <VideoBackgroundWrapper className="text-white font-poppins">
       <LoginArticle data={loginArticleData} />
       <LiveBadge />
       <LoginFooter />
-    </main>
+    </VideoBackgroundWrapper>
   );
 }

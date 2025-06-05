@@ -67,3 +67,13 @@ export type SubscriptionType = {
   avatarUrl: string;
   subscribedSince: string;
 }
+
+export type BuskerLiveDataType = {
+  buskerId: string;
+  buskerName: string;
+  liveLikeCount: number;
+  liveName: string;
+  buskerProfileImage: string;
+  liveViews: number;
+
+}

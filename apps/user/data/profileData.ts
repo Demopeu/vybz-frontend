@@ -1,4 +1,4 @@
-import { ProfileDataType, SearchResult, RecentSearchItem } from '@/types/ResponseDataTypes';
+import { ProfileDataType, SearchResult, RecentSearchItem, BuskerLiveDataType } from '@/types/ResponseDataTypes';
 
 export const ProfileData: ProfileDataType = {
   id: 'user_123456',
@@ -33,3 +33,13 @@ export const RecentSearchesData: RecentSearchItem[] = [
   { id: 2, title: '이지은' },
   { id: 3, title: '윈터' },
 ];
+
+export const BuskerLiveData: BuskerLiveDataType = {
+  buskerId: 'user_123456',
+  buskerName: '카리나',
+  liveLikeCount: 1200,
+  liveName: '카리나의 라이브',
+  buskerProfileImage: '/buskerUrl.jpg',
+  liveViews: 3000,
+};
+
