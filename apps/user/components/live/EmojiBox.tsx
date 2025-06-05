@@ -1,1275 +1,173 @@
 'use client';
 
-import { use, useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { ChatContext } from '@/context/ChatContext';
 import { X } from '@repo/ui/components/icons';
+import { Button } from '@repo/ui/components/ui';
 
-const emojiCategories = {
-  recent: {
-    name: '최근 사용',
-    emojis: [],
-  },
-  smileys: {
-    name: '스마일리 및 감정',
-    emojis: [
-      '😀',
-      '😃',
-      '😄',
-      '😁',
-      '😆',
-      '😅',
-      '😂',
-      '🤣',
-      '😊',
-      '😇',
-      '🙂',
-      '🙃',
-      '😉',
-      '😌',
-      '😍',
-      '🥰',
-      '😘',
-      '😗',
-      '😙',
-      '😚',
-      '😋',
-      '😛',
-      '😝',
-      '😜',
-      '🤪',
-      '🤨',
-      '🧐',
-      '🤓',
-      '😎',
-      '🤩',
-      '🥳',
-      '😏',
-      '😒',
-      '😞',
-      '😔',
-      '😟',
-      '😕',
-      '🙁',
-      '☹️',
-      '😣',
-      '😖',
-      '😫',
-      '😩',
-      '🥺',
-      '😢',
-      '😭',
-      '😤',
-      '😠',
-      '😡',
-      '🤬',
-      '🤯',
-      '😳',
-      '🥵',
-      '🥶',
-      '😱',
-      '😨',
-      '😰',
-      '😥',
-      '😓',
-      '🤗',
-      '🤔',
-      '🤭',
-      '🤫',
-      '🤥',
-      '😶',
-      '😐',
-      '😑',
-      '😬',
-      '🙄',
-      '😯',
-      '😦',
-      '😧',
-      '😮',
-      '😲',
-      '🥱',
-      '😴',
-      '🤤',
-      '😪',
-      '😵',
-      '🤐',
-      '🥴',
-      '🤢',
-      '🤮',
-      '🤧',
-      '😷',
-      '🤒',
-      '🤕',
-    ],
-  },
-  people: {
-    name: '사람 및 신체',
-    emojis: [
-      '👋',
-      '🤚',
-      '🖐️',
-      '✋',
-      '🖖',
-      '👌',
-      '🤏',
-      '✌️',
-      '🤞',
-      '🤟',
-      '🤘',
-      '🤙',
-      '👈',
-      '👉',
-      '👆',
-      '🖕',
-      '👇',
-      '☝️',
-      '👍',
-      '👎',
-      '👊',
-      '✊',
-      '🤛',
-      '🤜',
-      '👏',
-      '🙌',
-      '👐',
-      '🤲',
-      '🤝',
-      '🙏',
-      '✍️',
-      '💅',
-      '🤳',
-      '💪',
-      '🦾',
-      '🦿',
-      '🦵',
-      '🦶',
-      '👂',
-      '🦻',
-      '👃',
-      '🧠',
-      '🫀',
-      '🫁',
-      '🦷',
-      '🦴',
-      '👀',
-      '👁️',
-      '👅',
-      '👄',
-      '💋',
-    ],
-  },
-  nature: {
-    name: '동물 및 자연',
-    emojis: [
-      '🐶',
-      '🐱',
-      '🐭',
-      '🐹',
-      '🐰',
-      '🦊',
-      '🐻',
-      '🐼',
-      '🐨',
-      '🐯',
-      '🦁',
-      '🐮',
-      '🐷',
-      '🐽',
-      '🐸',
-      '🐵',
-      '🙈',
-      '🙉',
-      '🙊',
-      '🐒',
-      '🐔',
-      '🐧',
-      '🐦',
-      '🐤',
-      '🐣',
-      '🐥',
-      '🦆',
-      '🦅',
-      '🦉',
-      '🦇',
-      '🐺',
-      '🐗',
-      '🐴',
-      '🦄',
-      '🐝',
-      '🪱',
-      '🐛',
-      '🦋',
-      '🐌',
-      '🐞',
-      '🐜',
-      '🪰',
-      '🪲',
-      '🪳',
-      '🦟',
-      '🦗',
-      '🕷️',
-      '🕸️',
-      '🦂',
-      '🐢',
-      '🐍',
-      '🦎',
-      '🦖',
-      '🦕',
-      '🐙',
-      '🦑',
-      '🦐',
-      '🦞',
-      '🦀',
-      '🐡',
-      '🐠',
-      '🐟',
-      '🐬',
-      '🐳',
-      '🐋',
-      '🦈',
-      '🐊',
-      '🐅',
-      '🐆',
-      '🦓',
-      '🦍',
-      '🦧',
-      '🦣',
-      '🐘',
-      '🦛',
-      '🦏',
-      '🐪',
-      '🐫',
-      '🦒',
-      '🦘',
-      '🦬',
-      '🐃',
-      '🐂',
-      '🐄',
-      '🐎',
-      '🐖',
-      '🐏',
-      '🐑',
-      '🦙',
-      '🐐',
-      '🦌',
-      '🐕',
-      '🐩',
-      '🦮',
-      '🐕‍🦺',
-      '🐈',
-      '🐈‍⬛',
-      '🪶',
-      '🐓',
-      '🦃',
-      '🦤',
-      '🦚',
-      '🦜',
-      '🦢',
-      '🦩',
-      '🕊️',
-      '🐇',
-      '🦝',
-      '🦨',
-      '🦡',
-      '🦫',
-      '🦦',
-      '🦥',
-      '🐁',
-      '🐀',
-      '🐿️',
-      '🦔',
-    ],
-  },
-  food: {
-    name: '음식 및 음료',
-    emojis: [
-      '🍎',
-      '🍐',
-      '🍊',
-      '🍋',
-      '🍌',
-      '🍉',
-      '🍇',
-      '🍓',
-      '🫐',
-      '🍈',
-      '🍒',
-      '🍑',
-      '🥭',
-      '🍍',
-      '🥥',
-      '🥝',
-      '🍅',
-      '🍆',
-      '🥑',
-      '🥦',
-      '🥬',
-      '🥒',
-      '🌶️',
-      '🫑',
-      '🌽',
-      '🥕',
-      '🫒',
-      '🧄',
-      '🧅',
-      '🥔',
-      '🍠',
-      '🥐',
-      '🥯',
-      '🍞',
-      '🥖',
-      '🥨',
-      '🧀',
-      '🥚',
-      '🍳',
-      '🧈',
-      '🥞',
-      '🧇',
-      '🥓',
-      '🥩',
-      '🍗',
-      '🍖',
-      '🦴',
-      '🌭',
-      '🍔',
-      '🍟',
-      '🍕',
-      '🫓',
-      '🥙',
-      '🧆',
-      '🌮',
-      '🌯',
-      '🫔',
-      '🥗',
-      '🥘',
-      '🫕',
-      '🍝',
-      '🍜',
-      '🍲',
-      '🍛',
-      '🍣',
-      '🍱',
-      '🥟',
-      '🦪',
-      '🍤',
-      '🍙',
-      '🍚',
-      '🍘',
-      '🍥',
-      '🥠',
-      '🥮',
-      '🍢',
-      '🍡',
-      '🍧',
-      '🍨',
-      '🍦',
-      '🥧',
-      '🧁',
-      '🍰',
-      '🎂',
-      '🍮',
-      '🍭',
-      '🍬',
-      '🍫',
-      '🍿',
-      '🍩',
-      '🍪',
-      '🌰',
-      '🥜',
-      '🍯',
-    ],
-  },
-  travel: {
-    name: '여행 및 장소',
-    emojis: [
-      '🚗',
-      '🚕',
-      '🚙',
-      '🚌',
-      '🚎',
-      '🏎️',
-      '🚓',
-      '🚑',
-      '🚒',
-      '🚐',
-      '🛻',
-      '🚚',
-      '🚛',
-      '🚜',
-      '🏍️',
-      '🛵',
-      '🚲',
-      '🛴',
-      '🛹',
-      '🛼',
-      '🚁',
-      '🛸',
-      '✈️',
-      '🛩️',
-      '🛫',
-      '🛬',
-      '🪂',
-      '💺',
-      '🚀',
-      '🛰️',
-      '🚤',
-      '🛥️',
-      '🚢',
-      '⛵',
-      '🛶',
-      '⚓',
-      '🪝',
-      '⛽',
-      '🚧',
-      '🚦',
-      '🚥',
-      '🗺️',
-      '🗿',
-      '🗽',
-      '🗼',
-      '🏰',
-      '🏯',
-      '🏟️',
-      '🎡',
-      '🎢',
-      '🎠',
-      '⛲',
-      '⛱️',
-      '🏖️',
-      '🏝️',
-      '🏜️',
-      '🌋',
-      '⛰️',
-      '🏔️',
-      '🗻',
-      '🏕️',
-      '⛺',
-      '🏠',
-      '🏡',
-      '🏘️',
-      '🏚️',
-      '🏗️',
-      '🏭',
-      '🏢',
-      '🏬',
-      '🏣',
-      '🏤',
-      '🏥',
-      '🏦',
-      '🏨',
-      '🏪',
-      '🏫',
-      '🏩',
-      '💒',
-      '🏛️',
-      '⛪',
-      '🕌',
-      '🛕',
-      '🕍',
-      '🕋',
-      '⛩️',
-      '🛤️',
-      '🛣️',
-      '🗾',
-      '🎑',
-      '🏞️',
-      '🌅',
-      '🌄',
-      '🌠',
-      '🎇',
-      '🎆',
-      '🌇',
-      '🌆',
-      '🏙️',
-      '🌃',
-      '🌌',
-      '🌉',
-      '🌁',
-    ],
-  },
-  objects: {
-    name: '물체',
-    emojis: [
-      '⌚',
-      '📱',
-      '📲',
-      '💻',
-      '⌨️',
-      '🖥️',
-      '🖨️',
-      '🖱️',
-      '🖲️',
-      '🕹️',
-      '🗜️',
-      '💽',
-      '💾',
-      '💿',
-      '📀',
-      '📼',
-      '📷',
-      '📸',
-      '📹',
-      '🎥',
-      '📽️',
-      '🎞️',
-      '📞',
-      '☎️',
-      '📟',
-      '📠',
-      '📺',
-      '📻',
-      '🎙️',
-      '🎚️',
-      '🎛️',
-      '🧭',
-      '⏱️',
-      '⏲️',
-      '⏰',
-      '🕰️',
-      '⏳',
-      '⌛',
-      '📡',
-      '🔋',
-      '🔌',
-      '💡',
-      '🔦',
-      '🕯️',
-      '🪔',
-      '🧯',
-      '🛢️',
-      '💸',
-      '💵',
-      '💴',
-      '💶',
-      '💷',
-      '🪙',
-      '💰',
-      '💳',
-      '💎',
-      '⚖️',
-      '🪜',
-      '🧰',
-      '🔧',
-      '🔨',
-      '⚒️',
-      '🛠️',
-      '⛏️',
-      '🪓',
-      '🪚',
-      '🔩',
-      '⚙️',
-      '🪤',
-      '🧲',
-      '🔫',
-      '💣',
-      '🧨',
-      '🪓',
-      '🔪',
-      '🗡️',
-      '⚔️',
-      '🛡️',
-      '🚬',
-      '⚰️',
-      '🪦',
-      '⚱️',
-      '🏺',
-      '🔮',
-      '📿',
-      '🧿',
-      '💈',
-      '⚗️',
-      '🔭',
-      '🔬',
-      '🕳️',
-      '🩹',
-      '🩺',
-      '💊',
-      '💉',
-      '🩸',
-      '🧬',
-      '🦠',
-      '🧫',
-      '🧪',
-      '🌡️',
-      '🧹',
-      '🪣',
-      '🧽',
-      '🧴',
-      '🛎️',
-      '🔑',
-      '🗝️',
-      '🚪',
-      '🪑',
-      '🛋️',
-      '🛏️',
-      '🛌',
-      '🧸',
-      '🪆',
-      '🖼️',
-      '🪞',
-      '🪟',
-      '🛍️',
-      '🛒',
-      '🎁',
-      '🎈',
-      '🎏',
-      '🎀',
-      '🪄',
-      '🪅',
-      '🎊',
-      '🎉',
-      '🎎',
-      '🏮',
-      '🎐',
-      '🧧',
-      '✉️',
-      '📩',
-      '📨',
-      '📧',
-      '💌',
-      '📥',
-      '📤',
-      '📦',
-      '🏷️',
-      '🪧',
-      '📪',
-      '📫',
-      '📬',
-      '📭',
-      '📮',
-      '📯',
-      '📜',
-      '📃',
-      '📄',
-      '📑',
-      '🧾',
-      '📊',
-      '📈',
-      '📉',
-      '🗒️',
-      '🗓️',
-      '📆',
-      '📅',
-      '🗑️',
-      '📇',
-      '🗃️',
-      '🗳️',
-      '🗄️',
-      '📋',
-      '📁',
-      '📂',
-      '🗂️',
-      '🗞️',
-      '📰',
-      '📓',
-      '📔',
-      '📒',
-      '📕',
-      '📗',
-      '📘',
-      '📙',
-      '📚',
-      '📖',
-      '🔖',
-      '🧷',
-      '🔗',
-      '📎',
-      '🖇️',
-      '📐',
-      '📏',
-      '🧮',
-      '📌',
-      '📍',
-      '✂️',
-      '🖊️',
-      '🖋️',
-      '✒️',
-      '🖌️',
-      '🖍️',
-      '📝',
-      '✏️',
-      '🔍',
-      '🔎',
-      '🔏',
-      '🔐',
-      '🔒',
-      '🔓',
-    ],
-  },
-  symbols: {
-    name: '기호',
-    emojis: [
-      '❤️',
-      '🧡',
-      '💛',
-      '💚',
-      '💙',
-      '💜',
-      '🤎',
-      '🖤',
-      '🤍',
-      '💔',
-      '❣️',
-      '💕',
-      '💞',
-      '💓',
-      '💗',
-      '💖',
-      '💘',
-      '💝',
-      '💟',
-      '☮️',
-      '✝️',
-      '☪️',
-      '🕉️',
-      '☸️',
-      '✡️',
-      '🔯',
-      '🕎',
-      '☯️',
-      '☦️',
-      '🛐',
-      '⛎',
-      '♈',
-      '♉',
-      '♊',
-      '♋',
-      '♌',
-      '♍',
-      '♎',
-      '♏',
-      '♐',
-      '♑',
-      '♒',
-      '♓',
-      '🆔',
-      '⚛️',
-      '🉑',
-      '☢️',
-      '☣️',
-      '📴',
-      '📳',
-      '🈶',
-      '🈚',
-      '🈸',
-      '🈺',
-      '🈷️',
-      '✴️',
-      '🆚',
-      '💮',
-      '🉐',
-      '㊙️',
-      '㊗️',
-      '🈴',
-      '🈵',
-      '🈹',
-      '🈲',
-      '🅰️',
-      '🅱️',
-      '🆎',
-      '🆑',
-      '🅾️',
-      '🆘',
-      '❌',
-      '⭕',
-      '🛑',
-      '⛔',
-      '📛',
-      '🚫',
-      '💯',
-      '💢',
-      '♨️',
-      '🚷',
-      '🚯',
-      '🚳',
-      '🚱',
-      '🔞',
-      '📵',
-      '🚭',
-      '❗',
-      '❕',
-      '❓',
-      '❔',
-      '‼️',
-      '⁉️',
-      '🔅',
-      '🔆',
-      '〽️',
-      '⚠️',
-      '🚸',
-      '🔱',
-      '⚜️',
-      '🔰',
-      '♻️',
-      '✅',
-      '🈯',
-      '💹',
-      '❇️',
-      '✳️',
-      '❎',
-      '🌐',
-      '💠',
-      'Ⓜ️',
-      '🌀',
-      '💤',
-      '🏧',
-      '🚾',
-      '♿',
-      '🅿️',
-      '🈳',
-      '🈂️',
-      '🛂',
-      '🛃',
-      '🛄',
-      '🛅',
-      '🚹',
-      '🚺',
-      '🚼',
-      '🚻',
-      '🚮',
-      '🎦',
-      '📶',
-      '🈁',
-      '🔣',
-      'ℹ️',
-      '🔤',
-      '🔡',
-      '🔠',
-      '🆖',
-      '🆗',
-      '🆙',
-      '🆒',
-      '🆕',
-      '🆓',
-      '0️⃣',
-      '1️⃣',
-      '2️⃣',
-      '3️⃣',
-      '4️⃣',
-      '5️⃣',
-      '6️⃣',
-      '7️⃣',
-      '8️⃣',
-      '9️⃣',
-      '🔟',
-    ],
-  },
-  flags: {
-    name: '깃발',
-    emojis: [
-      '🏁',
-      '🚩',
-      '🎌',
-      '🏴',
-      '🏳️',
-      '🏳️‍🌈',
-      '🏳️‍⚧️',
-      '🏴‍☠️',
-      '🇦🇨',
-      '🇦🇩',
-      '🇦🇪',
-      '🇦🇫',
-      '🇦🇬',
-      '🇦🇮',
-      '🇦🇱',
-      '🇦🇲',
-      '🇦🇴',
-      '🇦🇶',
-      '🇦🇷',
-      '🇦🇸',
-      '🇦🇹',
-      '🇦🇺',
-      '🇦🇼',
-      '🇦🇽',
-      '🇦🇿',
-      '🇧🇦',
-      '🇧🇧',
-      '🇧🇩',
-      '🇧🇪',
-      '🇧🇫',
-      '🇧🇬',
-      '🇧🇭',
-      '🇧🇮',
-      '🇧🇯',
-      '🇧🇱',
-      '🇧🇲',
-      '🇧🇳',
-      '🇧🇴',
-      '🇧🇶',
-      '🇧🇷',
-      '🇧🇸',
-      '🇧🇹',
-      '🇧🇻',
-      '🇧🇼',
-      '🇧🇾',
-      '🇧🇿',
-      '🇨🇦',
-      '🇨🇨',
-      '🇨🇩',
-      '🇨🇫',
-      '🇨🇬',
-      '🇨🇭',
-      '🇨🇮',
-      '🇨🇰',
-      '🇨🇱',
-      '🇨🇲',
-      '🇨🇳',
-      '🇨🇴',
-      '🇨🇵',
-      '🇨🇷',
-      '🇨🇺',
-      '🇨🇻',
-      '🇨🇼',
-      '🇨🇽',
-      '🇨🇾',
-      '🇨🇿',
-      '🇩🇪',
-      '🇩🇬',
-      '🇩🇯',
-      '🇩🇰',
-      '🇩🇲',
-      '🇩🇴',
-      '🇩🇿',
-      '🇪🇦',
-      '🇪🇨',
-      '🇪🇪',
-      '🇪🇬',
-      '🇪🇭',
-      '🇪🇷',
-      '🇪🇸',
-      '🇪🇹',
-      '🇪🇺',
-      '🇫🇮',
-      '🇫🇯',
-      '🇫🇰',
-      '🇫🇲',
-      '🇫🇴',
-      '🇫🇷',
-      '🇬🇦',
-      '🇬🇧',
-      '🇬🇩',
-      '🇬🇪',
-      '🇬🇫',
-      '🇬🇬',
-      '🇬🇭',
-      '🇬🇮',
-      '🇬🇱',
-      '🇬🇲',
-      '🇬🇳',
-      '🇬🇵',
-      '🇬🇶',
-      '🇬🇷',
-      '🇬🇸',
-      '🇬🇹',
-      '🇬🇺',
-      '🇬🇼',
-      '🇬🇾',
-      '🇭🇰',
-      '🇭🇲',
-      '🇭🇳',
-      '🇭🇷',
-      '🇭🇹',
-      '🇭🇺',
-      '🇮🇨',
-      '🇮🇩',
-      '🇮🇪',
-      '🇮🇱',
-      '🇮🇲',
-      '🇮🇳',
-      '🇮🇴',
-      '🇮🇶',
-      '🇮🇷',
-      '🇮🇸',
-      '🇮🇹',
-      '🇯🇪',
-      '🇯🇲',
-      '🇯🇴',
-      '🇯🇵',
-      '🇰🇪',
-      '🇰🇬',
-      '🇰🇭',
-      '🇰🇮',
-      '🇰🇲',
-      '🇰🇳',
-      '🇰🇵',
-      '🇰🇷',
-      '🇰🇼',
-      '🇰🇾',
-      '🇰🇿',
-      '🇱🇦',
-      '🇱🇧',
-      '🇱🇨',
-      '🇱🇮',
-      '🇱🇰',
-      '🇱🇷',
-      '🇱🇸',
-      '🇱🇹',
-      '🇱🇺',
-      '🇱🇻',
-      '🇱🇾',
-      '🇲🇦',
-      '🇲🇨',
-      '🇲🇩',
-      '🇲🇪',
-      '🇲🇫',
-      '🇲🇬',
-      '🇲🇭',
-      '🇲🇰',
-      '🇲🇱',
-      '🇲🇲',
-      '🇲🇳',
-      '🇲🇴',
-      '🇲🇵',
-      '🇲🇶',
-      '🇲🇷',
-      '🇲🇸',
-      '🇲🇹',
-      '🇲🇺',
-      '🇲🇻',
-      '🇲🇼',
-      '🇲🇽',
-      '🇲🇾',
-      '🇲🇿',
-      '🇳🇦',
-      '🇳🇨',
-      '🇳🇪',
-      '🇳🇫',
-      '🇳🇬',
-      '🇳🇮',
-      '🇳🇱',
-      '🇳🇴',
-      '🇳🇵',
-      '🇳🇷',
-      '🇳🇺',
-      '🇳🇿',
-      '🇴🇲',
-      '🇵🇦',
-      '🇵🇪',
-      '🇵🇫',
-      '🇵🇬',
-      '🇵🇭',
-      '🇵🇰',
-      '🇵🇱',
-      '🇵🇲',
-      '🇵🇳',
-      '🇵🇷',
-      '🇵🇸',
-      '🇵🇹',
-      '🇵🇼',
-      '🇵🇾',
-      '🇶🇦',
-      '🇷🇪',
-      '🇷🇴',
-      '🇷🇸',
-      '🇷🇺',
-      '🇷🇼',
-      '🇸🇦',
-      '🇸🇧',
-      '🇸🇨',
-      '🇸🇩',
-      '🇸🇪',
-      '🇸🇬',
-      '🇸🇭',
-      '🇸🇮',
-      '🇸🇯',
-      '🇸🇰',
-      '🇸🇱',
-      '🇸🇲',
-      '🇸🇳',
-      '🇸🇴',
-      '🇸🇷',
-      '🇸🇸',
-      '🇸🇹',
-      '🇸🇻',
-      '🇸🇽',
-      '🇸🇾',
-      '🇸🇿',
-      '🇹🇦',
-      '🇹🇨',
-      '🇹🇩',
-      '🇹🇫',
-      '🇹🇬',
-      '🇹🇭',
-      '🇹🇯',
-      '🇹🇰',
-      '🇹🇱',
-      '🇹🇲',
-      '🇹🇳',
-      '🇹🇴',
-      '🇹🇷',
-      '🇹🇹',
-      '🇹🇻',
-      '🇹🇼',
-      '🇹🇿',
-      '🇺🇦',
-      '🇺🇬',
-      '🇺🇲',
-      '🇺🇳',
-      '🇺🇸',
-      '🇺🇾',
-      '🇺🇿',
-      '🇻🇦',
-      '🇻🇨',
-      '🇻🇪',
-      '🇻🇬',
-      '🇻🇮',
-      '🇻🇳',
-      '🇻🇺',
-      '🇼🇫',
-      '🇼🇸',
-      '🇽🇰',
-      '🇾🇪',
-      '🇾🇹',
-      '🇿🇦',
-      '🇿🇲',
-      '🇿🇼',
-    ],
-  },
-};
+export interface EmojiCategory {
+  name: string;
+  emojis: string[];
+}
 
-export default function EmojiBox() {
-  const { comment, setComment } = use(ChatContext);
-  const [activeCategory, setActiveCategory] = useState('recent');
-  const [searchTerm, setSearchTerm] = useState('');
+export interface EmojiData {
+  [categoryKey: string]: EmojiCategory;
+}
+
+export interface EmojiBoxProps {
+  emojiData: EmojiData;
+}
+
+export default function EmojiBox({ emojiData }: EmojiBoxProps) {
+  const { showEmojibox, toggleShowEmojibox, setComment } =
+    useContext(ChatContext);
+  const [activeCategory, setActiveCategory] = useState<string>('');
+  const [recentEmojis, setRecentEmojis] = useState<string[]>([]);
+
+  useEffect(() => {
+    const storedRecent = localStorage.getItem('vybzRecentEmojis');
+    if (storedRecent) {
+      try {
+        const parsedRecent = JSON.parse(storedRecent);
+        if (Array.isArray(parsedRecent)) {
+          setRecentEmojis(parsedRecent);
+        }
+      } catch (error) {
+        console.error('Failed to parse recent emojis from localStorage', error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      recentEmojis.length > 0 ||
+      localStorage.getItem('vybzRecentEmojis') !== null
+    ) {
+      localStorage.setItem('vybzRecentEmojis', JSON.stringify(recentEmojis));
+    }
+  }, [recentEmojis]);
+
+  useEffect(() => {
+    const categories = Object.keys(emojiData);
+    if (
+      categories.length > 0 &&
+      (!activeCategory || !emojiData[activeCategory])
+    ) {
+      setActiveCategory(categories[0]!);
+    }
+  }, [emojiData, activeCategory]);
 
   const handleEmojiClick = (emoji: string) => {
-    setComment((prev: string) => prev + emoji);
+    setComment((prev) => prev + emoji);
+    setRecentEmojis((prevRecent) => {
+      const newRecent = [emoji, ...prevRecent.filter((e) => e !== emoji)];
+      return newRecent.slice(0, 24);
+    });
   };
 
-  const handleDeleteChar = () => {
-    setComment((prev: string) => prev.slice(0, -1));
+  const clearRecentEmojis = () => {
+    setRecentEmojis([]);
+    localStorage.removeItem('vybzRecentEmojis');
   };
 
-  const filteredEmojis = searchTerm
-    ? Object.values(emojiCategories)
-        .flatMap((cat: { emojis: string[] }) => cat.emojis)
-        .filter((emoji: string) => emoji.includes(searchTerm))
-    : emojiCategories[activeCategory as keyof typeof emojiCategories]?.emojis ||
-      [];
+  const categoryKeys = Object.keys(emojiData);
 
-  const categoryKeys = Object.keys(emojiCategories).filter(
-    (key) => key !== 'recent'
-  );
+  if (!showEmojibox) return null;
+
+  const filteredEmojis =
+    activeCategory && emojiData[activeCategory]
+      ? emojiData[activeCategory].emojis
+      : [];
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-2xl w-80 h-96 flex flex-col overflow-hidden border border-gray-700">
-      {/* 헤더 */}
-      <div className="bg-gray-750 px-4 py-3 border-b border-gray-700">
-        <div className="flex items-center justify-between">
-          <h3 className="text-white font-medium text-sm">이모지 선택</h3>
-          <button
-            onClick={() => setComment('')}
-            className="text-gray-400 hover:text-red-400 transition-colors"
-            title="전체 삭제"
+    <div className="bg-gray-900 text-white w-full h-[420px] absolute bottom-0 left-0 right-0 z-40 rounded-t-lg shadow-2xl overflow-hidden border-t border-gray-800 flex flex-col">
+      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-800 bg-gray-850">
+        <div className="flex gap-2">
+          <Button
+            className={`w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-sm`}
+            onClick={() => setActiveCategory('__recent')}
+            title="최근"
           >
-            <X width={16} height={16} />
-          </button>
+            ⏰
+          </Button>
+          {categoryKeys.map((key) => {
+            if (!emojiData[key] || emojiData[key].emojis.length === 0)
+              return null;
+            const emojiIcon = emojiData[key].emojis[0] || '❓';
+            return (
+              <button
+                key={key}
+                onClick={() => setActiveCategory(key)}
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-150 ${
+                  activeCategory === key
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+                title={emojiData[key].name}
+              >
+                {emojiIcon}
+              </button>
+            );
+          })}
         </div>
-
-        <div className="mt-2">
-          <input
-            type="text"
-            placeholder="이모지 검색..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-gray-700 text-white text-sm px-3 py-1.5 rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
-          />
-        </div>
+        <Button
+          onClick={toggleShowEmojibox}
+          className="text-gray-400 hover:text-red-500"
+          title="닫기"
+        >
+          <X width={18} height={18} />
+        </Button>
       </div>
 
-      <div className="flex-1 flex">
-        {/* 카테고리 사이드바 */}
-        {!searchTerm && (
-          <div className="bg-gray-750 w-12 flex flex-col py-2 border-r border-gray-700">
-            {/* 최근 사용 카테고리 */}
-            <button
-              onClick={() => setActiveCategory('recent')}
-              className={`w-10 h-10 mx-1 mb-1 rounded-lg flex items-center justify-center transition-all duration-150 ${
-                activeCategory === 'recent'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-400 hover:bg-gray-600 hover:text-white'
-              }`}
-              title="최근 사용"
-            >
-              🕘
-            </button>
-
-            {/* 그 외 카테고리들 */}
-            {categoryKeys.map((key) => {
-              const emojiIcon =
-                emojiCategories[key as keyof typeof emojiCategories]
-                  .emojis[0] || '❓';
-              return (
-                <button
-                  key={key}
-                  onClick={() => setActiveCategory(key)}
-                  className={`w-10 h-10 mx-1 mb-1 rounded-lg flex items-center justify-center transition-all duration-150 ${
-                    activeCategory === key
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-400 hover:bg-gray-600 hover:text-white'
-                  }`}
-                  title={
-                    emojiCategories[key as keyof typeof emojiCategories].name
-                  }
-                >
-                  <span className="text-base">{emojiIcon}</span>
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {/* 이모지 리스트 */}
-        <div className="flex-1 flex flex-col">
-          {!searchTerm && (
-            <div className="px-3 py-2 bg-gray-750 border-b border-gray-700">
-              <h4 className="text-gray-300 text-xs font-medium uppercase tracking-wide">
-                {activeCategory === 'recent'
-                  ? '최근 사용'
-                  : emojiCategories[
-                      activeCategory as keyof typeof emojiCategories
-                    ]?.name}
-              </h4>
+      <div className="flex-1 overflow-y-auto bg-gray-850 p-2">
+        {activeCategory === '__recent' ? (
+          <>
+            <div className="flex justify-between items-center px-1 mb-2">
+              <span className="text-xs text-gray-400 uppercase">최근 사용</span>
+              <button
+                onClick={clearRecentEmojis}
+                className="text-xs text-blue-400 hover:text-blue-300"
+              >
+                모두 지우기
+              </button>
             </div>
-          )}
-
-          {/* 그리드 */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="grid grid-cols-8 gap-1 p-2">
-              {filteredEmojis.map((emoji: string, index: number) => (
-                <button
-                  key={`${emoji}-${index}`}
-                  onClick={() => handleEmojiClick(emoji)}
-                  className="w-8 h-8 flex items-center justify-center text-lg hover:bg-gray-700 rounded transition-colors duration-150 cursor-pointer"
-                  title={emoji}
-                >
-                  {emoji}
-                </button>
-              ))}
-            </div>
-
+            {recentEmojis.length > 0 ? (
+              <div className="grid grid-cols-8 gap-1">
+                {recentEmojis.map((emoji, idx) => (
+                  <button
+                    key={`recent-${emoji}-${idx}`}
+                    onClick={() => handleEmojiClick(emoji)}
+                    className="w-8 h-8 flex items-center justify-center text-lg hover:bg-gray-700 rounded"
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="text-gray-500 text-sm text-center py-8">
+                최근 사용한 이모지가 없습니다.
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="grid grid-cols-8 gap-1">
+            {filteredEmojis.map((emoji, idx) => (
+              <button
+                key={`${emoji}-${idx}`}
+                onClick={() => handleEmojiClick(emoji)}
+                className="w-8 h-8 flex items-center justify-center text-lg hover:bg-gray-700 rounded"
+                title={emoji}
+              >
+                {emoji}
+              </button>
+            ))}
             {filteredEmojis.length === 0 && (
-              <div className="flex items-center justify-center h-32 text-gray-500 text-sm">
-                {searchTerm ? '검색 결과가 없습니다' : '이모지가 없습니다'}
+              <div className="text-gray-500 text-sm text-center py-8 col-span-8">
+                이모지가 없습니다.
               </div>
             )}
           </div>
-
-          {/* 하단 */}
-          <div className="border-t border-gray-700 p-2 bg-gray-750">
-            <div className="flex justify-between items-center">
-              <div className="text-xs text-gray-400">
-                {comment.length > 0 && `${comment.length}자`}
-              </div>
-              <button
-                onClick={handleDeleteChar}
-                disabled={comment.length === 0}
-                className="px-3 py-1 text-xs bg-gray-600 text-white rounded hover:bg-gray-500 disabled:opacity-50"
-              >
-                한 글자 삭제
-              </button>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

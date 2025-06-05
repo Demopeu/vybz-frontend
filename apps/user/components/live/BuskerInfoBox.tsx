@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@repo/ui/components/ui/button';
-import { formatNumberToK } from '@/util/format';
+import { formatNumberToK } from '@/utils/format';
 import { User } from '@repo/ui/components/icons';
 import { cn } from '@repo/ui/lib/utils';
 import { BuskerLiveDataType } from '@/types/ResponseDataTypes';

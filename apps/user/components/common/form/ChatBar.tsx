@@ -8,6 +8,7 @@ import { Smile } from '@repo/ui/components/icons';
 import { ChatContext } from '@/context/ChatContext';
 import Emojibox from '@/components/live/EmojiBox';
 import ChatBarButtonBox from '@/components/live/ChatBarButtonBox';
+import { emojiData } from '@/data/EmojiData';
 
 export default function ChatForm({ className }: { className?: string }) {
   const { showEmojibox, toggleShowEmojibox, comment, setComment } =
@@ -17,7 +18,7 @@ export default function ChatForm({ className }: { className?: string }) {
     <section
       className={cn(
         showEmojibox ? 'bottom-0' : 'bottom-6',
-        'absolute left-0 right-0',
+        'absolute left-0 right-0 z-50',
         className
       )}
     >
@@ -40,7 +41,7 @@ export default function ChatForm({ className }: { className?: string }) {
 
         <ChatBarButtonBox />
       </form>
-      {showEmojibox && <Emojibox />}
+      {showEmojibox && <Emojibox emojiData={emojiData} />}
     </section>
   );
 }
