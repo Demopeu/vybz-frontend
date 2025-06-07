@@ -11,6 +11,7 @@ import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 
 import ReelsBackgroundWrapper from './backgrounds/ReelsBackgroundWrapper';
 import ReelsBoxs from '@/components/reels/ReelsBoxs';
+import ReelsMetaDataBox from '@/components/reels/ReelsMetaDataBox';
 
 export default function SwiperWrapper({
   initialItems,
@@ -67,6 +68,14 @@ export default function SwiperWrapper({
                 likeCount={item.realsLikeCount}
                 reelsCommentCount={item.realsCommentCount}
               />
+              <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-b from-black/0 via-black/70 to-black/90 pt-10 pb-16">
+                <ReelsMetaDataBox
+                  realsDescription={item.realsDescription}
+                  buskerId={item.buskerId}
+                  buskerName={item.buskerName}
+                  buskerProfileImage={item.buskerProfileImage}
+                />
+              </div>
             </SwiperSlide>
           );
         })}
