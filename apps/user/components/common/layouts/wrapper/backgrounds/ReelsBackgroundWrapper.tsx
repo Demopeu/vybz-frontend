@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ReelsBackgroundWrapper({
   videoUrl,
+  isActive = true,
   children,
 }: {
   videoUrl: string;
+  isActive?: boolean;
   children?: ReactNode;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -26,12 +28,33 @@ export default function ReelsBackgroundWrapper({
     }
   };
 
+  // key가 변경될 때마다 비디오를 재생
   useEffect(() => {
     const video = videoRef.current;
-    if (video && isPlaying) {
+    if (!video) return;
+
+    video.currentTime = 0; // 비디오를 처음으로 되감기
+    
+    if (isActive) {
       video.play().catch(() => {});
+    } else {
+      video.pause();
     }
-  }, [videoUrl, isPlaying]);
+  }, [videoUrl, isActive]); // isPlaying 의존성 제거
+  
+  // 일시정지/재생 토글을 위한 효과
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    
+    if (isActive) {
+      if (isPlaying) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    }
+  }, [isPlaying, isActive]);
 
   return (
     <div className="relative w-full h-full overflow-hidden">

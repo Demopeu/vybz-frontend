@@ -1,0 +1,19 @@
+'use client';
+
+import { createContext, useState, useCallback } from 'react';
+import { ModalContextType } from '@/types/ContextTypes';
+
+export const ModalContext = createContext<ModalContextType>(
+  {} as ModalContextType
+);
+
+export function UseModal({ children }: { children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const open = useCallback(() => setIsOpen(true), []);
+  const close = useCallback(() => setIsOpen(false), []);
+
+  const value: ModalContextType = { isOpen, open, close };
+
+  return <ModalContext value={value}>{children}</ModalContext>;
+}

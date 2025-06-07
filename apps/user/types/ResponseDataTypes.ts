@@ -4,14 +4,14 @@ export type CommonResponseType<T> = {
   message: string;
   code: number;
   result: T;
-}
+};
 
 export type UserDataType = {
   accessToken: string;
   refreshToken: string;
   name: string;
   userUuid: string;
-}
+};
 
 export type LoginArticleDataType = {
   title: string;
@@ -19,18 +19,18 @@ export type LoginArticleDataType = {
   description: string;
   hashtags: string[];
   cta: string;
-}
+};
 
 export type VideoCarouselDataType = {
-  id: string
-  videoSrc: string
-  thumbnailSrc: string
-}
+  id: string;
+  videoSrc: string;
+  thumbnailSrc: string;
+};
 
 export type CategoryDataType = {
   id: string;
   name: string;
-}
+};
 
 export type LiveFreeViewType = {
   id: string;
@@ -39,26 +39,26 @@ export type LiveFreeViewType = {
   liveName: string;
   buskerProfileImage: string;
   isMembership: boolean;
-}
+};
 
 export type ProfileDataType = {
   id: string;
   nickname: string;
   introduction: string;
   profileImage: string;
-}
+};
 
 export type SearchResult = {
   id: number;
   title: string;
   buskerName: string;
   buskerUrl: string;
-}
+};
 
 export type RecentSearchItem = {
   id: number;
   title: string;
-}
+};
 
 export type SubscriptionType = {
   id: string;
@@ -66,7 +66,7 @@ export type SubscriptionType = {
   months: number;
   avatarUrl: string;
   subscribedSince: string;
-}
+};
 
 export type BuskerLiveDataType = {
   buskerId: string;
@@ -75,18 +75,25 @@ export type BuskerLiveDataType = {
   liveName: string;
   buskerProfileImage: string;
   liveViews: number;
-
-}
+};
 
 export type RealsUrlDataType = {
-  realsId: number
-  realsUrl: string
-  realsThumbnailUrl: string
-  realsDescription: string
-  realsLikeCount: number
-  realsCommentCount: number
-  buskerId: string
-  buskerName: string
-  buskerProfileImage: string
+  realsId: number;
+  realsUrl: string;
+  realsThumbnailUrl: string;
+  realsDescription: string;
+  realsLikeCount: number;
+  realsCommentCount: number;
+  buskerId: string;
+  buskerName: string;
+  buskerProfileImage: string;
+};
 
-}
+export type CommentDataType = {
+  id: number;
+  username: string;
+  avatarUrl: string;
+  text: string;
+  timeAgo: string;
+  likes: number;
+};
