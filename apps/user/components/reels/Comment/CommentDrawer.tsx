@@ -38,24 +38,25 @@ export default function CommentDrawer({
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* 배경 오버레이 */}
-            <div
-              className="fixed inset-0 bg-black/40 z-[9998]"
-              onClick={close}
-            />
-            {/* 드로어 */}
+            <div className="fixed inset-0 bg-black/40 z-50" onClick={close} />
             <motion.div
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 0 }}
+              onDragEnd={(e, info) => {
+                if (info.offset.y > 100) {
+                  close();
+                }
+              }}
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 left-0 w-full max-h-[80vh] bg-white rounded-t-2xl shadow-xl z-[9999] flex flex-col"
+              className="fixed bottom-0 left-0 w-full h-11/12 bg-white rounded-t-2xl shadow-xl z-50 flex flex-col font-poppins"
             >
-              <div className="flex justify-between items-center px-4 py-3 border-b">
-                <span className="font-bold text-lg">댓글</span>
-                <button onClick={close} className="text-sm text-gray-500">
-                  닫기
-                </button>
+              <div className="w-12 h-1.5 mt-2 mx-auto bg-gray-300 rounded-full" />
+
+              <div className="text-center px-4 py-4 border-b">
+                <p className="font-bold text-lg">댓글</p>
               </div>
 
               <div className="flex-1 overflow-y-auto px-4">

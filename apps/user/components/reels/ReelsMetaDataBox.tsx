@@ -51,7 +51,7 @@ export default function ReelsMetaDataBox({
           @{buskerName}
         </Link>
       </div>
-      <p className="text-sm text-white/90 whitespace-pre-line leading-snug pl-2 pr-12 pt-1">
+      <p className="text-sm text-white/90 whitespace-pre-line leading-normal pl-2 pr-12 pt-1">
         {expanded || !isLong
           ? realsDescription
           : `${realsDescription.slice(0, 10)}...`}

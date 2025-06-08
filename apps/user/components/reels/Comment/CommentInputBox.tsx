@@ -19,13 +19,14 @@ export default function CommentInputBox({
 
   return (
     <div className="border-t border-gray-200 px-3 py-2 flex items-center gap-2">
-      <Image
-        src="/my-avatar.jpg"
-        alt="my profile"
-        width={32}
-        height={32}
-        className="rounded-full"
-      />
+      <div className="relative w-8 h-8 shrink-0">
+        <Image
+          src="/buskerUrl.jpg"
+          alt="user avatar"
+          fill
+          className="rounded-full object-cover"
+        />
+      </div>
       <input
         className="flex-1 text-sm p-2 bg-transparent outline-none"
         placeholder="댓글을 입력하세요..."

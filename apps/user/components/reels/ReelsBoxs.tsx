@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { HeartButton } from '@/components/common/button/HeartButton';
 
 import { use } from 'react';
-import { ModalContext } from '@/context/ModalContext'; // 👈 추가
+import { ModalContext } from '@/context/ModalContext';
 
 export default function ReelsBoxs({
   likeCount,
@@ -16,7 +16,7 @@ export default function ReelsBoxs({
   likeCount: number;
   reelsCommentCount: number;
 }) {
-  const { open } = use(ModalContext); // 👈 context에서 open 가져오기
+  const { open } = use(ModalContext);
 
   return (
     <div className="absolute bottom-44 right-5 z-20 text-center text-white">
@@ -25,7 +25,7 @@ export default function ReelsBoxs({
 
       <Button
         className="w-12 h-12 border-none bg-transparent [&_svg]:size-10 p-0 mt-2"
-        onClick={open} // 👈 바로 open 호출
+        onClick={open}
       >
         <MessageCircle className="fill-none stroke-white stroke-2" />
       </Button>

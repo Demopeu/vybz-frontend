@@ -28,25 +28,23 @@ export default function ReelsBackgroundWrapper({
     }
   };
 
-  // key가 변경될 때마다 비디오를 재생
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.currentTime = 0; // 비디오를 처음으로 되감기
-    
+    video.currentTime = 0;
+
     if (isActive) {
       video.play().catch(() => {});
     } else {
       video.pause();
     }
-  }, [videoUrl, isActive]); // isPlaying 의존성 제거
-  
-  // 일시정지/재생 토글을 위한 효과
+  }, [videoUrl, isActive]);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    
+
     if (isActive) {
       if (isPlaying) {
         video.play().catch(() => {});
@@ -82,9 +80,7 @@ export default function ReelsBackgroundWrapper({
         )}
       </AnimatePresence>
 
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        {children}
-      </div>
+      {children}
     </div>
   );
 }
