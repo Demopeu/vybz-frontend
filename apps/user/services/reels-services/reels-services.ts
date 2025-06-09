@@ -11,7 +11,8 @@ export async function getReelsVideos(page: number, size: number): Promise<RealsU
     });
 
     if (!response.ok) {
-      console.error('Failed to fetch reels videos:', response.statusText);
+      const safeStatusText = (response.statusText || "").replace(/[\r\n]/g, "");
+      console.error('Failed to fetch reels videos:', safeStatusText);
       return [];
     }
 
