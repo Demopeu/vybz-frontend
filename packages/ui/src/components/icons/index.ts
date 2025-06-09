@@ -21,3 +21,4 @@ export { MessageCircle } from './MessageCircle';
 export { Clock4 } from './Clock4';
 export { Pause } from './Pause';
 export { TagDelete } from './TagDelete';
+export { CrossedTools } from './CrossedTools';

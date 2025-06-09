@@ -1,3 +1,9 @@
+import UserProfile from '@/components/mypage/UserProfile';
+
 export default function page() {
-  return <div>page</div>;
+  return (
+    <main>
+      <UserProfile />
+    </main>
+  );
 }
