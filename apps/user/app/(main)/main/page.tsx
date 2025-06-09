@@ -15,7 +15,10 @@ export default function page() {
     <main>
       <MainHeader />
       <FullscreenSwiper data={DummyData} />
-      <CategoryBar categories={DummyCategoryData} />
+      <CategoryBar
+        categories={DummyCategoryData}
+        className="absolute top-140 left-0 right-0 z-20 px-6"
+      />
       <LiveFreeViewSection data={DummyLiveFreeViewData} />
     </main>
   );

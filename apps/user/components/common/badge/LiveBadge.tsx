@@ -1,3 +1,9 @@
-export default function LiveBadge() {
-  return <span className="mx-6 px-2 py-1 bg-red-600">LIVE</span>;
+export default function LiveBadge({ className }: { className?: string }) {
+  return (
+    <span
+      className={`px-2 py-0.5 text-xs font-bold text-white bg-red-600 rounded ${className}`}
+    >
+      LIVE
+    </span>
+  );
 }
