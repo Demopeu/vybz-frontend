@@ -33,7 +33,7 @@ export default function MainFooter() {
   };
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 backdrop-brightness-85 text-white z-50 h-16">
+    <footer className="fixed bottom-0 left-0 right-0 backdrop-brightness-85 text-white z-40 h-16">
       <div className="relative w-full h-full flex justify-around items-center">
         {activeIndex !== -1 && (
           <div

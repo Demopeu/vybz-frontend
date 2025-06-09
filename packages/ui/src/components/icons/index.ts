@@ -17,4 +17,5 @@ export { X } from './X';
 export { Heart } from './Heart';
 export { SendHorizontal } from './SendHorizontal';
 export { Smile } from './Smile';
-
+export { MessageCircle } from './MessageCircle';
+export { Pause } from './Pause';

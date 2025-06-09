@@ -15,7 +15,7 @@ interface RequestOptions extends RequestInit {
   revalidate?: number | false;
 }
 
-const BASE_URL =  process.env.BASE_URL;
+const BASE_URL =  process.env.BASE_API_URL;
 
 const fetchInstance = async <T = undefined>(
   url: string,
