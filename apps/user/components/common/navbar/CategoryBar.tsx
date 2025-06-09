@@ -7,8 +7,10 @@ import { Button } from '@repo/ui/components/ui/button';
 
 export default function CategoryBar({
   categories,
+  className,
 }: {
   categories: CategoryDataType[];
+  className?: string;
 }) {
   const [selected, setSelected] = useState(categories[0]?.name ?? 'All');
 
@@ -17,7 +19,7 @@ export default function CategoryBar({
   };
 
   return (
-    <nav className="absolute top-140 left-0 right-0 z-20 px-6">
+    <nav className={className}>
       <h2 className="mb-6 font-poppins text-white text-3xl font-semibold">
         Category
       </h2>
@@ -27,7 +29,7 @@ export default function CategoryBar({
           <SwiperSlide key={category.id} style={{ width: 'auto' }}>
             <Button
               onClick={() => handleClick(category.name)}
-              className={`text-lg p-4 rounded-md transition-all
+              className={`text-lg p-4 rounded-md transition-all border-none
                 ${
                   selected === category.name
                     ? 'bg-cyan-400 text-black border-cyan-400 hover:bg-cyan-300'

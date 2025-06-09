@@ -104,3 +104,55 @@ export const reelsVideoData: RealsUrlDataType[] = [
     realsCommentCount: 10,
   },
 ];
+
+export const dummyLiveData: LiveFreeViewType[] = [
+  {
+    id: 'b001',
+    buskerId: 'b001',
+    liveName: '도심 속 힐링 버스킹',
+    buskerName: '홍길동',
+    buskerProfileImage: '/buskerUrl.jpg',
+    isMembership: true,
+    viewerCount: 100000,
+  },
+  {
+    id: 'b002',
+    buskerId: 'b002',
+    liveName: '감성 기타 선율',
+    buskerName: '이수민',
+    buskerProfileImage: '/buskerUrl.jpg',
+    isMembership: false,
+  },
+  {
+    id: 'b003',
+    buskerId: 'b003',
+    liveName: '밤하늘 재즈 콘서트',
+    buskerName: '김재훈',
+    buskerProfileImage: '/buskerUrl.jpg',
+    isMembership: true,
+  },
+  {
+    id: 'b004',
+    buskerId: 'b004',
+    liveName: '비 오는 날의 버스킹',
+    buskerName: '박지은',
+    buskerProfileImage: '/buskerUrl.jpg',
+    isMembership: false,
+  },
+  {
+    id: 'b005',
+    buskerId: 'b005',
+    liveName: '낮과 밤의 사운드',
+    buskerName: '정우성',
+    buskerProfileImage: '/buskerUrl.jpg',
+    isMembership: true,
+  },
+  {
+    id: 'b006',
+    buskerId: 'b006',
+    liveName: '올드팝 리바이벌',
+    buskerName: '최유리',
+    buskerProfileImage: '/buskerUrl.jpg',
+    isMembership: false,
+  },
+];

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { InfiniteScrollProps } from '@/types/InfiniteScrollTypes';
+import Spinner from '@/components/common/Spinner';
 
 export default function InfiniteScrollWrapper(props: InfiniteScrollProps) {
   const { children, hasNextPage, isLoading, onIntersect } = props;
@@ -30,7 +31,14 @@ export default function InfiniteScrollWrapper(props: InfiniteScrollProps) {
   return (
     <>
       {children}
-      <div ref={sentinelRef} className="h-6" />
+      {hasNextPage && (
+        <div
+          ref={sentinelRef}
+          className="h-12 flex items-center justify-center"
+        >
+          {isLoading && <Spinner />}
+        </div>
+      )}
     </>
   );
 }

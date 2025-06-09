@@ -39,6 +39,7 @@ export type LiveFreeViewType = {
   liveName: string;
   buskerProfileImage: string;
   isMembership: boolean;
+  viewerCount?: number;
 };
 
 export type ProfileDataType = {
