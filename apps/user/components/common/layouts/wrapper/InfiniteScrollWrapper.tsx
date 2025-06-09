@@ -11,11 +11,8 @@ export default function InfiniteScrollWrapper(props: InfiniteScrollProps) {
   useEffect(() => {
     if (!hasNextPage || isLoading) return;
     const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0] as IntersectionObserverEntry;
-        if (entry.isIntersecting) {
-          onIntersect();
-        }
+      ([entry]) => {
+        if (entry?.isIntersecting) onIntersect();
       },
       { threshold: 1.0 }
     );

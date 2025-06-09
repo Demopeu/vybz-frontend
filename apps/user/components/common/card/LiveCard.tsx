@@ -1,20 +1,15 @@
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { LiveFreeViewType } from '@/types/ResponseDataTypes';
 import MembershipBadge from '@/components/common/badge/MembershipBadge';
 import LiveBadge from '@/components/common/badge/LiveBadge';
 import { formatNumberToKm } from '@/utils/format';
 
 export default function LiveCard({ item }: { item: LiveFreeViewType }) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/busker/${item.buskerId}/live`);
-  };
   return (
-    <div
-      className="rounded-xl overflow-hidden relative cursor-pointer hover:opacity-90 transition-opacity"
-      onClick={handleClick}
+    <Link
+      href={`/busker/${item.buskerId}/live`}
+      className="overflow-hidden relative cursor-pointer hover:opacity-90 transition-opacity"
     >
       <div className="relative w-full h-36">
         <div className="absolute top-1 left-1 flex items-center space-x-1 z-10">
@@ -35,6 +30,6 @@ export default function LiveCard({ item }: { item: LiveFreeViewType }) {
         <p className="text-xs text-gray-300 truncate">{item.buskerName}</p>
         {item.isMembership && <MembershipBadge />}
       </div>
-    </div>
+    </Link>
   );
 }
