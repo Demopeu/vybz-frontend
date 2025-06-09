@@ -5,3 +5,14 @@ export type FooterItemType = {
   icon: (props: SVGProps<SVGSVGElement>) => JSX.Element;
   path: string;
 };
+
+export type EmojiCategory = {
+  id: number;
+  name: string;
+  representativeEmoticon: string;
+  emojis: string[];
+};
+
+export type EmojiDataType = {
+  [key: string]: EmojiCategory;
+};

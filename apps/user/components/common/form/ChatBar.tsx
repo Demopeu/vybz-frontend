@@ -6,7 +6,7 @@ import { Input } from '@repo/ui/components/ui/input';
 import { Button } from '@repo/ui/components/ui/button';
 import { Smile } from '@repo/ui/components/icons';
 import { ChatContext } from '@/context/ChatContext';
-import Emojibox from '@/components/live/EmojiBox';
+import Emojibox from '@/components/common/EmojiBox';
 import ChatBarButtonBox from '@/components/live/ChatBarButtonBox';
 import { emojiData } from '@/data/EmojiData';
 
@@ -15,14 +15,8 @@ export default function ChatForm({ className }: { className?: string }) {
     use(ChatContext);
 
   return (
-    <section
-      className={cn(
-        showEmojibox ? 'bottom-0' : 'bottom-6',
-        'absolute left-0 right-0 z-50',
-        className
-      )}
-    >
-      <form className="flex items-center justify-between">
+    <div className={`fixed bottom-0 left-0 right-0 z-50 ${className}`}>
+      <form className=" relative flex items-center justify-between bg-gray-900/30 backdrop-blur-md px-4 py-2">
         <label className="relative w-full pr-4" id="comment">
           <Button
             type="button"
@@ -38,10 +32,19 @@ export default function ChatForm({ className }: { className?: string }) {
             className="text-white border-none bg-gray-400/30 backdrop-blur-md h-12 py-0 !pl-12 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </label>
-
         <ChatBarButtonBox />
       </form>
-      {showEmojibox && <Emojibox emojiData={emojiData} />}
-    </section>
+
+      <div
+        className={cn(
+          'transition-all duration-300 ease-in-out bg-gray-900/30 w-full',
+          showEmojibox
+            ? 'max-h-96 opacity-100'
+            : 'max-h-0 opacity-0 overflow-hidden'
+        )}
+      >
+        <Emojibox emojiData={emojiData} />
+      </div>
+    </div>
   );
 }
