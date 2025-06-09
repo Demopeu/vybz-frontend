@@ -18,4 +18,6 @@ export { Heart } from './Heart';
 export { SendHorizontal } from './SendHorizontal';
 export { Smile } from './Smile';
 export { MessageCircle } from './MessageCircle';
+export { Clock4 } from './Clock4';
 export { Pause } from './Pause';
+export { TagDelete } from './TagDelete';

@@ -10,7 +10,7 @@ export default function page() {
     <main className="h-screen text-white font-poppins px-4">
       <BuskerInfoBox data={data} className="pt-20" />
       <UseChat>
-        <ChatBar className="px-4" />
+        <ChatBar />
       </UseChat>
     </main>
   );

@@ -8,6 +8,9 @@ import CommentInputBox from './CommentInputBox';
 import { CommentDataType } from '@/types/ResponseDataTypes';
 import { CommentsData } from '@/data/CommentData';
 import { ModalContext } from '@/context/ModalContext';
+import { ChatContext } from '@/context/ChatContext';
+import Emojibox from '@/components/common/EmojiBox';
+import { emojiData } from '@/data/EmojiData';
 
 export default function CommentDrawer({
   children,
@@ -15,6 +18,7 @@ export default function CommentDrawer({
   children: React.ReactNode;
 }) {
   const { isOpen, close } = use(ModalContext);
+  const { showEmojibox } = use(ChatContext);
   const [comments, setComments] = useState<CommentDataType[]>(CommentsData);
 
   const handleNewComment = (text: string) => {
@@ -64,8 +68,8 @@ export default function CommentDrawer({
                   <CommentItem key={c.id} {...c} />
                 ))}
               </div>
-
               <CommentInputBox onSubmit={handleNewComment} />
+              {showEmojibox && <Emojibox emojiData={emojiData} theme="light" />}
             </motion.div>
           </>
         )}
