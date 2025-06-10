@@ -1,5 +1,5 @@
 import { VideoCarouselDataType } from '@/types/ResponseDataTypes';
-import { LiveFreeViewType, RealsUrlDataType } from '@/types/ResponseDataTypes';
+import { LiveFreeViewType, ReelsUrlDataType } from '@/types/ResponseDataTypes';
 
 export const videoSlideData: VideoCarouselDataType[] = [
   {
@@ -46,7 +46,7 @@ export const liveFreeViewData: LiveFreeViewType[] = [
   },
 ];
 
-export const reelsVideoData: RealsUrlDataType[] = [
+export const reelsVideoData: ReelsUrlDataType[] = [
   {
     realsId: 1,
     realsUrl: '/background/intro.mp4',
