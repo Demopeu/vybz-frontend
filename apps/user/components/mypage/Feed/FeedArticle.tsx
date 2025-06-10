@@ -19,6 +19,7 @@ export default function FeedArticle({ feed }: { feed: FanFeedDataType }) {
         <FeedButtonBox
           likesCount={feed.likesCount}
           commentsCount={feed.commentsCount}
+          feedId={feed.id}
         />
       </div>
     </article>

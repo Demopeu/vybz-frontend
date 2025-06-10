@@ -2,7 +2,7 @@ import { FanFeedDataType } from '@/types/ResponseDataTypes';
 
 export const FanFeedData: FanFeedDataType[] = [
   {
-    id: 1,
+    id: '1',
     buskerName: '방송국스타',
     buskerProfileImage: '/BuskerUrl.jpg',
     timeAgo: '2시간 전',
@@ -12,7 +12,7 @@ export const FanFeedData: FanFeedDataType[] = [
     
   },
   {
-    id: 2,
+    id: '2',
     buskerName: '거리예술가들',
     buskerProfileImage: '/BuskerUrl.jpg',
     timeAgo: '1일 전',
@@ -21,7 +21,7 @@ export const FanFeedData: FanFeedDataType[] = [
     commentsCount: 34
   },
   {
-    id: 3,
+    id: '3',
     buskerName: '포토그래퍼K',
     buskerProfileImage: '/BuskerUrl.jpg',
     timeAgo: '5시간 전',
@@ -35,7 +35,7 @@ export const FanFeedData: FanFeedDataType[] = [
     commentsCount: 42
   },
   {
-    id: 4,
+    id: '4',
     buskerName: '스트릿댄스팀',
     buskerProfileImage: '/BuskerUrl.jpg',
     timeAgo: '1일 전',
@@ -48,7 +48,7 @@ export const FanFeedData: FanFeedDataType[] = [
     commentsCount: 78
   },
   {
-    id: 5,
+    id: '5',
     buskerName: '아트스트리트',
     buskerProfileImage: '/BuskerUrl.jpg',
     timeAgo: '2일 전',
@@ -60,7 +60,7 @@ export const FanFeedData: FanFeedDataType[] = [
     commentsCount: 29
   },
   {
-    id: 6,
+    id: '6',
     buskerName: '포토그래퍼K',
     buskerProfileImage: '/BuskerUrl.jpg',
     timeAgo: '5시간 전',

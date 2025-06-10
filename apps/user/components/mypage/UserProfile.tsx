@@ -10,6 +10,7 @@ export default function UserProfile() {
           src="/buskerUrl.jpg"
           alt="user avatar"
           fill
+          sizes="40px"
           className="rounded-full object-cover"
         />
       </div>

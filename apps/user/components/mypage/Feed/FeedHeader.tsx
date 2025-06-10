@@ -20,6 +20,7 @@ export default function FeedHeader({
             src={profileImage}
             alt={username}
             fill
+            sizes="48px"
             className="object-cover"
           />
         </div>

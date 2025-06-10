@@ -6,7 +6,7 @@ export const fetchFanFeeds = async (
 ): Promise<FanFeedDataType[]> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   return Array.from({ length: pageSize }, (_, i) => ({
-    id: (page - 1) * pageSize + i + 2,
+    id: String((page - 1) * pageSize + i + 2),
     buskerName: `버스커${(page - 1) * pageSize + i + 1}`,
     buskerProfileImage: '/buskerUrl.jpg',
     timeAgo: `${i + 1}시간 전`,

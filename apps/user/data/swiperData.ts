@@ -48,7 +48,7 @@ export const liveFreeViewData: LiveFreeViewType[] = [
 
 export const reelsVideoData: ReelsUrlDataType[] = [
   {
-    realsId: 1,
+    realsId: '1',
     realsUrl: '/background/intro.mp4',
     realsThumbnailUrl: '/background/intro.mp4',
     realsDescription:
@@ -60,7 +60,7 @@ export const reelsVideoData: ReelsUrlDataType[] = [
     realsCommentCount: 551,
   },
   {
-    realsId: 2,
+    realsId: '2',
     realsUrl: '/background/intro.mp4',
     realsThumbnailUrl: '/background/intro.mp4',
     realsDescription: '안녕하세요',
@@ -71,7 +71,7 @@ export const reelsVideoData: ReelsUrlDataType[] = [
     realsCommentCount: 10,
   },
   {
-    realsId: 3,
+    realsId: '3',
     realsUrl: '/background/intro.mp4',
     realsThumbnailUrl: '/background/intro.mp4',
     realsDescription: '안녕하세요',
@@ -82,7 +82,7 @@ export const reelsVideoData: ReelsUrlDataType[] = [
     realsCommentCount: 10,
   },
   {
-    realsId: 4,
+    realsId: '4',
     realsUrl: '/background/intro.mp4',
     realsThumbnailUrl: '/background/intro.mp4',
     realsDescription: '안녕하세요',
@@ -93,7 +93,7 @@ export const reelsVideoData: ReelsUrlDataType[] = [
     realsCommentCount: 10,
   },
   {
-    realsId: 5,
+    realsId: '5',
     realsUrl: '/background/intro.mp4',
     realsThumbnailUrl: '/background/intro.mp4',
     realsDescription: '안녕하세요',

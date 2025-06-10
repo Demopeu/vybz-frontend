@@ -12,9 +12,11 @@ import { ModalContext } from '@/context/ModalContext';
 export default function ReelsBoxs({
   likeCount,
   reelsCommentCount,
+  feedId,
 }: {
   likeCount: number;
   reelsCommentCount: number;
+  feedId: string;
 }) {
   const { open } = use(ModalContext);
 
@@ -25,7 +27,7 @@ export default function ReelsBoxs({
 
       <Button
         className="w-12 h-12 border-none bg-transparent [&_svg]:size-10 p-0 mt-2"
-        onClick={open}
+        onClick={() => open(feedId)}
       >
         <MessageCircle className="fill-none stroke-white stroke-2" />
       </Button>
