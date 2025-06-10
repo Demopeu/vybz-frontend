@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper';
 import { Mousewheel } from 'swiper/modules';
 
-import { RealsUrlDataType } from '@/types/ResponseDataTypes';
+import { ReelsUrlDataType } from '@/types/ResponseDataTypes';
 import { getReelsVideos } from '@/services/reels-services/reels-services';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 
@@ -19,7 +19,7 @@ export default function SwiperWrapper({
   initialPage = 1,
   pageSize = 5,
 }: {
-  initialItems: RealsUrlDataType[];
+  initialItems: ReelsUrlDataType[];
   children: React.ReactNode;
   initialPage?: number;
   pageSize?: number;
@@ -33,7 +33,7 @@ export default function SwiperWrapper({
     setActiveIndex(swiper.activeIndex);
   };
 
-  const { items, fetchMore } = useInfiniteScroll<RealsUrlDataType>({
+  const { items, fetchMore } = useInfiniteScroll<ReelsUrlDataType>({
     fetchFn: getReelsVideos,
     initialItems,
     initialPage,
