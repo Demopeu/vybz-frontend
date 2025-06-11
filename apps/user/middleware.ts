@@ -49,13 +49,13 @@ export default async function middleware(request: NextRequest) {
   const isPublic = PUBLIC_ROUTES.includes(pathname);
 
   if (pathname === routes.signIn) {
-    return withOutAuth(request, !!accessToken, callbackUrl);
+    return withOutAuth(request, Boolean(accessToken), callbackUrl);
   }
   if (isPublic) {
     return NextResponse.next();
   }
 
-  return withAuth(request, !!accessToken);
+  return withAuth(request, Boolean(accessToken));
 }
 
 export const config = {

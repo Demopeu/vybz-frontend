@@ -17,7 +17,7 @@ export default function FeedImageGrid({ images }: { images: string[] }) {
       {images.length === 2 && (
         <div className="grid grid-cols-2 gap-1">
           {images.map((src, i) => (
-            <div key={i} className="relative aspect-square">
+            <div key={`${i}+${src}`} className="relative aspect-square">
               <Image
                 src={src}
                 alt={`feed-${i}`}
@@ -41,7 +41,7 @@ export default function FeedImageGrid({ images }: { images: string[] }) {
           </div>
           <div className="grid grid-rows-2 gap-1">
             {images.slice(1).map((src, i) => (
-              <div key={i} className="relative aspect-square">
+              <div key={`${i}+${src}`} className="relative aspect-square">
                 <Image
                   src={src}
                   alt={`feed-${i + 1}`}
@@ -57,7 +57,7 @@ export default function FeedImageGrid({ images }: { images: string[] }) {
       {images.length >= 4 && (
         <div className="grid grid-cols-2 grid-rows-2 gap-1">
           {images.slice(0, 4).map((src, i) => (
-            <div key={i} className="relative aspect-square">
+            <div key={`${i}+${src}`} className="relative aspect-square">
               <Image
                 src={src}
                 alt={`feed-${i}`}
