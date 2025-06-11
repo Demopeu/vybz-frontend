@@ -4,12 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@repo/ui/components/ui';
 import ShowMoreButton from '@/components/common/button/ShowMoreButton';
-import { FollowingDataType } from '@/types/ResponseDataTypes';
-
-interface FollowingBuskerBoxProps extends FollowingDataType {
-  isMenuOpen: boolean;
-  onMenuToggle: () => void;
-}
 
 export default function FollowingBuskerBox({
   buskerName,
@@ -17,7 +11,13 @@ export default function FollowingBuskerBox({
   buskerProfileImage,
   isMenuOpen,
   onMenuToggle,
-}: FollowingBuskerBoxProps) {
+}: {
+  buskerName: string;
+  buskerId: string;
+  buskerProfileImage: string;
+  isMenuOpen: boolean;
+  onMenuToggle: () => void;
+}) {
   return (
     <div className="flex space-x-4 items-center text-center text-white">
       <div className="relative w-12 h-12 shrink-0">

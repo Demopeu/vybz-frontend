@@ -1,4 +1,4 @@
-import { SubscriptionType, FollowingDataType } from '@/types/ResponseDataTypes';
+import { SubscriptionType } from '@/types/ResponseDataTypes';
 
 export const subscriptionData: SubscriptionType[] = [
   {
@@ -23,22 +23,3 @@ export const subscriptionData: SubscriptionType[] = [
     subscribedSince: '2023-07-10'
   }
 ];
-
-export const followingData: FollowingDataType[] = [
-  {
-    buskerId: 'busker1',
-    buskerName: '카리나',
-    buskerProfileImage: '/buskerUrl.jpg'
-  },
-  {
-    buskerId: 'busker2',
-    buskerName: '윈터',
-    buskerProfileImage: '/buskerUrl.jpg'
-  },
-  {
-    buskerId: 'busker3',
-    buskerName: '닝닝',
-    buskerProfileImage: '/buskerUrl.jpg'
-  }
-];
-

@@ -115,3 +115,12 @@ export type FollowingDataType = {
   buskerName: string;
   buskerProfileImage: string;
 };
+
+export type FollowingsResponseDataType = {
+  content: FollowingDataType[];
+  nextCursor: string | null;
+  hasNext: boolean;
+  pageSize: number;
+  page: number;
+};
+

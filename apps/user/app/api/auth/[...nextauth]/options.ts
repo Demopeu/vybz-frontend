@@ -49,7 +49,7 @@ export const options: NextAuthOptions = {
         const userInfo = getUserInfo();
 
         const res = await fetch(
-          `${process.env.BASE_API_URL}/api/v1/oauth/sign-in`,
+          `${process.env.BASE_API_URL}/user-auth-service/api/v1/oauth/sign-in`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
