@@ -9,7 +9,7 @@ export default function page() {
 
   return (
     <main className="min-h-screen px-4 pt-10 text-white font-poppins space-y-10">
-      <SearchBar />
+      <SearchBar placeholder="Search artists, songs, genres..." />
       <RecentSearch data={RecentSearchesData} />
       <SuggestedSection data={SearchResultsData} />
     </main>

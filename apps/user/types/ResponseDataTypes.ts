@@ -109,3 +109,9 @@ export type FanFeedDataType = {
   likesCount: number;
   commentsCount: number;
 };
+
+export type FollowingDataType = {
+  buskerId: string;
+  buskerName: string;
+  buskerProfileImage: string;
+};
