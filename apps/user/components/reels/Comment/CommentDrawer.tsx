@@ -6,20 +6,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import CommentItem from './CommentItem';
 import CommentInputBox from './CommentInputBox';
 import { CommentDataType } from '@/types/ResponseDataTypes';
-import { CommentsData } from '@/data/CommentData';
 import { ModalContext } from '@/context/ModalContext';
 import { ChatContext } from '@/context/ChatContext';
 import Emojibox from '@/components/common/EmojiBox';
 import { emojiData } from '@/data/EmojiData';
 
 export default function CommentDrawer({
+  commentData,
   children,
 }: {
+  commentData: CommentDataType[];
   children: React.ReactNode;
 }) {
   const { isOpen, close } = use(ModalContext);
   const { showEmojibox } = use(ChatContext);
-  const [comments, setComments] = useState<CommentDataType[]>(CommentsData);
+  const [comments, setComments] = useState<CommentDataType[]>(commentData);
 
   const handleNewComment = (text: string) => {
     setComments((prev) => [

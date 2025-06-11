@@ -7,6 +7,7 @@ export type ChatContextType = {
 
 export type ModalContextType = {
   isOpen: boolean;
-  open: () => void;
+  feedId: string;
+  open: (feedId: string) => void;
   close: () => void;
 };

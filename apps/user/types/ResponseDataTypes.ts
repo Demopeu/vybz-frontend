@@ -78,8 +78,8 @@ export type BuskerLiveDataType = {
   liveViews: number;
 };
 
-export type RealsUrlDataType = {
-  realsId: number;
+export type ReelsUrlDataType = {
+  realsId: string;
   realsUrl: string;
   realsThumbnailUrl: string;
   realsDescription: string;
@@ -97,4 +97,15 @@ export type CommentDataType = {
   text: string;
   timeAgo: string;
   likes: number;
+};
+
+export type FanFeedDataType = {
+  id: string;
+  buskerName: string;
+  buskerProfileImage: string;
+  timeAgo: string;
+  content?: string;
+  imageSrcList?: string[];
+  likesCount: number;
+  commentsCount: number;
 };

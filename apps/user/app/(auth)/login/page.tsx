@@ -8,7 +8,7 @@ export default function page() {
   return (
     <VideoBackgroundWrapper className="text-white font-poppins">
       <LoginArticle data={loginArticleData} />
-      <LiveBadge />
+      <LiveBadge className="ml-6 rounded-none" />
       <LoginFooter />
     </VideoBackgroundWrapper>
   );

@@ -9,11 +9,15 @@ export const ModalContext = createContext<ModalContextType>(
 
 export function UseModal({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [feedId, setFeedId] = useState('');
 
-  const open = useCallback(() => setIsOpen(true), []);
+  const open = useCallback((feedId: string) => {
+    setFeedId(feedId);
+    setIsOpen(true);
+  }, []);
   const close = useCallback(() => setIsOpen(false), []);
 
-  const value: ModalContextType = { isOpen, open, close };
+  const value: ModalContextType = { isOpen, feedId, open, close };
 
   return <ModalContext value={value}>{children}</ModalContext>;
 }

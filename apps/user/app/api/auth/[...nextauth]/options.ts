@@ -19,10 +19,10 @@ export const options: NextAuthOptions = {
       if (!profile || !account) {
         throw new Error('OAuthProfileMissing');
       }
-    
+
       const getUserInfo = () => {
         const { provider } = account;
-    
+
         const extractors = {
           kakao: () => ({
             providerId: String(profile.id),
@@ -35,21 +35,19 @@ export const options: NextAuthOptions = {
             nickname: profile.name ?? '',
           }),
         };
-    
+
         const extractor = extractors[provider as keyof typeof extractors];
         if (!extractor) throw new Error('UnsupportedOAuthProvider');
 
-        console.log('extractor', extractor);
-    
         return {
           provider,
           ...extractor(),
         };
       };
-    
+
       try {
         const userInfo = getUserInfo();
-    
+
         const res = await fetch(
           `${process.env.BASE_API_URL}/api/v1/oauth/sign-in`,
           {
@@ -59,19 +57,19 @@ export const options: NextAuthOptions = {
             cache: 'no-cache',
           }
         );
-    
+
         const data = (await res.json()) as CommonResponseType<UserDataType>;
         user.accessToken = data.result.accessToken;
         user.refreshToken = data.result.refreshToken;
         user.userUuid = data.result.userUuid;
-    
+
         return true;
       } catch (error) {
         console.error('OAuth sign-in error:', error);
         throw new Error('OAuthTokenMissing');
       }
     },
-    
+
     async jwt({ token, user }) {
       return { ...token, ...user };
     },

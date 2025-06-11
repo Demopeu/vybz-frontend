@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper';
 import { Mousewheel } from 'swiper/modules';
 
-import { RealsUrlDataType } from '@/types/ResponseDataTypes';
+import { ReelsUrlDataType } from '@/types/ResponseDataTypes';
 import { getReelsVideos } from '@/services/reels-services/reels-services';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 
@@ -19,7 +19,7 @@ export default function SwiperWrapper({
   initialPage = 1,
   pageSize = 5,
 }: {
-  initialItems: RealsUrlDataType[];
+  initialItems: ReelsUrlDataType[];
   children: React.ReactNode;
   initialPage?: number;
   pageSize?: number;
@@ -33,7 +33,7 @@ export default function SwiperWrapper({
     setActiveIndex(swiper.activeIndex);
   };
 
-  const { items, fetchMore } = useInfiniteScroll<RealsUrlDataType>({
+  const { items, fetchMore } = useInfiniteScroll<ReelsUrlDataType>({
     fetchFn: getReelsVideos,
     initialItems,
     initialPage,
@@ -67,6 +67,7 @@ export default function SwiperWrapper({
               <ReelsBoxs
                 likeCount={item.realsLikeCount}
                 reelsCommentCount={item.realsCommentCount}
+                feedId={item.realsId}
               />
               <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-b from-black/0 via-black/70 to-black/90 pt-10 pb-16">
                 <ReelsMetaDataBox

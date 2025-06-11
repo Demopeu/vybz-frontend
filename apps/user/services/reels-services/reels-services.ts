@@ -1,13 +1,13 @@
-import { RealsUrlDataType } from '@/types/ResponseDataTypes';
+import { ReelsUrlDataType } from '@/types/ResponseDataTypes';
 
-export async function getReelsVideos(page: number, size: number): Promise<RealsUrlDataType[]> {
+export async function getReelsVideos(page: number, size: number): Promise<ReelsUrlDataType[]> {
   try {
     const response = await fetch(`${process.env.BASE_API_URL}/videos?page=${page}&size=${size}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'no-store', // CSR이므로 캐싱 방지
+      cache: 'no-store',
     });
 
     if (!response.ok) {

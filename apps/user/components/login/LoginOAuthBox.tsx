@@ -7,11 +7,11 @@ import { Button } from '@repo/ui/components/ui/button';
 
 export default function LoginOAuthBox() {
   const handleGoogleLogin = useCallback(() => {
-    signIn('google');
+    signIn('google', { callbackUrl: '/main' });
   }, []);
 
   const handleKakaoLogin = useCallback(() => {
-    signIn('kakao');
+    signIn('kakao', { callbackUrl: '/main' });
   }, []);
 
   return (
