@@ -22,19 +22,21 @@ export const options: NextAuthOptions = {
 
       const getUserInfo = () => {
         const { provider } = account;
-
+        console.log(provider);
+        console.log(profile);
         const extractors = {
           kakao: () => ({
             providerId: String(profile.id),
             email: profile.kakao_account?.email ?? '',
             nickname: profile.kakao_account?.profile?.nickname ?? '',
-            profileImageUrl: profile.kakao_account?.profile?.profile_image_url ?? '',
+            profileImageUrl:
+              profile.kakao_account?.profile?.profile_image_url ?? '',
           }),
           google: () => ({
             providerId: profile.sub,
             email: profile.email ?? '',
             nickname: profile.name ?? '',
-            profileImageUrl: profile.image ?? '',
+            profileImageUrl: profile.picture ?? '',
           }),
         };
 
