@@ -25,6 +25,7 @@ declare module 'next-auth' {
       email?: string;
       profile?: {
         nickname?: string;
+        profile_image_url?: string;
       };
     };
   }

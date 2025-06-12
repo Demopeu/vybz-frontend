@@ -4,6 +4,7 @@ import { MoreVertical } from '@repo/ui/components/icons';
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from '@repo/ui/components/ui';
+import { RemoveFollow } from '@/services/following-services/following-services';
 
 export default function ShowMoreButton({
   buskerId,
@@ -66,7 +67,10 @@ export default function ShowMoreButton({
             </li>
             <li className="px-4">
               <Button
-                onClick={() => onToggle()}
+                onClick={async () => {
+                  await RemoveFollow(buskerId);
+                  onToggle();
+                }}
                 className="text-red-500 bg-transparent border-none p-0 m-0 text-base"
               >
                 팔로우 취소

@@ -24,11 +24,7 @@ export default function FollowingList({
     fetchMore,
   } = useInfiniteScroll<FollowingDataType>({
     fetchFn: async (page, pageSize) => {
-      const response = await getFollowingsUsers(
-        'current-user-uuid',
-        page,
-        pageSize
-      );
+      const response = await getFollowingsUsers(page, pageSize);
       return response.content;
     },
     initialItems: initialFollowings.content ?? [],
@@ -72,13 +68,13 @@ export default function FollowingList({
     >
       <section className="mt-4 font-poppins text-white space-y-4">
         {followings.map((following) => (
-          <div key={following.buskerId} data-busker-id={following.buskerId}>
+          <div key={following.buskerUuid} data-busker-id={following.buskerUuid}>
             <FollowingBuskerBox
-              buskerName={following.buskerName}
-              buskerId={following.buskerId}
-              buskerProfileImage={following.buskerProfileImage}
-              isMenuOpen={openedMenuId === following.buskerId}
-              onMenuToggle={() => handleMenuToggle(following.buskerId)}
+              buskerName={following.nickname}
+              buskerId={following.buskerUuid}
+              buskerProfileImage={following.profileImageUrl}
+              isMenuOpen={openedMenuId === following.buskerUuid}
+              onMenuToggle={() => handleMenuToggle(following.buskerUuid)}
             />
           </div>
         ))}

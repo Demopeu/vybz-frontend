@@ -111,9 +111,9 @@ export type FanFeedDataType = {
 };
 
 export type FollowingDataType = {
-  buskerId: string;
-  buskerName: string;
-  buskerProfileImage: string;
+  buskerUuid: string;
+  nickname: string;
+  profileImageUrl: string;
 };
 
 export type FollowingsResponseDataType = {
