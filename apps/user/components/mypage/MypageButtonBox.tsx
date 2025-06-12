@@ -1,8 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Guitar } from '@repo/ui/components/icons';
+import { UserInfoDataType } from '@/types/ResponseDataTypes';
 
-export default function MypageButtonBox() {
+export default function MypageButtonBox({
+  userInfo,
+}: {
+  userInfo: UserInfoDataType;
+}) {
   return (
     <section className="flex items-center justify-between px-6 space-x-2 mt-8 text-white font-poppins">
       <Link
@@ -10,7 +15,7 @@ export default function MypageButtonBox() {
         className="relative flex-1 h-30 bg-gradient-to-br from-red-600 to-orange-500 rounded-xl py-9 overflow-hidden"
       >
         <Guitar className="absolute inset-y-1/3 left-3/4 -translate-x-1/2 opacity-20 w-16 h-16 pointer-events-none" />
-        <p className="font-bold text-2xl ml-3">156</p>
+        <p className="font-bold text-2xl ml-3">{userInfo.followingCount}</p>
         <p className="ml-3">팔로잉</p>
       </Link>
       <Link
@@ -24,7 +29,7 @@ export default function MypageButtonBox() {
           height={300}
           className="absolute bottom-0 right-1/3 translate-x-1/2 w-28 h-28 opacity-20 object-cover pointer-events-none"
         />
-        <p className="font-bold text-2xl ml-3">21</p>
+        <p className="font-bold text-2xl ml-3">{userInfo.subscribeCount}</p>
         <p className="ml-3">구독</p>
       </Link>
 

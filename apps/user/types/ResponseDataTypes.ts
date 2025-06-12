@@ -124,3 +124,10 @@ export type FollowingsResponseDataType = {
   page: number;
 };
 
+export type UserInfoDataType = {
+  nickname: string;
+  profileImageUrl: string;
+  followingCount: number;
+  subscribeCount: number;
+  vticketCount: number;
+}
