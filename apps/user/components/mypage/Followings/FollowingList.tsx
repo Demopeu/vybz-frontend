@@ -7,7 +7,7 @@ import {
   FollowingsResponseDataType,
 } from '@/types/ResponseDataTypes';
 import InfiniteScrollWrapper from '@/components/common/layouts/wrapper/InfiniteScrollWrapper';
-import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { useInfiniteScrollQuery } from '@/hooks/useInfiniteFetchQuery';
 import { getFollowingsUsers } from '@/services/following-services/following-services';
 
 export default function FollowingList({
@@ -19,17 +19,17 @@ export default function FollowingList({
 
   const {
     items: followings,
-    loading: isLoading,
+    isLoading,
     hasMore: hasNextPage,
     fetchMore,
-  } = useInfiniteScroll<FollowingDataType>({
-    fetchFn: async (page, pageSize) => {
+  } = useInfiniteScrollQuery<FollowingDataType>({
+    queryKey: 'followings',
+    queryFn: async (page, pageSize) => {
       const response = await getFollowingsUsers(page, pageSize);
-      return response.content;
+      return { content: response.content };
     },
-    initialItems: initialFollowings.content ?? [],
-    initialPage: initialFollowings.page || 1,
-    pageSize: initialFollowings.pageSize || 20,
+    initialData: initialFollowings.content,
+    pageSize: initialFollowings.pageSize,
   });
 
   const handleMenuToggle = (buskerId: string) => {

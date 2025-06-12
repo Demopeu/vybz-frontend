@@ -2,6 +2,7 @@ import './globals.css';
 import 'swiper/css';
 import type { Metadata } from 'next';
 import { Inter, Monoton, Roboto, Poppins } from 'next/font/google';
+import TanstackQueryProvider from '@/provider/TanstackQueryProvider';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const monoton = Monoton({
@@ -36,7 +37,9 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${monoton.variable} ${roboto.variable} ${poppins.variable}`}
     >
-      <body className="font-inter">{children}</body>
+      <body className="font-inter">
+        <TanstackQueryProvider>{children}</TanstackQueryProvider>
+      </body>
     </html>
   );
 }

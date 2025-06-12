@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Button } from '@repo/ui/components/ui';
 import { RemoveFollow } from '@/services/following-services/following-services';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 export default function ShowMoreButton({
   buskerId,
   isOpen,
@@ -16,6 +18,7 @@ export default function ShowMoreButton({
   onToggle: () => void;
 }) {
   const menuRef = useRef<HTMLDivElement>(null);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -69,6 +72,9 @@ export default function ShowMoreButton({
               <Button
                 onClick={async () => {
                   await RemoveFollow(buskerId);
+                  queryClient.invalidateQueries({
+                    queryKey: ['followings'],
+                  });
                   onToggle();
                 }}
                 className="text-red-500 bg-transparent border-none p-0 m-0 text-base"
