@@ -61,7 +61,10 @@ export default function EmojiBox({
 
   if (!showEmojibox) return null;
 
-  const filteredEmojis = emojiData[activeCategory]?.emojis || [];
+  const filteredEmojis =
+    activeCategory === 'recent'
+      ? recentEmojis
+      : emojiData[activeCategory]?.emojis || [];
 
   const isDark = theme === 'dark';
 
@@ -113,9 +116,15 @@ export default function EmojiBox({
             size="sm"
             onClick={() =>
               setComment((prev: string) => {
-                const chars = Array.from(prev);
-                chars.pop();
-                return chars.join('');
+                const segmenter = new Intl.Segmenter(undefined, {
+                  granularity: 'grapheme',
+                });
+                const segments = Array.from(
+                  segmenter.segment(prev),
+                  (s) => s.segment
+                );
+                segments.pop();
+                return segments.join('');
               })
             }
             className="[&_svg]:size-8"

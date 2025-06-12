@@ -1,4 +1,3 @@
-import MainHeader from '@/components/common/layouts/header/MainHeader';
 import FullscreenSwiper from '@/components/common/swiper/FullscreenSwiper';
 import CategoryBar from '@/components/common/navbar/CategoryBar';
 import LiveFreeViewSection from '@/components/main/LiveFreeViewSection';
@@ -13,7 +12,6 @@ export default function page() {
   const DummyLiveFreeViewData = liveFreeViewData;
   return (
     <main>
-      <MainHeader />
       <FullscreenSwiper data={DummyData} />
       <CategoryBar
         categories={DummyCategoryData}

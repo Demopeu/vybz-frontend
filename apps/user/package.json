@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
+    "@tanstack/react-query": "^5.80.7",
     "framer-motion": "^12.16.0",
     "next": "^15.3.0",
     "next-auth": "^4.24.11",
@@ -25,6 +26,7 @@
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.5",
+    "@tanstack/react-query-devtools": "^5.80.7",
     "@types/node": "^22.15.3",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",

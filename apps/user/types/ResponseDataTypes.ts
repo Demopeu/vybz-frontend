@@ -109,3 +109,18 @@ export type FanFeedDataType = {
   likesCount: number;
   commentsCount: number;
 };
+
+export type FollowingDataType = {
+  buskerUuid: string;
+  nickname: string;
+  profileImageUrl: string;
+};
+
+export type FollowingsResponseDataType = {
+  content: FollowingDataType[];
+  nextCursor: string | null;
+  hasNext: boolean;
+  pageSize: number;
+  page: number;
+};
+

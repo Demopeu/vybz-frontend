@@ -23,3 +23,4 @@ export { Pause } from './Pause';
 export { TagDelete } from './TagDelete';
 export { CrossedTools } from './CrossedTools';
 export { Guitar } from './Guitar';
+export { MoreVertical } from './MoreVertical';
