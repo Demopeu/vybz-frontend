@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'k.kakaocdn.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'vybz.s3.ap-northeast-2.amazonaws.com',
+      },
     ],
   },
 };

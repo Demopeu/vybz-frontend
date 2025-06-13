@@ -19,6 +19,7 @@ declare module 'next-auth' {
     sub?: string;
     name?: string;
     email?: string;
+    picture?: string;
 
     id?: number;
     kakao_account?: {
