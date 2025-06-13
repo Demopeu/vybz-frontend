@@ -1,13 +1,29 @@
 'use server'
 
-export async function updateProfile(formData: FormData) {
-  const nickname = formData.get('nickname')
-  const intro = formData.get('introduction')
-  const avatarFile = formData.get('avatar') as File
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import { instance } from "@/utils/requestHandler";
+import { redirect } from "next/navigation";
 
-  console.log('nickname:', nickname)
-  console.log('intro:', intro)
-  console.log('avatarFile:', avatarFile?.name)
+export async function updateProfile(formData: FormData):Promise<void> {
+  const userUuid = (await getServerSession(options))?.user?.userUuid || ''
+  const nickname = formData.get('nickname') as string
+  const profileImageUrl = formData.get('profileImageUrl') as string
 
-  // TODO: 업로드 처리, DB 저장 등 추가
+  const res = await instance.put('/user-info-service/api/v1/user', {
+    body: JSON.stringify({
+      userUuid,
+      profileImageUrl,
+      nickname,
+    }),
+    requireAuth: true,
+    revalidate: false,
+    isMultipart: true,
+  })
+
+  if (!res.isSuccess) {
+    throw new Error(`업데이트 실패: ${res.message}`)
+  }
+
+  redirect('/mypage')
 }

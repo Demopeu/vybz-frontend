@@ -15,7 +15,7 @@ export default function AvatarUploader({
   const [previewSrc, setPreviewSrc] = useState<string>(src);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { uploadFile, uploading, error } = useS3Uploader({
+  const { uploadFile, error } = useS3Uploader({
     onSuccess: (url) => {
       setPreviewSrc(url);
     },
@@ -72,8 +72,8 @@ export default function AvatarUploader({
         className="hidden"
         onChange={handleFileChange}
       />
-      {uploading && <p className="text-sm text-gray-500 mt-2">업로드 중...</p>}
       {error && <p className="text-sm text-red-500 mt-1">{error.message}</p>}
+      <input type="hidden" name="profileImageUrl" value={previewSrc} />
     </section>
   );
 }

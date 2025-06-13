@@ -13,7 +13,6 @@ import { options } from '@/app/api/auth/[...nextauth]/options';
 export default async function page() {
   const session = await getServerSession(options);
   const userInfo = await getUserInfo(session?.user?.userUuid || '');
-  console.log(userInfo);
   return (
     <main>
       <UserProfile userInfo={userInfo} />
