@@ -13,10 +13,8 @@ import { emojiData } from '@/data/EmojiData';
 
 export default function CommentDrawer({
   commentData,
-  children,
 }: {
   commentData: CommentDataType[];
-  children: React.ReactNode;
 }) {
   const { isOpen, close } = use(ModalContext);
   const { showEmojibox } = use(ChatContext);
@@ -38,8 +36,6 @@ export default function CommentDrawer({
 
   return (
     <div className="relative">
-      {children}
-
       <AnimatePresence>
         {isOpen && (
           <>

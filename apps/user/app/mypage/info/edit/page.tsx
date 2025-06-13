@@ -2,15 +2,22 @@ import AvatarUploader from '@/components/common/form/AvatarUploader';
 import NicknameUploder from '@/components/common/form/NicknameUploder';
 import TextareaUploader from '@/components/common/form/TextareaUploader';
 import { Button } from '@repo/ui/components/ui/button';
-import { ProfileData } from '@/data/profileData';
+import { getServerSession } from 'next-auth';
+import { options } from '@/app/api/auth/[...nextauth]/options';
 
-export default function Page() {
+export default async function Page() {
+  const session = await getServerSession(options);
+  const userUuid = session?.user?.userUuid || '';
+
   return (
     <main className="min-h-screen text-end px-7 pt-10 text-white font-poppins">
-      <AvatarUploader src={ProfileData.profileImage} />
-      <NicknameUploder defaultValue={ProfileData.nickname} className="mt-6" />
+      <AvatarUploader src={session?.user?.image || ''} userUuid={userUuid} />
+      <NicknameUploder
+        defaultValue={session?.user?.name || ''}
+        className="mt-6"
+      />
       <TextareaUploader
-        defaultValue={ProfileData.introduction}
+        defaultValue={session?.user?.email || ''}
         className="mt-12"
       />
 

@@ -3,23 +3,47 @@
 import Image from 'next/image';
 import { useState, useRef, useCallback } from 'react';
 import { Camera } from '@repo/ui/components/icons';
+import { useS3Uploader } from '@/hooks/useS3Uploader';
 
-export default function AvatarUploader({ src }: { src: string }) {
+export default function AvatarUploader({
+  src,
+  userUuid,
+}: {
+  src: string;
+  userUuid: string;
+}) {
   const [previewSrc, setPreviewSrc] = useState<string>(src);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setPreviewSrc(e.target?.result as string);
-        };
-        reader.readAsDataURL(file);
-      }
+  const { uploadFile, uploading, error } = useS3Uploader({
+    onSuccess: (url) => {
+      setPreviewSrc(url);
     },
-    []
+    onError: (err) => {
+      console.error('업로드 실패:', err.message);
+      alert('업로드에 실패했습니다.');
+    },
+  });
+
+  const handleFileChange = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreviewSrc(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      await uploadFile(file, {
+        type: 'avatar',
+        userUuid: userUuid,
+        originalName: file.name,
+        fileType: file.type,
+      });
+    },
+    [uploadFile, userUuid]
   );
 
   return (
@@ -48,6 +72,8 @@ export default function AvatarUploader({ src }: { src: string }) {
         className="hidden"
         onChange={handleFileChange}
       />
+      {uploading && <p className="text-sm text-gray-500 mt-2">업로드 중...</p>}
+      {error && <p className="text-sm text-red-500 mt-1">{error.message}</p>}
     </section>
   );
 }

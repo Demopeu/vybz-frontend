@@ -20,9 +20,8 @@ export default async function page() {
       <Vticket vticketCount={userInfo.vticketCount} />
       <MypageButtonBox userInfo={userInfo} />
       <UseModal>
-        <CommentDrawer commentData={CommentsData}>
-          <FanFeedSection initialFeeds={FanFeedData} />
-        </CommentDrawer>
+        <FanFeedSection initialFeeds={FanFeedData} />
+        <CommentDrawer commentData={CommentsData} />
       </UseModal>
     </main>
   );

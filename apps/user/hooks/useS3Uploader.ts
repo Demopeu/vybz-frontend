@@ -12,7 +12,7 @@ export interface UseS3UploaderOptions {
 
 export interface S3UploadMeta {
   type: string;
-  userId: string;
+  userUuid: string;
   originalName: string;
   fileType: string;
 }
