@@ -15,3 +15,7 @@ export function formatNumberToKm(num: number): string {
   return num.toString();
 }
 
+export function formatAmount(amount: number, unit: string): string {
+  return amount.toLocaleString('ko-KR') + unit;
+}
+
