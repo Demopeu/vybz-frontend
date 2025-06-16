@@ -27,3 +27,4 @@ export { MoreVertical } from './MoreVertical';
 export { ChevronDown } from './ChevronDown';
 export { ChevronRight } from './ChevronRight';
 export { MoreHorizontal } from './MoreHorizontal';
+export { Trash } from './Trash';
