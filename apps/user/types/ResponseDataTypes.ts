@@ -131,3 +131,27 @@ export type UserInfoDataType = {
   subscribeCount: number;
   vticketCount: number;
 }
+
+export type PurchaseHistoryDataType = {
+  id: string;
+  date: string;
+  vticketCount: number;
+  amount: number;
+}
+
+export type UseHistoryDataType = {
+  id: string;
+  date: string;
+  vticketCount: number;
+  buskerName: string;
+  buskerProfileImage: string;
+  buskerUuid: string;
+  message: string;
+}
+
+export type HistoryDataType = {
+ type: 'purchase' | 'use';
+ data: PurchaseHistoryDataType[] | UseHistoryDataType[];
+ page: number;
+ totalPages: number;
+}
