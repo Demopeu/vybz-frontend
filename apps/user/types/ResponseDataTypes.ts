@@ -155,3 +155,13 @@ export type HistoryDataType = {
  page: number;
  totalPages: number;
 }
+
+export type NotificationDataType = {
+  id: string;
+  date: string;
+  buskerName: string;
+  buskerProfileImage: string;
+  buskerUuid: string;
+  feedId: string;
+  message: string;
+}

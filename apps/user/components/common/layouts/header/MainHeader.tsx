@@ -9,20 +9,24 @@ export default function MainHeader() {
         <p className="font-monoton text-3xl text-white">VYBZ</p>
       </Link>
       <div className="space-x-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="bg-transparent text-white"
-        >
-          <Bell className="!w-6 !h-6" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="bg-transparent text-white"
-        >
-          <Send className="!w-7 !h-7" />
-        </Button>
+        <Link href="/notifications">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="bg-transparent text-white"
+          >
+            <Bell className="!w-7 !h-7" />
+          </Button>
+        </Link>
+        <Link href="/chat">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="bg-transparent text-white"
+          >
+            <Send className="!w-7 !h-7" />
+          </Button>
+        </Link>
       </div>
     </header>
   );
