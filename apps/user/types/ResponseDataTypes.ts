@@ -165,3 +165,18 @@ export type NotificationDataType = {
   feedId: string;
   message: string;
 }
+
+export type ChatListType = {
+  chatId: string;
+  buskerName: string;
+  buskerProfileImage: string;
+  lastMessage: string;
+  lastMessageTime: string;
+  unreadCount: number;
+}
+
+export type ChatListDataType = {
+ data: ChatListType[] | [];
+ page: number;
+ totalPages: number;
+}
