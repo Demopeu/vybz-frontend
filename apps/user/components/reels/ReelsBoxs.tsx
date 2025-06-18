@@ -34,7 +34,7 @@ export default function ReelsBoxs({
       <p>{formatNumberToKm(reelsCommentCount)}</p>
 
       <Link
-        href="/chat"
+        href="/chat/list"
         className="w-12 h-12 border-none bg-transparent [&_svg]:size-10 mt-3 inline-block"
       >
         <Send className="fill-none stroke-white stroke-2" />
