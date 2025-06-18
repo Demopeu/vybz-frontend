@@ -1,3 +1,10 @@
+import dayjs from 'dayjs';
+import isToday from 'dayjs/plugin/isToday';
+import isYesterday from 'dayjs/plugin/isYesterday';
+
+dayjs.extend(isToday);
+dayjs.extend(isYesterday);
+
 export function formatNumberToK(num: number): string {
   if (num >= 1000) {
     return (num / 1000).toFixed(1) + 'K';
@@ -20,18 +27,17 @@ export function formatAmount(amount: number, unit: string): string {
 }
 
 export function categorizeAndFormatDate(dateString: string) {
-  const today = new Date();
-  const targetDate = new Date(dateString);
-  const diffTime = today.getTime() - targetDate.getTime();
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const targetDate = dayjs(dateString);
+  const today = dayjs();
+  const diffDays = today.diff(targetDate, 'day');
   
   let category = '';
   let timeAgo = '';
   
-  if (diffDays === 0) {
+  if (targetDate.isToday()) {
     category = '오늘';
     timeAgo = '오늘';
-  } else if (diffDays === 1) {
+  } else if (targetDate.isYesterday()) {
     category = '어제';
     timeAgo = '1일 전';
   } else if (diffDays <= 7) {
@@ -49,15 +55,13 @@ export function categorizeAndFormatDate(dateString: string) {
 }
 
 export function formatTimeAgo(dateString: string) {
-  const today = new Date();
-  const targetDate = new Date(dateString);
-
-  const diffTime = today.getTime() - targetDate.getTime();
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const targetDate = dayjs(dateString);
+  const today = dayjs();
+  const diffDays = today.diff(targetDate, 'day');
 
   if (diffDays === 0) {
-    const hours = targetDate.getHours();
-    const minutes = targetDate.getMinutes().toString().padStart(2, '0');
+    const hours = targetDate.hour();
+    const minutes = targetDate.minute().toString().padStart(2, '0');
     const isAM = hours < 12;
 
     const formattedHour = isAM
@@ -86,4 +90,10 @@ export function shortUnreadCount(count: number) {
     return '300+';
   }
   return count.toString();
+}
+
+export function getDaysFromToday(dateString: string): number {
+  const today = dayjs().startOf('day');
+  const targetDate = dayjs(dateString).startOf('day');
+  return today.diff(targetDate, 'day');
 }

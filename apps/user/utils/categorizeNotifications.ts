@@ -1,5 +1,3 @@
-// utils/categorizeNotifications.ts
-
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import relativeTime from 'dayjs/plugin/relativeTime';
