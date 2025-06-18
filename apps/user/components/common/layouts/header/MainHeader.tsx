@@ -18,7 +18,7 @@ export default function MainHeader() {
             <Bell className="!w-7 !h-7" />
           </Button>
         </Link>
-        <Link href="/chat">
+        <Link href="/chat/list">
           <Button
             variant="ghost"
             size="icon"

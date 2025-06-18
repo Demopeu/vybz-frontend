@@ -47,3 +47,43 @@ export function categorizeAndFormatDate(dateString: string) {
   
   return { category, timeAgo };
 }
+
+export function formatTimeAgo(dateString: string) {
+  const today = new Date();
+  const targetDate = new Date(dateString);
+
+  const diffTime = today.getTime() - targetDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) {
+    const hours = targetDate.getHours();
+    const minutes = targetDate.getMinutes().toString().padStart(2, '0');
+    const isAM = hours < 12;
+
+    const formattedHour = isAM
+      ? hours === 0 ? 12 : hours
+      : hours > 12 ? hours - 12 : hours;
+
+    const ampm = isAM ? '오전' : '오후';
+
+    return `${ampm} ${formattedHour}:${minutes}`;
+  } else if (diffDays === 1) {
+    return '어제';
+  } else {
+    return `${diffDays}일 전`;
+  }
+}
+
+export function shortString(str: string, maxLength: number = 10) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.slice(0, maxLength) + '...';
+}
+
+export function shortUnreadCount(count: number) {
+  if (count > 300) {
+    return '300+';
+  }
+  return count.toString();
+}

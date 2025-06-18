@@ -1,0 +1,14 @@
+import SearchBar from '@/components/common/form/SearchBar';
+import ChatList from '@/components/chat/ChatList';
+import { ChatListData } from '@/data/chatData';
+
+export default function page() {
+  return (
+    <main className="font-poppins space-y-10">
+      <div className="pt-20 bg-blue-400 pb-4 rounded-b-4xl px-4">
+        <SearchBar placeholder="검색어를 입력해주세요" />
+      </div>
+      <ChatList chatListData={ChatListData} />
+    </main>
+  );
+}
