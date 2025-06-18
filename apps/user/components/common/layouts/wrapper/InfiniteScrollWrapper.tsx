@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { InfiniteScrollProps } from '@/types/InfiniteScrollTypes';
-import Spinner from '@/components/common/Spinner';
+import Spinner from '@/components/common/spinners/Spinner';
 
 export default function InfiniteScrollWrapper(props: InfiniteScrollProps) {
   const { children, hasNextPage, isLoading, onIntersect } = props;

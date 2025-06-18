@@ -1,4 +1,4 @@
-import { ChatListType, ChatListDataType } from '@/types/ResponseDataTypes';
+import { ChatListType, ChatListDataType, FollowingDataType } from '@/types/ResponseDataTypes';
 
 export const dummyChatList: ChatListType[] = [
   {
@@ -64,3 +64,56 @@ export const ChatListData: ChatListDataType = {
  page: 1,
  totalPages: 10
 };
+
+export const InitialChatSearchData: FollowingDataType[] = [
+  {
+    buskerUuid: '1',
+    nickname: '카리나',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+  {
+    buskerUuid: '2',
+    nickname: '이지은',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+  {
+    buskerUuid: '3',
+    nickname: '윈터',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+  {
+    buskerUuid: '4',
+    nickname: '윈터',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+  {
+    buskerUuid: '5',
+    nickname: '윈터',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+  {
+    buskerUuid: '6',
+    nickname: '윈터',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+  {
+    buskerUuid: '7',
+    nickname: '윈터',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+  {
+    buskerUuid: '8',
+    nickname: '윈터',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+  {
+    buskerUuid: '9',
+    nickname: '윈터',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+  {
+    buskerUuid: '10',
+    nickname: '윈터',
+    profileImageUrl: '/buskerUrl.jpg',
+  },
+];
