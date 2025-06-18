@@ -5,6 +5,7 @@ import { getSearchResults } from '@/services/chat-services';
 import UserCard from '@/components/common/card/UserCard';
 import { FollowingDataType } from '@/types/ResponseDataTypes';
 import SearchSpinner from '@/components/common/spinners/SearchSpinner';
+import NoSearchBox from './NoSearchBox';
 
 export default function SearchResultList({
   searchResults,
@@ -33,14 +34,27 @@ export default function SearchResultList({
     <section className="mt-10 space-y-6 text-white">
       {loading ? (
         <SearchSpinner size={10} color="white" classname="px-3" />
+      ) : searchResults === '' ? (
+        <>
+          <h2 className="text-xl font-semibold mb-7">추천</h2>
+          {initialData.map((result) => (
+            <UserCard
+              key={result.buskerUuid}
+              name={result.nickname}
+              image={result.profileImageUrl}
+              buskerId={result.buskerUuid}
+            />
+          ))}
+        </>
       ) : results.length === 0 ? (
-        <div>검색 결과가 없습니다</div>
+        <NoSearchBox />
       ) : (
         results.map((result) => (
           <UserCard
             key={result.buskerUuid}
             name={result.nickname}
             image={result.profileImageUrl}
+            buskerId={result.buskerUuid}
           />
         ))
       )}

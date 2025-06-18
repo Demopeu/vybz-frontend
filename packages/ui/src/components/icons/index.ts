@@ -29,3 +29,4 @@ export { ChevronRight } from './ChevronRight';
 export { MoreHorizontal } from './MoreHorizontal';
 export { Trash } from './Trash';
 export { NotePencil } from './NotePencil';
+export { SearchX } from './SearchX';
