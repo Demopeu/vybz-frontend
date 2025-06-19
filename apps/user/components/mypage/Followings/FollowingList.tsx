@@ -64,7 +64,7 @@ export default function FollowingList({
     <InfiniteScrollWrapper
       hasNextPage={hasNextPage}
       isLoading={isLoading}
-      onIntersect={fetchMore}
+      fetchMore={fetchMore}
     >
       <section className="mt-4 font-poppins text-white space-y-4">
         {followings.map((following) => (

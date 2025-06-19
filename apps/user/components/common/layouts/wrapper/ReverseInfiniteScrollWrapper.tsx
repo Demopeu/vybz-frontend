@@ -8,13 +8,12 @@ export default function ReverseInfiniteScrollWrapper({
   children,
   hasNextPage,
   isLoading,
-  onIntersect,
+  fetchMore,
 }: InfiniteScrollProps) {
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const prevScrollHeightRef = useRef<number>(0);
 
-  // observe sentinel (위쪽 도달 시 fetchMore)
   useEffect(() => {
     if (!hasNextPage || isLoading) return;
 
@@ -24,7 +23,7 @@ export default function ReverseInfiniteScrollWrapper({
           // 기존 scrollHeight 저장
           prevScrollHeightRef.current =
             scrollContainerRef.current?.scrollHeight ?? 0;
-          onIntersect(); // fetchMore 호출
+          fetchMore(); // fetchMore 호출
         }
       },
       {
@@ -39,7 +38,7 @@ export default function ReverseInfiniteScrollWrapper({
     return () => {
       if (sentinel) observer.unobserve(sentinel);
     };
-  }, [hasNextPage, isLoading, onIntersect]);
+  }, [hasNextPage, isLoading, fetchMore]);
 
   // 새 데이터가 위에 추가되면 스크롤 위치 보정
   useEffect(() => {

@@ -3,7 +3,7 @@
 import ChatMessageItem from '@/components/chat/rooms/ChatMessageItem';
 import { ChatMessageListType } from '@/types/ResponseDataTypes';
 
-export default function ChatList({
+export default function ChatMessageList({
   chatListData,
   userUuid,
 }: {

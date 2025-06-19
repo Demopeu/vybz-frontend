@@ -30,7 +30,7 @@ export default function InfiniteChatList({
     <InfiniteScrollWrapper
       hasNextPage={hasNextPage}
       isLoading={isLoading}
-      onIntersect={fetchMore}
+      fetchMore={fetchMore}
     >
       {AllChatList.map((item) => (
         <ChatListItem key={item.chatId} chatListItem={item} />
