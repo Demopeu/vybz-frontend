@@ -180,3 +180,19 @@ export type ChatListDataType = {
  page: number;
  totalPages: number;
 }
+
+export type ChatMessageType = {
+  id: string;
+  senderUuid: string;
+  messageType: 'TEXT' | 'VIDEO' | 'IMAGE';
+  content: string;
+  read: boolean;
+  sentAt: string;
+}
+
+export type ChatMessageListType = {
+  content: ChatMessageType[];
+  nextCursor: string | null;
+  hasNext: boolean;
+  pageSize: number;
+};
