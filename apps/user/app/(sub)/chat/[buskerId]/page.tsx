@@ -10,7 +10,7 @@ import { unstable_ViewTransition as ViewTransition } from 'react';
 
 export default async function page() {
   const userUuid = (await getServerSession(options))?.user.userUuid || '';
-
+  console.log(userUuid);
   return (
     <div className="relative min-w-80 h-screen text-white">
       <ChatHeader />

@@ -48,7 +48,7 @@ export default function ChatHeader() {
         </Link>
       </div>
       <div className="flex-2/5 bg-blue-400 rounded-tl-4xl border-0">
-        <div className="flex items-center justify-end space-x-2 pr-10 py-4.5 bg-background rounded-bl-4xl">
+        <div className="flex items-center justify-end space-x-4 pr-10 py-4.5 bg-background rounded-bl-4xl">
           <Button className="[&_svg]:size-7 p-1 border-2 border-white rounded-full shrink-0">
             <Bell />
           </Button>

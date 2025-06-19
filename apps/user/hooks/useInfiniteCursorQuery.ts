@@ -13,22 +13,17 @@ export function useInfiniteCursorQuery<TPage, TItem>({
   selectItems: (pages: TPage[]) => TItem[];
   initialData: TPage;
 }) {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isPending,
-  } = useInfiniteQuery<TPage>({
-    queryKey: [queryKey],
-    queryFn: ({ pageParam = null }) => queryFn(pageParam as string | null),
-    initialPageParam: null,
-    getNextPageParam: getNextCursor,
-    initialData: {
-      pages: [initialData],
-      pageParams: [null],
-    },
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
+    useInfiniteQuery<TPage>({
+      queryKey: [queryKey],
+      queryFn: ({ pageParam = null }) => queryFn(pageParam as string | null),
+      initialPageParam: null,
+      getNextPageParam: getNextCursor,
+      initialData: {
+        pages: [initialData],
+        pageParams: [null],
+      },
+    });
 
   return {
     items: data ? selectItems(data.pages) : [],

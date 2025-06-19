@@ -32,8 +32,8 @@ export default function InfiniteChatList({
       isLoading={isLoading}
       fetchMore={fetchMore}
     >
-      {AllChatList.map((item) => (
-        <ChatListItem key={item.chatId} chatListItem={item} />
+      {AllChatList.map((item, index) => (
+        <ChatListItem key={`${item.chatId}-${index}`} chatListItem={item} />
       ))}
     </InfiniteScrollWrapper>
   );
