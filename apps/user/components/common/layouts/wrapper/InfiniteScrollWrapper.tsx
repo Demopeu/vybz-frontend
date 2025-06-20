@@ -10,6 +10,7 @@ export default function InfiniteScrollWrapper(props: InfiniteScrollProps) {
 
   useEffect(() => {
     if (!hasNextPage || isLoading) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) fetchMore();

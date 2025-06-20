@@ -67,7 +67,7 @@ export const dummyChatList: ChatListType[] = [
 ];
 
 export const ChatListData: ChatListDataType = {
-  data: dummyChatList,
+  data: dummyChatList as ChatListType[],
   page: 1,
   totalPages: 10,
 };

@@ -22,7 +22,7 @@ export default function ChatMessageList({
     hasMore,
     isLoading,
   } = useInfiniteCursorQuery<ChatMessageListType, ChatMessageType>({
-    queryKey: 'chatList',
+    queryKey: 'chatMessageList',
     queryFn: async (cursor: string | null) => {
       const response = await getChatMessages(cursor);
       return response.data;

@@ -1,7 +1,8 @@
 import { unstable_ViewTransition as ViewTransition } from 'react';
 import SearchBar from '@/components/common/form/SearchBar';
-import ChatList from '@/components/chat/ChatList';
 import { ChatListData } from '@/data/chatData';
+import ChatSectionHeader from '@/components/common/layouts/header/ChatSectionHeader';
+import InfiniteChatList from '@/components/chat/InfiniteChatList';
 
 export default function page() {
   return (
@@ -11,7 +12,13 @@ export default function page() {
           <SearchBar placeholder="검색어를 입력해주세요" />
         </div>
       </ViewTransition>
-      <ChatList chatListData={ChatListData} />
+      <section className="px-8 text-white">
+        <ChatSectionHeader />
+        <InfiniteChatList
+          chatList={ChatListData.data}
+          page={ChatListData.page}
+        />
+      </section>
     </main>
   );
 }
