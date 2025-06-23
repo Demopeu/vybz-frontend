@@ -4,4 +4,6 @@ export * from './input';
 export * from './switch';
 export * from './badge';
 export * from './avatar';
-
+export * from './card';
+export * from './tabs';
+export * from './textarea';

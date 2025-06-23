@@ -11,10 +11,12 @@ export default function MainHeader() {
   return (
     <header className="bg-div-background border-div-background px-6 py-4 flex items-center justify-between space-x-6 text-white font-poppins">
       <div className="flex items-center space-x-4 flex-1">
-        <Image src="/logo/logo.png" alt="vybzLogo" width={100} height={100} />
-        <h1 className="font-monoton text-3xl">vybz</h1>
+        <Link href="/main" className="flex items-center space-x-2">
+          <Image src="/logo/logo.png" alt="vybzLogo" width={100} height={100} />
+          <h1 className="font-monoton text-3xl">vybz</h1>
+        </Link>
         <nav className="ml-16 space-x-8 text-gray-300 text-xl">
-          <Link href="/main" className="hover:text-blue-300 transition-colors">
+          <Link href="/about" className="hover:text-blue-300 transition-colors">
             About
           </Link>
           <Link
