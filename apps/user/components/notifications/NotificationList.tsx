@@ -57,7 +57,7 @@ export default function NotificationList({
 
   return (
     <InfiniteScrollWrapper
-      onIntersect={fetchMore}
+      fetchMore={fetchMore}
       hasNextPage={hasMore}
       isLoading={isLoading}
     >

@@ -10,6 +10,7 @@ export const ModalContext = createContext<ModalContextType>(
 export function UseModal({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [feedId, setFeedId] = useState('');
+  const [ModalType, setModalType] = useState<'image' | 'video' | null>(null);
 
   const open = useCallback((feedId: string) => {
     setFeedId(feedId);
@@ -17,7 +18,14 @@ export function UseModal({ children }: { children: React.ReactNode }) {
   }, []);
   const close = useCallback(() => setIsOpen(false), []);
 
-  const value: ModalContextType = { isOpen, feedId, open, close };
+  const value: ModalContextType = {
+    isOpen,
+    feedId,
+    open,
+    close,
+    ModalType,
+    setModalType,
+  };
 
   return <ModalContext value={value}>{children}</ModalContext>;
 }

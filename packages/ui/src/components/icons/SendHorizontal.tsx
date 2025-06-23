@@ -3,10 +3,12 @@ import * as React from 'react';
 export const SendHorizontal = ({
   width = 24,
   height = 24,
+  fill = 'white',
   ...props
 }: {
   width?: number | string;
   height?: number | string;
+  fill?: number | string;
 } & React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +32,7 @@ export const SendHorizontal = ({
 
     <path
       d="M22 12L2 20L7 12L2 4L22 12Z"
-      fill="white"
+      fill={fill}
       mask="url(#cut-middle-line)"
     />
   </svg>

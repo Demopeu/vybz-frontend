@@ -5,14 +5,15 @@ import { InfiniteScrollProps } from '@/types/InfiniteScrollTypes';
 import Spinner from '@/components/common/spinners/Spinner';
 
 export default function InfiniteScrollWrapper(props: InfiniteScrollProps) {
-  const { children, hasNextPage, isLoading, onIntersect } = props;
+  const { children, hasNextPage, isLoading, fetchMore } = props;
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!hasNextPage || isLoading) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) onIntersect();
+        if (entry?.isIntersecting) fetchMore();
       },
       { threshold: 1.0 }
     );
@@ -23,7 +24,7 @@ export default function InfiniteScrollWrapper(props: InfiniteScrollProps) {
     return () => {
       if (sentinel) observer.unobserve(sentinel);
     };
-  }, [hasNextPage, isLoading, onIntersect]);
+  }, [hasNextPage, isLoading, fetchMore]);
 
   return (
     <>

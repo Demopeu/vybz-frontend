@@ -71,7 +71,7 @@ export default function EmojiBox({
   return (
     <div
       className={cn(
-        'z-50',
+        'z-50 w-full',
         isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
       )}
     >

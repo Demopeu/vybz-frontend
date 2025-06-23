@@ -31,7 +31,7 @@ export default function FanFeedSection({
       <InfiniteScrollWrapper
         hasNextPage={hasNextPage}
         isLoading={isLoading}
-        onIntersect={fetchMore}
+        fetchMore={fetchMore}
       >
         <div className="mt-2 space-y-6 border-t border-gray-300 pt-6">
           {feeds.map((feed) => (

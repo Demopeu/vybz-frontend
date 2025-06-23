@@ -28,12 +28,10 @@ export function useInfiniteScrollQuery<T>({
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.length < pageSize ? undefined : allPages.length + 1,
-    initialData: initialData
-      ? {
-          pages: [initialData],
-          pageParams: [1],
-        }
-      : undefined,
+    initialData: {
+      pages: [initialData ?? []],
+      pageParams: [1],
+    },
     refetchOnWindowFocus,
   });
 

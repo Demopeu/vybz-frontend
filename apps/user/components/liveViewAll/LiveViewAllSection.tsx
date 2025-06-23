@@ -37,7 +37,7 @@ export default function LiveViewAllSection({
     <InfiniteScrollWrapper
       hasNextPage={hasNextPage}
       isLoading={isLoading}
-      onIntersect={fetchMore}
+      fetchMore={fetchMore}
     >
       <section aria-label="Live busker list" className="pt-10">
         <ul className="grid grid-cols-3 gap-3">

@@ -10,4 +10,6 @@ export type ModalContextType = {
   feedId: string;
   open: (feedId: string) => void;
   close: () => void;
+  ModalType: 'image' | 'video' | null;
+  setModalType: React.Dispatch<React.SetStateAction<'image' | 'video' | null>>;
 };

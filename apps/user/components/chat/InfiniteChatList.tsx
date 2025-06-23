@@ -5,11 +5,12 @@ import { useInfiniteScrollQuery } from '@/hooks/useInfiniteFetchQuery';
 import InfiniteScrollWrapper from '@/components/common/layouts/wrapper/InfiniteScrollWrapper';
 import ChatListItem from '@/components/chat/ChatListItem';
 import { getChatList } from '@/services/chat-services/chat-list-services';
-
 export default function InfiniteChatList({
   chatList,
+  page,
 }: {
-  chatList: ChatListType[];
+  chatList?: ChatListType[];
+  page: number;
 }) {
   const {
     items: AllChatList,
@@ -23,17 +24,17 @@ export default function InfiniteChatList({
       return { content: response.data };
     },
     initialData: chatList,
-    pageSize: chatList.length,
+    pageSize: page || 10,
   });
 
   return (
     <InfiniteScrollWrapper
       hasNextPage={hasNextPage}
       isLoading={isLoading}
-      onIntersect={fetchMore}
+      fetchMore={fetchMore}
     >
-      {AllChatList.map((item) => (
-        <ChatListItem key={item.chatId} chatListItem={item} />
+      {AllChatList.map((item, index) => (
+        <ChatListItem key={`${item.chatId}-${index}`} chatListItem={item} />
       ))}
     </InfiniteScrollWrapper>
   );

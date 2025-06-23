@@ -1,3 +1,5 @@
+'use client';
+
 import { ChatListType } from '@/types/ResponseDataTypes';
 import UnreadBadge from '@/components/common/badge/UnreadBadge';
 import Image from 'next/image';
