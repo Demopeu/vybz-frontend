@@ -7,8 +7,10 @@ import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { fetchFanFeeds } from '@/services/fan-feed-services/fan-feed-services';
 
 export default function FanFeedSection({
+  userName,
   initialFeeds,
 }: {
+  userName?: string;
   initialFeeds: FanFeedDataType[];
 }) {
   const {
@@ -25,8 +27,12 @@ export default function FanFeedSection({
 
   return (
     <section className="mx-auto px-4 py-6 mt-4">
-      <h2 className="text-2xl font-bold text-white mb-1">My Feed</h2>
-      <p className="text-gray-400">내가 좋아하는 버스커와 추억을 공유해요</p>
+      <h2 className="text-2xl font-bold text-white mb-1">
+        {userName ? `${userName}'s` : 'My'} Feed
+      </h2>
+      <p className="text-gray-400">
+        {userName ? '' : '내가'} 좋아하는 버스커와 추억을 공유해요
+      </p>
 
       <InfiniteScrollWrapper
         hasNextPage={hasNextPage}

@@ -132,6 +132,13 @@ export type UserInfoDataType = {
   vticketCount: number;
 }
 
+export interface OtherUserDataType extends UserInfoDataType {
+  buskerName: string;
+  buskerProfileImage: string;
+  createdAt: string;
+}
+
+
 export type PurchaseHistoryDataType = {
   id: string;
   date: string;
