@@ -129,8 +129,8 @@ export const ChatMessageData: ChatMessageType[] = [
   {
     id: '10',
     senderUuid: '2b29e022-18e8-4aab-a62a-796af4f4bb78',
-    messageType: 'TEXT',
-    content: '제 글 왜 안 읽어주시나요?',
+    messageType: 'IMAGE',
+    content: '/buskerUrl.jpg',
     read: false,
     sentAt: '2025-06-17 15:06:15',
   },
