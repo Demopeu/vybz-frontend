@@ -10,7 +10,7 @@ import Image from 'next/image';
 export default function MainHeader() {
   return (
     <header className="bg-div-background border-div-background px-6 py-4 flex items-center justify-between space-x-6 text-white font-poppins">
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 flex-1">
         <Image src="/logo/logo.png" alt="vybzLogo" width={100} height={100} />
         <h1 className="font-monoton text-3xl">vybz</h1>
         <nav className="ml-16 space-x-8 text-gray-300 text-xl">
@@ -38,7 +38,7 @@ export default function MainHeader() {
         </nav>
       </div>
       <div className="flex items-center space-x-4">
-        <Badge className="bg-blue-300 text-gray-900 font-semibold px-4 py-2 rounded-full">
+        <Badge className="bg-blue-300 text-gray-900 font-semibold px-4 py-2.5 rounded-full">
           BUSKER ADMIN
         </Badge>
         <Avatar className="size-10 ring-2 ring-blue-300">

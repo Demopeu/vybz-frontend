@@ -30,3 +30,7 @@ export { MoreHorizontal } from './MoreHorizontal';
 export { Trash } from './Trash';
 export { NotePencil } from './NotePencil';
 export { SearchX } from './SearchX';
+export { CalendarCheck } from './CalendarCheck';
+export { Phone } from './Phone';
+export { Mail } from './Mail';
+export { Globe } from './Globe';
