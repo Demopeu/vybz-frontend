@@ -1,16 +1,19 @@
 import InputBox from '@/components/common/InputBox';
+import { BuskerSNSResponseType } from '@/types/ResponseDataTypes';
 
-export default function SNSBox({
-  initialInstagram,
-  initialYoutube,
-  initialTiktok,
-  initialSoundcloud,
-}: {
-  initialInstagram?: string;
-  initialYoutube?: string;
-  initialTiktok?: string;
-  initialSoundcloud?: string;
-}) {
+interface SNSBoxProps {
+  SNSData: BuskerSNSResponseType[];
+}
+
+export default function SNSBox({ SNSData }: SNSBoxProps) {
+  const getSNSUrl = (snsType: string) => {
+    const snsItem = SNSData.find(
+      (item) =>
+        item.snsUrl && item.snsUrl.toLowerCase().includes(snsType.toLowerCase())
+    );
+    return snsItem?.snsUrl || '';
+  };
+
   return (
     <section className="space-y-4">
       <h3 className="block text-blue-300 text-lg font-semibold mb-2">
@@ -21,25 +24,25 @@ export default function SNSBox({
           id="instagram"
           label="Instagram"
           placeholder="https://instagram.com/username"
-          defaultValue={initialInstagram ? initialInstagram : ''}
+          defaultValue={getSNSUrl('instagram')}
         />
         <InputBox
           id="youtube"
           label="YouTube"
           placeholder="https://youtube.com/channel/username"
-          defaultValue={initialYoutube ? initialYoutube : ''}
+          defaultValue={getSNSUrl('youtube')}
         />
         <InputBox
           id="tiktok"
           label="TikTok"
           placeholder="https://tiktok.com/@username"
-          defaultValue={initialTiktok ? initialTiktok : ''}
+          defaultValue={getSNSUrl('tiktok')}
         />
         <InputBox
           id="soundcloud"
           label="SoundCloud"
           placeholder="https://soundcloud.com/username"
-          defaultValue={initialSoundcloud ? initialSoundcloud : ''}
+          defaultValue={getSNSUrl('soundcloud')}
         />
       </div>
     </section>
