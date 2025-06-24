@@ -20,30 +20,27 @@ export default function SNSBox({ SNSData }: SNSBoxProps) {
         SNS 링크
       </h3>
       <div className="grid grid-cols-1 gap-4">
-        <InputBox
-          id="instagram"
-          label="Instagram"
-          placeholder="https://instagram.com/username"
-          defaultValue={getSNSUrl('instagram')}
-        />
-        <InputBox
-          id="youtube"
-          label="YouTube"
-          placeholder="https://youtube.com/channel/username"
-          defaultValue={getSNSUrl('youtube')}
-        />
-        <InputBox
-          id="tiktok"
-          label="TikTok"
-          placeholder="https://tiktok.com/@username"
-          defaultValue={getSNSUrl('tiktok')}
-        />
-        <InputBox
-          id="soundcloud"
-          label="SoundCloud"
-          placeholder="https://soundcloud.com/username"
-          defaultValue={getSNSUrl('soundcloud')}
-        />
+        {['instagram', 'youtube', 'tiktok', 'soundcloud'].map((snsType) => (
+          <div key={snsType}>
+            <InputBox
+              id={snsType}
+              label={snsType.charAt(0).toUpperCase() + snsType.slice(1)}
+              placeholder={`${snsType.charAt(0).toUpperCase() + snsType.slice(1)} URL`}
+              defaultValue={getSNSUrl(snsType)}
+            />
+            {SNSData.find((item) =>
+              item.snsUrl.toLowerCase().includes(snsType.toLowerCase())
+            ) && (
+              <input
+                type="hidden"
+                name={`old_${snsType}`}
+                value={SNSData.find((item) =>
+                  item.snsUrl.toLowerCase().includes(snsType.toLowerCase())
+                )?.snsUrl}
+              />
+            )}
+          </div>
+        ))}
       </div>
     </section>
   );

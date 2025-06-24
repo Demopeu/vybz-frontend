@@ -13,7 +13,7 @@ export default function CategoryBox() {
   };
 
   const toggleCategory = (categoryId: number) => {
-    if (categoryId === 1) return; // Skip 'All' category
+    if (categoryId === 1) return;
 
     const newGenres = artistGenre.includes(categoryId)
       ? artistGenre.filter((id) => id !== categoryId)

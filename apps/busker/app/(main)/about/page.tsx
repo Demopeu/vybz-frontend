@@ -30,7 +30,7 @@ export default async function page() {
           profileImage: buskerInfoReadService.profileImageUrl,
         }}
       >
-        <MobileSection className="flex-1 initialData={buskerInfoReadService}" />
+        <MobileSection className="flex-1" initialData={buskerInfoReadService} />
         <EditSection
           className="flex-1"
           SNSData={buskerSNSService}

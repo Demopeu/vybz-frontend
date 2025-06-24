@@ -44,6 +44,19 @@ export type BuskerSNSResponseType = {
   snsUrl: string;
 }
 
+export type BuskerUpdateProfileRequestType = {
+  buskerUuid: string;
+  profileImageUrl?: string;
+  nickname: string;
+  introduction: string;
+}
+
+export type BuskerUpdateSNSRequestType = {
+  buskerUuid: string;
+  oldSnsUrl?: string;
+  snsUrl: string;
+}
+
 export type BuskerUpdateProfileResponseType = {
   buskerUuid: string;
   profileImageUrl: string;
@@ -53,6 +66,6 @@ export type BuskerUpdateProfileResponseType = {
 
 export type BuskerUpdateSNSResponseType = {
   buskerUuid: string;
-  oldSnsUrl: string;
+  oldSnsUrl?: string;
   newSnsUrl: string;
 }
