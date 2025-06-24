@@ -20,7 +20,7 @@ export const options: NextAuthOptions = {
         //console.log('credentials', credentials);
         try {
           const response = await fetch(
-            `${process.env.BASE_API_URL}/auth-service/sign-in`,
+            `${process.env.BASE_API_URL}/busker-auth-service/api/v1/busker/sign-in`,
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -52,6 +52,10 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
+      if (!profile) {
+        return true;
+      }
+
       if (!profile || !account) {
         throw new Error('OAuthProfileMissing');
       }
