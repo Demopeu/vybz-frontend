@@ -4,9 +4,17 @@ import { Button } from '@repo/ui/components/ui/button';
 import { CategoryData } from '@/data/categoryData';
 import { FormContext } from '@/context/FormContext';
 import { use } from 'react';
+import { BuskerCategoryResponseType } from '@/types/ResponseDataTypes';
 
-export default function CategoryBox() {
+export default function CategoryBox({
+  buskerCategoryList,
+}: {
+  buskerCategoryList: BuskerCategoryResponseType[];
+}) {
   const { artistGenre, setArtistGenre } = use(FormContext);
+  
+  // 초기 카테고리 ID 목록 추출
+  const initialCategoryIds = buskerCategoryList.map(item => item.categoryId);
 
   const isSelected = (categoryId: number) => {
     return artistGenre.includes(categoryId);
@@ -45,6 +53,20 @@ export default function CategoryBox() {
           )
         )}
       </div>
+      
+      {/* 초기 카테고리 상태를 폼으로 전송하기 위한 필드 */}
+      <input 
+        type="hidden" 
+        name="initialCategories" 
+        value={JSON.stringify(initialCategoryIds)} 
+      />
+      
+      {/* 현재 상태를 폼으로 전송하기 위한 필드 */}
+      <input 
+        type="hidden" 
+        name="artistGenre" 
+        value={JSON.stringify(artistGenre)} 
+      />
     </section>
   );
 }

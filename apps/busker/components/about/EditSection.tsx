@@ -12,20 +12,26 @@ import CategoryBox from '@/components/about/boxs/CategoryBox';
 import NameBox from '@/components/about/boxs/NameBox';
 import Description from '@/components/about/boxs/Description';
 import { cn } from '@repo/ui/lib/utils';
-import { BuskerSNSResponseType } from '@/types/ResponseDataTypes';
+import {
+  BuskerSNSResponseType,
+  BuskerCategoryResponseType,
+} from '@/types/ResponseDataTypes';
 import {
   updateProfile,
   updateSNS,
+  updateCategories,
 } from '@/services/info-services/BuskerInfoReadService';
 
 export default function EditSection({
   className,
   SNSData,
   buskerUuid,
+  buskerCategoryList,
 }: {
   className?: string;
   SNSData: BuskerSNSResponseType[];
   buskerUuid: string;
+  buskerCategoryList: BuskerCategoryResponseType[];
 }) {
   return (
     <Card className={cn('bg-div-background border-div-background', className)}>
@@ -43,13 +49,14 @@ export default function EditSection({
           await Promise.all([
             updateProfile(buskerUuid, formData),
             updateSNS(buskerUuid, formData),
+            updateCategories(buskerUuid, formData),
           ]);
         }}
       >
         <CardContent className="space-y-6 pt-6">
           <AvatarUploader userUuid={buskerUuid} />
           <NameBox />
-          <CategoryBox />
+          <CategoryBox buskerCategoryList={buskerCategoryList} />
           <Description />
           <SNSBox SNSData={SNSData} />
 

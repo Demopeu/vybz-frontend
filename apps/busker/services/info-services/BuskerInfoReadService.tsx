@@ -85,7 +85,7 @@ export async function updateSNS(buskerUuid: string, formData: FormData) {
 
   const snsRequests: BuskerUpdateSNSRequestType[] = [];
 
-  const snsTypes = ['instagram', 'youtube', 'facebook', 'tiktok', 'twitter'];
+  const snsTypes = ['instagram', 'youtube', 'tiktok', 'soundcloud'];
 
   for (const snsType of snsTypes) {
     const snsUrl = formData.get(snsType) as string;
@@ -113,7 +113,7 @@ export async function updateSNS(buskerUuid: string, formData: FormData) {
 
   const responses = await Promise.all(
     snsRequests.map((request) =>
-      instance.put<BuskerUpdateSNSResponseType>(
+      instance.post<BuskerUpdateSNSResponseType>(
         `/busker-info-service/api/v1/busker-sns`,
         {
           body: JSON.stringify(request),
@@ -127,4 +127,86 @@ export async function updateSNS(buskerUuid: string, formData: FormData) {
   );
 
   return responses.map((response) => response.result);
+}
+
+export async function addBuskerCategory(
+  buskerUuid: string,
+  categoryId: number
+) {
+  const requestData = {
+    buskerUuid,
+    categoryId,
+  };
+
+  const response = await instance.post(
+    `/busker-info-service/api/v1/busker-category`,
+    {
+      body: JSON.stringify(requestData),
+      requireAuth: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  return response.result;
+}
+
+export async function deleteBuskerCategory(
+  buskerUuid: string,
+  categoryId: number
+) {
+  const requestData = {
+    buskerUuid,
+    categoryId,
+  };
+
+  const response = await instance.delete(
+    `/busker-info-service/api/v1/busker-category`,
+    {
+      body: JSON.stringify(requestData),
+      requireAuth: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  return response.result;
+}
+
+export async function updateCategories(buskerUuid: string, formData: FormData) {
+  const artistGenreString = formData.get('artistGenre') as string;
+  const artistGenre = artistGenreString ? JSON.parse(artistGenreString) : [];
+
+  const initialCategoriesString = formData.get('initialCategories') as string;
+  const initialCategories = initialCategoriesString
+    ? JSON.parse(initialCategoriesString)
+    : [];
+
+  const categoriesToAdd = artistGenre.filter(
+    (id: number) => !initialCategories.includes(id)
+  );
+
+  const categoriesToRemove = initialCategories.filter(
+    (id: number) => !artistGenre.includes(id)
+  );
+
+  console.log('추가할 카테고리:', categoriesToAdd);
+  console.log('삭제할 카테고리:', categoriesToRemove);
+
+  if (categoriesToAdd.length === 0 && categoriesToRemove.length === 0) {
+    return { message: 'No category changes' };
+  }
+
+  const addPromises = categoriesToAdd.map((categoryId: number) =>
+    addBuskerCategory(buskerUuid, categoryId)
+  );
+
+  const removePromises = categoriesToRemove.map((categoryId: number) =>
+    deleteBuskerCategory(buskerUuid, categoryId)
+  );
+
+  const results = await Promise.all([...addPromises, ...removePromises]);
+  return results;
 }

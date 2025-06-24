@@ -35,6 +35,7 @@ export default async function page() {
           className="flex-1"
           SNSData={buskerSNSService}
           buskerUuid={session?.user.buskerUuid || ''}
+          buskerCategoryList={buskerCategoryService}
         />
       </UseForm>
     </main>
