@@ -1,11 +1,11 @@
 import InputBox from '@/components/common/InputBox';
 import { BuskerSNSResponseType } from '@/types/ResponseDataTypes';
 
-interface SNSBoxProps {
-  SNSData: BuskerSNSResponseType[];
-}
-
-export default function SNSBox({ SNSData }: SNSBoxProps) {
+export default function SNSBox({
+  SNSData,
+}: {
+  SNSData: BuskerSNSResponseType[] | [];
+}) {
   const getSNSUrl = (snsType: string) => {
     const snsItem = SNSData.find(
       (item) =>
@@ -34,9 +34,11 @@ export default function SNSBox({ SNSData }: SNSBoxProps) {
               <input
                 type="hidden"
                 name={`old_${snsType}`}
-                value={SNSData.find((item) =>
-                  item.snsUrl.toLowerCase().includes(snsType.toLowerCase())
-                )?.snsUrl}
+                value={
+                  SNSData.find((item) =>
+                    item.snsUrl.toLowerCase().includes(snsType.toLowerCase())
+                  )?.snsUrl
+                }
               />
             )}
           </div>
