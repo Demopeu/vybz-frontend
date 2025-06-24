@@ -24,3 +24,12 @@ export type BuskerDataType = {
   description: string;
   profileImage: string;
 };
+
+export type BuskerInfoReadResponseType = {
+  nickname: string;
+  profileImageUrl: string;
+  introduction: string;
+  followerCount: number;
+  displayFollowerCount: string;
+  subscribedCount: number;
+};
