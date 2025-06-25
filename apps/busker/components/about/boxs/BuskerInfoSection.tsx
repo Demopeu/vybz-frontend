@@ -7,7 +7,7 @@ import { CategoryData, categoryColors } from '@/data/categoryData';
 
 export function BuskerInfoSection() {
   const { artistDescription, artistGenre } = use(FormContext);
-  const filteredGenres = artistGenre.filter((id) => id !== 1);
+  const filteredGenres = artistGenre.filter((id: number) => id !== 1);
 
   const getCategoryName = (id: number) => {
     const category = CategoryData.find((cat) => cat.id === id);
@@ -31,7 +31,7 @@ export function BuskerInfoSection() {
         <h3 className="text-blue-300 font-semibold mb-3 text-lg">장르</h3>
         <div className="flex flex-wrap gap-2">
           {filteredGenres.length > 0 ? (
-            filteredGenres.map((genreId) => {
+            filteredGenres.map((genreId: number) => {
               const categoryName = getCategoryName(genreId);
               return (
                 <Badge
