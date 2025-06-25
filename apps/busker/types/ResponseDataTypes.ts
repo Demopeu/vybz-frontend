@@ -100,6 +100,27 @@ export type ChatMessageListType = {
   pageSize: number;
 };
 
+export type ChatRoomParticipantType = {
+  participantUuid: string;
+  unreadCount: number;
+  hidden: boolean;
+};
+
+export type ChatRoomType = {
+  chatRoomId: string;
+  participant: ChatRoomParticipantType[];
+  content: string;
+  messageType: 'TEXT' | 'VIDEO' | 'IMAGE' | string;
+  sentAt: string;
+};
+
+export type ChatRoomListResponseType = {
+  content: ChatRoomType[];
+  nextCursor: string;
+  hasNext: boolean;
+  pageSize: number;
+};
+
 export type FollowingDataType = {
   buskerUuid: string;
   nickname: string;

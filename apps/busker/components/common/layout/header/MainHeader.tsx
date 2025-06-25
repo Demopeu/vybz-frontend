@@ -23,7 +23,7 @@ export default function MainHeader({ userUrl }: { userUrl: string }) {
             href="/notice"
             className="hover:text-blue-300 transition-colors"
           >
-            Notice/Schedule
+            Notice
           </Link>
           <Link href="/media" className="hover:text-blue-300 transition-colors">
             Media
@@ -36,6 +36,9 @@ export default function MainHeader({ userUrl }: { userUrl: string }) {
           </Link>
           <Link href="/live" className="hover:text-blue-300 transition-colors">
             Live
+          </Link>
+          <Link href="/dm" className="hover:text-blue-300 transition-colors">
+            DM
           </Link>
         </nav>
       </div>
