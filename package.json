@@ -11,7 +11,7 @@
     "graph": "turbo run build lint check-types --graph=graph.png",
     "check-before-commit": "turbo run lint check-types --filter=...[origin/dev]",
     "check-before-push": "turbo run build --filter=...[origin/dev]",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
