@@ -23,5 +23,5 @@ export function UseChat({ children }: { children: React.ReactNode }) {
     setComment,
   };
 
-  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
+  return <ChatContext value={value}>{children}</ChatContext>;
 }

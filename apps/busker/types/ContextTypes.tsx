@@ -29,3 +29,10 @@ export type FormContextType = {
   artistDescription: string;
   setArtistDescription: (description: string) => void;
 };
+
+export type ChatRoomContextType = {
+  chatRoomId: number | null;
+  setChatRoomId: (id: number | null) => void;
+  userUuid: string | null;
+  setUserUuid: (uuid: string | null) => void;
+};

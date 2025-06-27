@@ -27,5 +27,5 @@ export function UseModal({ children }: { children: React.ReactNode }) {
     setModalType,
   };
 
-  return <ModalContext.Provider value={value}>{children}</ModalContext.Provider>;
+  return <ModalContext value={value}>{children}</ModalContext>;
 }

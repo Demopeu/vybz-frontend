@@ -1,3 +1,5 @@
+import { UseChatRoom } from '@/context/ChatRoomContext';
+
 export default function layout({
   chatlist,
   chatroom,
@@ -6,9 +8,11 @@ export default function layout({
   chatroom: React.ReactNode;
 }) {
   return (
-    <div className="flex">
-      {chatlist}
-      {chatroom}
-    </div>
+    <UseChatRoom>
+      <div className="flex">
+        {chatlist}
+        {chatroom}
+      </div>
+    </UseChatRoom>
   );
 }

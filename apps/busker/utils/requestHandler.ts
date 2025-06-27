@@ -14,7 +14,7 @@ interface RequestOptions extends RequestInit {
   revalidate?: number | false;
 }
 
-const BASE_URL = process.env.BASE_API_URL;
+const BASE_URL = process.env.BASE_API_URL || process.env.NEXT_PUBLIC_BASE_API_URL || '';
 
 const fetchInstance = async <T = undefined>(
   url: string,
@@ -47,6 +47,7 @@ const fetchInstance = async <T = undefined>(
     if (options.tags?.length) nextOptions.tags = options.tags;
     if (options.revalidate !== undefined) nextOptions.revalidate = options.revalidate;
 
+    console.log('Full URL:', `${BASE_URL}${url}`);
     const response = await fetch(`${BASE_URL}${url}`, {
       ...options,
       headers,
