@@ -10,13 +10,7 @@ import InfiniteScrollWrapper from '@/components/common/layout/wrapper/InfiniteSc
 import ChatListItem from '@/components/chat/list/ChatListItem';
 import { getChatList } from '@/services/chat-services/chat-list-services';
 import { getUserInfo } from '@/services/user-services/UserInfoServices';
-import {
-  useState,
-  useContext,
-  useMemo,
-  useEffect,
-  useRef,
-} from 'react';
+import { useState, useContext, useMemo, useEffect, useRef } from 'react';
 import { ChatRoomContext } from '@/context/ChatRoomContext';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -129,7 +123,6 @@ export default function InfiniteChatList({
               return { uuid, data: cachedData };
             }
 
-            // 캐시에 없으면 API 호출
             const data = await getUserInfo(uuid);
             queryClient.setQueryData(['userInfo', uuid], data);
             return { uuid, data };
@@ -179,10 +172,6 @@ export default function InfiniteChatList({
     }
   }, [participantUuids, queryClient]);
 
-  // 디버깅용 콘솔 로그
-  console.log('participantUuids:', participantUuids);
-  console.log('userInfoMap:', userInfoMap);
-
   return (
     <div className="flex flex-col gap-4">
       <InfiniteScrollWrapper
@@ -213,7 +202,7 @@ export default function InfiniteChatList({
             // 선택 핸들러 메모이제이션
             const handleSelect = () => {
               setSelectedChatId(room.chatRoomId);
-              setChatRoomId(Number(room.chatRoomId));
+              setChatRoomId(room.chatRoomId);
               setUserUuid(participantUuid);
             };
 

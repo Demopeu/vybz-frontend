@@ -1,3 +1,6 @@
+import { CategoryData } from '@/data/categoryData';
+import { ChatMessageType } from './ResponseDataTypes';
+
 export type ChatContextType = {
   showEmojibox: boolean;
   toggleShowEmojibox: () => void;
@@ -14,8 +17,6 @@ export type ModalContextType = {
   setModalType: React.Dispatch<React.SetStateAction<'image' | 'video' | null>>;
 };
 
-import { CategoryData } from '@/data/categoryData';
-
 type CategoryName = (typeof CategoryData)[number]['name'];
 export type Category = Exclude<CategoryName, 'All'>;
 
@@ -31,8 +32,12 @@ export type FormContextType = {
 };
 
 export type ChatRoomContextType = {
-  chatRoomId: number | null;
-  setChatRoomId: (id: number | null) => void;
+  chatRoomId: string | null;
+  setChatRoomId: (id: string | null) => void;
   userUuid: string | null;
   setUserUuid: (uuid: string | null) => void;
+  messages: ChatMessageType[];
+  addMessage: (newMessage: ChatMessageType) => void;
+  addMessages: (newMessages: ChatMessageType[]) => void;
+  clearMessages: () => void;
 };
