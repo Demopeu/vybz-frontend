@@ -10,6 +10,7 @@ import ReverseInfiniteScrollWrapper from '@/components/common/layout/wrapper/Rev
 import { useInfiniteCursorQuery } from '@/hooks/useInfiniteCursorQuery';
 import { getChatMessages } from '@/services/chat-services/chat-message-list-services';
 import { ChatRoomContext } from '@/context/ChatRoomContext';
+import EmptyList from '@/components/chat/room/EmptyList';
 
 export default function ChatMessageList() {
   const {
@@ -17,6 +18,7 @@ export default function ChatMessageList() {
     addMessages,
     chatRoomId,
     userUuid,
+    buskerUuid,
   } = use(ChatRoomContext);
 
   const {
@@ -27,7 +29,7 @@ export default function ChatMessageList() {
   } = useInfiniteCursorQuery<ChatMessageListType, ChatMessageType>({
     queryKey: `chatMessageList-${chatRoomId}-${userUuid}`,
     queryFn: async (cursor: string | null) => {
-      if (!chatRoomId || !userUuid) {
+      if (!chatRoomId || !userUuid || !buskerUuid) {
         return {
           content: [],
           nextCursor: null,
@@ -38,7 +40,7 @@ export default function ChatMessageList() {
 
       const response = await getChatMessages({
         chatRoomId: chatRoomId.toString(),
-        participantUuid: userUuid,
+        participantUuid: buskerUuid,
         sentAt: cursor || undefined,
         pageSize: 20,
       });
@@ -60,7 +62,10 @@ export default function ChatMessageList() {
     }
   }, [fetchedMessages, contextMessages.length, addMessages]);
 
-  // 컨텍스트 메시지가 있으면 우선 표시, 없으면 가져온 메시지 표시
+  if (!chatRoomId || !userUuid) {
+    return <EmptyList />;
+  }
+
   const displayMessages =
     contextMessages.length > 0 ? contextMessages : fetchedMessages;
 

@@ -4,7 +4,7 @@ import { UseChat } from '@/context/ChatContext';
 import { UseModal } from '@/context/ModalContext';
 import ChatMessageList from '@/components/chat/room/ChatMessageList';
 
-export default async function page() {
+export default function page() {
   return (
     <div className="relative flex-3/4 text-white">
       <ChatHeader />

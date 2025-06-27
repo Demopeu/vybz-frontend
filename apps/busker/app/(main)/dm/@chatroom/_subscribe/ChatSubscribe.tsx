@@ -5,7 +5,7 @@ import { ChatMessageType } from '@/types/ResponseDataTypes';
 import { ChatRoomContext } from '@/context/ChatRoomContext';
 
 export default function ChatSubscribe() {
-  const { chatRoomId, userUuid } = useContext(ChatRoomContext);
+  const { chatRoomId, userUuid, addMessage } = useContext(ChatRoomContext);
 
   useEffect(() => {
     if (!chatRoomId || !userUuid) {
@@ -32,6 +32,9 @@ export default function ChatSubscribe() {
       try {
         const data: ChatMessageType = JSON.parse(event.data);
         console.log('📩 새 메시지 수신:', data);
+        
+        // 받은 메시지를 Context에 추가하여 UI 업데이트
+        addMessage(data);
       } catch (err) {
         console.error('❌ 메시지 파싱 오류:', err);
       }
@@ -51,7 +54,7 @@ export default function ChatSubscribe() {
       );
       eventSource.close();
     };
-  }, [chatRoomId, userUuid]);
+  }, [chatRoomId, userUuid, addMessage]);
 
   return null;
 }

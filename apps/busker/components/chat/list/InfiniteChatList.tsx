@@ -10,7 +10,7 @@ import InfiniteScrollWrapper from '@/components/common/layout/wrapper/InfiniteSc
 import ChatListItem from '@/components/chat/list/ChatListItem';
 import { getChatList } from '@/services/chat-services/chat-list-services';
 import { getUserInfo } from '@/services/user-services/UserInfoServices';
-import { useState, useContext, useMemo, useEffect, useRef } from 'react';
+import { useState, use, useMemo, useEffect, useRef } from 'react';
 import { ChatRoomContext } from '@/context/ChatRoomContext';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -24,7 +24,7 @@ export default function InfiniteChatList({
   hasNext: boolean;
 }) {
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
-  const { setChatRoomId, setUserUuid } = useContext(ChatRoomContext);
+  const { setChatRoomId, setUserUuid, setBuskerUuid } = use(ChatRoomContext);
   const {
     items: allChatRooms,
     isLoading,
@@ -183,6 +183,14 @@ export default function InfiniteChatList({
           return allChatRooms?.map((room) => {
             const otherParticipant = room.participant[1];
             const participantUuid = otherParticipant?.participantUuid || '';
+            // Remove the invalid buskerUuid access since it doesn't exist on ChatRoomParticipantType
+            // const buskerUuid = participant?.buskerUuid || '';
+            const handleSelect = () => {
+              setSelectedChatId(room.chatRoomId);
+              setChatRoomId(room.chatRoomId);
+              setUserUuid(participantUuid);
+              setBuskerUuid(participantUuid);
+            };
 
             // 참가자 UUID로 사용자 정보 가져오기
             const isLoading = userInfoLoadingMap[participantUuid] || false;
@@ -198,13 +206,6 @@ export default function InfiniteChatList({
               `ChatItem ${room.chatRoomId} - participantUuid: ${participantUuid}, userInfo:`,
               userInfo
             );
-
-            // 선택 핸들러 메모이제이션
-            const handleSelect = () => {
-              setSelectedChatId(room.chatRoomId);
-              setChatRoomId(room.chatRoomId);
-              setUserUuid(participantUuid);
-            };
 
             return (
               <ChatListItem
@@ -226,6 +227,7 @@ export default function InfiniteChatList({
           selectedChatId,
           setChatRoomId,
           setUserUuid,
+          setBuskerUuid,
           userInfoMap,
           userInfoLoadingMap,
         ])}

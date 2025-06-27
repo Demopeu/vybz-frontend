@@ -34,6 +34,8 @@ export type FormContextType = {
 export type ChatRoomContextType = {
   chatRoomId: string | null;
   setChatRoomId: (id: string | null) => void;
+  buskerUuid: string | null;
+  setBuskerUuid: (uuid: string | null) => void;
   userUuid: string | null;
   setUserUuid: (uuid: string | null) => void;
   messages: ChatMessageType[];

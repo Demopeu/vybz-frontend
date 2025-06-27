@@ -10,6 +10,7 @@ export const ChatRoomContext = createContext<ChatRoomContextType>(
 
 export function UseChatRoom({ children }: { children: React.ReactNode }) {
   const [chatRoomId, setChatRoomId] = useState<string | null>(null);
+  const [buskerUuid, setBuskerUuid] = useState<string | null>(null);
   const [userUuid, setUserUuid] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
 
@@ -27,6 +28,8 @@ export function UseChatRoom({ children }: { children: React.ReactNode }) {
   const value = {
     chatRoomId,
     setChatRoomId,
+    buskerUuid,
+    setBuskerUuid,
     userUuid,
     setUserUuid,
     messages,
