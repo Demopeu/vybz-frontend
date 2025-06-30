@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { VideoCarouselDataType } from '@/types/ResponseDataTypes';
+import { ReelsUrlDataType } from '@/types/ResponseDataTypes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperCore } from 'swiper/types';
 import { Pagination } from 'swiper/modules';
@@ -13,7 +13,7 @@ import { Button } from '@repo/ui/components/ui/button';
 export default function FullscreenSwiper({
   data,
 }: {
-  data: VideoCarouselDataType[];
+  data: ReelsUrlDataType[];
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
@@ -25,11 +25,11 @@ export default function FullscreenSwiper({
 
   useEffect(() => {
     const currentItem = data[activeIndex];
-    if (currentItem?.videoSrc) {
+    if (currentItem?.realsUrl) {
       const video = document.createElement('video');
-      video.src = currentItem.videoSrc;
+      video.src = currentItem.realsUrl;
       video.onloadeddata = () => {
-        setBgVideoSrc(currentItem.videoSrc);
+        setBgVideoSrc(currentItem.realsUrl);
       };
     }
   }, [activeIndex, data]);
@@ -104,7 +104,7 @@ export default function FullscreenSwiper({
       >
         {data.map((item, index) => (
           <SwiperSlide
-            key={item.id}
+            key={item.realsId}
             style={{ width: '250px', height: '400px' }}
             className={`rounded-2xl overflow-hidden transition-all duration-300 relative bg-black/30 backdrop-blur-sm cursor-pointer
               ${activeIndex === index ? 'scale-100 shadow-lg' : 'scale-90 opacity-50'}
@@ -115,7 +115,7 @@ export default function FullscreenSwiper({
               <>
                 <video
                   ref={setVideoRef(index)}
-                  src={item.videoSrc}
+                  src={item.realsUrl}
                   autoPlay
                   muted={isMuted}
                   playsInline
@@ -139,7 +139,7 @@ export default function FullscreenSwiper({
                     size="icon"
                     variant="ghost"
                     className="bg-transparent text-white"
-                    onClick={(e) => handleMaximizeClick(e, item.id)}
+                    onClick={(e) => handleMaximizeClick(e, item.realsId)}
                   >
                     <Maximize style={{ width: '30px', height: '30px' }} />
                   </Button>
@@ -147,7 +147,7 @@ export default function FullscreenSwiper({
               </>
             ) : (
               <Image
-                src={item.thumbnailSrc}
+                src={item.realsThumbnailUrl}
                 alt="썸네일"
                 fill
                 className="object-cover"

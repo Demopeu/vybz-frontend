@@ -14,18 +14,9 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'k.kakaocdn.net',
-      },
-      {
-        protocol: 'https',
-        hostname: 'vybz.s3.ap-northeast-2.amazonaws.com',
-      },
+      new URL('https://lh3.googleusercontent.com/**'),
+      new URL('https://k.kakaocdn.net/**'),
+      new URL('https://vybz.s3.ap-northeast-2.amazonaws.com/**'),
     ],
   },
   experimental: {

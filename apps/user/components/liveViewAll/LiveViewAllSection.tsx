@@ -14,10 +14,13 @@ export default function LiveViewAllSection({
   lives: LiveFreeViewType[];
 }) {
   const fetchFn = async (
-    page: number,
-    size: number
+    size: number,
+    lastId?: string
   ): Promise<LiveFreeViewType[]> => {
+    // lastId를 페이지 번호로 변환 (없으면 1페이지로 간주)
+    const page = lastId ? parseInt(lastId) + 1 : 1;
     await new Promise((res) => setTimeout(res, 1000));
+    // sortType을 사용하여 정렬 방식 적용 가능
     return generateLiveCards((page - 1) * size, size);
   };
 
@@ -29,7 +32,6 @@ export default function LiveViewAllSection({
   } = useInfiniteScroll<LiveFreeViewType>({
     fetchFn,
     initialItems: initialLives,
-    initialPage: 1,
     pageSize: 6,
   });
 

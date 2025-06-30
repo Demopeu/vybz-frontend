@@ -1,29 +1,32 @@
 import { useState, useCallback } from 'react';
 
-export function useInfiniteScroll<T>({
+export function useInfiniteScroll<T extends { realsId?: string }>({
   fetchFn,
   initialItems = [],
-  initialPage = 1,
-  pageSize = 5,
+  pageSize = 10,
+  sortType = 'LATEST',
 }: {
-  fetchFn: (page: number, size: number) => Promise<T[]>;
+  fetchFn: (size: number, lastId?: string, sortType?: 'LATEST' | 'LIKES' | 'COMMENTS') => Promise<T[]>;
   initialItems?: T[];
-  initialPage?: number;
   pageSize?: number;
+  sortType?: 'LATEST' | 'LIKES' | 'COMMENTS';
 }) {
   const [items, setItems] = useState<T[]>(initialItems);
-  const [page, setPage] = useState(initialPage + 1);
+  const [lastId, setLastId] = useState<string | undefined>(undefined);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const fetchMore = useCallback(() => {
     if (loading || !hasMore) return;
 
+    // 마지막 아이템의 ID를 lastId로 사용
+    const currentLastId = items.length > 0 ? items[items.length - 1]?.realsId : undefined;
+    setLastId(currentLastId);
+    
     setLoading(true);
-    fetchFn(page, pageSize)
+    fetchFn(pageSize, currentLastId, sortType)
       .then((newItems) => {
         setItems((prev) => [...prev, ...newItems]);
-        setPage((p) => p + 1);
         if (newItems.length < pageSize) setHasMore(false);
       })
       .catch((err) => {
@@ -32,7 +35,7 @@ export function useInfiniteScroll<T>({
       .finally(() => {
         setLoading(false);
       });
-  }, [loading, hasMore, fetchFn, page, pageSize]);
+  }, [loading, hasMore, fetchFn, items, pageSize, sortType]);
 
-  return { items, loading, hasMore, fetchMore };
+  return { items, loading, hasMore, fetchMore, lastId };
 }

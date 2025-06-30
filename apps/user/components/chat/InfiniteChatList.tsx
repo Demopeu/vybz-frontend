@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  BuskerInfoReadResponseType,
   ChatRoomListResponseType,
   ChatRoomType,
   UserInfoDataType,
@@ -153,7 +154,20 @@ export default function InfiniteChatList({
 
           results.forEach(({ uuid, data }) => {
             if (uuid && data && !newUserInfoMap[uuid]) {
-              newUserInfoMap[uuid] = data;
+              // BuskerInfoReadResponseType인지 UserInfoDataType인지 확인
+              const userInfo: UserInfoDataType = {
+                nickname: data.nickname,
+                profileImageUrl: data.profileImageUrl,
+                followingCount:
+                  (data as BuskerInfoReadResponseType).followingCount || 0,
+                subscribeCount:
+                  (data as BuskerInfoReadResponseType).subscribeCount ||
+                  (data as BuskerInfoReadResponseType).subscribedCount ||
+                  0,
+                vticketCount:
+                  (data as BuskerInfoReadResponseType).vticketCount || 0,
+              };
+              newUserInfoMap[uuid] = userInfo;
               hasChanges = true;
             }
           });

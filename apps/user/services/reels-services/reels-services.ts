@@ -1,8 +1,28 @@
 import { ReelsUrlDataType } from '@/types/ResponseDataTypes';
 
-export async function getReelsVideos(page: number, size: number): Promise<ReelsUrlDataType[]> {
+interface ReelsResponse {
+  content: {
+    id: string;
+    writerUuid: string | null;
+    content: string;
+    thumbnailUrl: string;
+    videoUrl: string;
+    likeCount: number;
+    commentCount: number;
+    createdAt: string | null;
+  }[];
+  hasNext: boolean;
+  nextCursor: string | null;
+}
+
+export async function getReelsVideos(size: number, lastId?: string, sortType: 'LATEST' | 'LIKES' | 'COMMENTS' = 'LATEST'): Promise<ReelsUrlDataType[]> {
   try {
-    const response = await fetch(`${process.env.BASE_API_URL}/videos?page=${page}&size=${size}`, {
+    let url = `${process.env.BASE_API_URL}/feed-read-service/api/v1/read/feed/reels?sortType=${sortType}&size=${size}`;
+    if (lastId) {
+      url += `&lastId=${lastId}`;
+    }
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -17,7 +37,20 @@ export async function getReelsVideos(page: number, size: number): Promise<ReelsU
     }
 
     const data = await response.json();
-    return Array.isArray(data.videos) ? data.videos : [];
+    const result = data.result as ReelsResponse;
+    
+    // Map the API response to the ReelsUrlDataType format
+    return result.content.map(item => ({
+      realsId: item.id,
+      realsUrl: item.videoUrl,
+      realsThumbnailUrl: item.thumbnailUrl,
+      realsDescription: item.content,
+      realsLikeCount: item.likeCount,
+      realsCommentCount: item.commentCount,
+      buskerId: item.writerUuid || '',
+      buskerName: '', // Not provided in the API response
+      buskerProfileImage: '' // Not provided in the API response
+    }));
   } catch (error) {
     console.error('Error fetching reels videos:', error);
     return [];
