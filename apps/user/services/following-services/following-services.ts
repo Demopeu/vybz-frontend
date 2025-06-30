@@ -31,6 +31,7 @@ export const getFollowingsUsers = async (
       const url = `/follow-service/api/v1/follow/following-list?${query}`;
       const response = await instance.get<FollowingsResponseDataType>(url, {
         tags: [`following-${session.user?.userUuid}`],
+        requireAuth: true, // 액세스 토큰을 헤더에 추가
       });
   
       return response.result!;

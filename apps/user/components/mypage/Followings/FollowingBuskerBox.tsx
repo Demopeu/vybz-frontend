@@ -22,7 +22,7 @@ export default function FollowingBuskerBox({
     <div className="flex space-x-4 items-center text-center text-white">
       <div className="relative w-12 h-12 shrink-0">
         <Image
-          src={buskerProfileImage}
+          src={buskerProfileImage || '/defaultProfile.png'}
           alt="Busker"
           fill
           sizes="48px"
