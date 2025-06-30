@@ -16,6 +16,8 @@ export default function DmBar({ className }: { className?: string }) {
     use(ChatContext);
 
   const { chatRoomId, userUuid, buskerUuid } = use(ChatRoomContext);
+  console.log('buskerUuid', buskerUuid);
+  console.log('userUuid', userUuid);
 
   // 메시지 전송 로직
   const sendMessageAction = async () => {

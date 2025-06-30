@@ -76,13 +76,15 @@ export default function ChatMessageList() {
       fetchMore={fetchMore}
     >
       <section className="w-full px-2 pb-20 flex flex-col-reverse">
-        {displayMessages.map((msg) => (
-          <ChatMessageItem
-            key={msg.id}
-            message={msg}
-            currentUserUuid={userUuid || ''}
-          />
-        ))}
+        {displayMessages
+          .filter(msg => msg.content !== 'ping')
+          .map((msg) => (
+            <ChatMessageItem
+              key={msg.id}
+              message={msg}
+              currentUserUuid={userUuid || ''}
+            />
+          ))}
       </section>
     </ReverseInfiniteScrollWrapper>
   );

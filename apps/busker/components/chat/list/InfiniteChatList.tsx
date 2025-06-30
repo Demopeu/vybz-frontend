@@ -189,7 +189,11 @@ export default function InfiniteChatList({
               setSelectedChatId(room.chatRoomId);
               setChatRoomId(room.chatRoomId);
               setUserUuid(participantUuid);
-              setBuskerUuid(participantUuid);
+
+              // 현재 채팅방의 busker UUID 설정 (첫 번째 참가자)
+              const buskerParticipant = room.participant[0];
+              const buskerUuid = buskerParticipant?.participantUuid || '';
+              setBuskerUuid(buskerUuid);
             };
 
             // 참가자 UUID로 사용자 정보 가져오기
