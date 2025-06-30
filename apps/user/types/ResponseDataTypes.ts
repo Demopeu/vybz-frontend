@@ -28,7 +28,7 @@ export type VideoCarouselDataType = {
 };
 
 export type CategoryDataType = {
-  id: string;
+  id: number;
   name: string;
 };
 
@@ -40,6 +40,7 @@ export type LiveFreeViewType = {
   buskerProfileImage: string;
   isMembership: boolean;
   viewerCount?: number;
+  realsId?: string;
 };
 
 export type ProfileDataType = {
@@ -108,6 +109,7 @@ export type FanFeedDataType = {
   imageSrcList?: string[];
   likesCount: number;
   commentsCount: number;
+  realsId?: string;
 };
 
 export type FollowingDataType = {
@@ -232,3 +234,27 @@ export type ChatRoomListResponseType = {
   hasNext: boolean;
   pageSize: number;
 };
+
+export type BuskerInfoReadResponseType = {
+  nickname: string;
+  profileImageUrl: string;
+  introduction: string;
+  followerCount: number;
+  displayFollowerCount: string;
+  subscribedCount: number;
+  followingCount: number;
+  subscribeCount: number;
+  vticketCount: number;
+};
+
+export type BuskerSNSListResponseType = CommonResponseType<{
+  buskerUuid: string;
+  snsUrl: string;
+}>;
+
+export type FollowCheckResponseType = CommonResponseType<boolean>;
+
+export type BuskerSNSResponseType = {
+  buskerUuid: string;
+  snsUrl: string;
+}

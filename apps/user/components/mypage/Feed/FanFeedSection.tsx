@@ -21,7 +21,6 @@ export default function FanFeedSection({
   } = useInfiniteScroll<FanFeedDataType>({
     fetchFn: fetchFanFeeds,
     initialItems: initialFeeds,
-    initialPage: 1,
     pageSize: 5,
   });
 

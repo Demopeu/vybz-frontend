@@ -9,10 +9,12 @@ import Image from 'next/image';
 export default function BackHeader({
   title,
   className,
+  image,
   showIcons = true,
 }: {
   title: string;
   className?: string;
+  image?: string;
   showIcons?: boolean;
 }) {
   const router = useRouter();
@@ -50,7 +52,7 @@ export default function BackHeader({
           <div className="relative w-8 h-8 shrink-0">
             <Link href="/mypage">
               <Image
-                src="/BuskerUrl.jpg"
+                src={image || '/BuskerUrl.jpg'}
                 alt="Busker"
                 fill
                 className="rounded-full object-cover"
