@@ -1,12 +1,13 @@
 import { useState, useCallback } from 'react';
-import { getChatList, ChatListResponse } from '../services/chat-services/chat-list-services';
+import { getChatList } from '../services/chat-services/chat-list-services';
+import { ChatRoomListResponseType } from '@/types/ResponseDataTypes';
 
-export const useChatList = (initialPageSize = 10) => {
-  const [data, setData] = useState<ChatListResponse['data']>([]);
+export const useChatList = () => {
+  const [data, setData] = useState<ChatRoomListResponseType['content']>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<string>('');
 
   const loadMore = useCallback(async () => {
     if (isLoading || !hasMore) return;
@@ -15,20 +16,20 @@ export const useChatList = (initialPageSize = 10) => {
       setIsLoading(true);
       setError(null);
       
-      const response = await getChatList(page, initialPageSize);
+      const response = await getChatList(page);
       
-      setData(prevData => [...prevData, ...response.data]);
-      setHasMore(response.hasNextPage);
-      setPage(prevPage => response.nextPage || prevPage);
+      setData(prevData => [...prevData, ...response.content]);
+      setHasMore(response.hasNext);
+      setPage(response.nextCursor || page);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Failed to fetch chat list'));
     } finally {
       setIsLoading(false);
     }
-  }, [page, initialPageSize, isLoading, hasMore]);
+  }, [page, isLoading, hasMore]);
 
   const refresh = useCallback(async () => {
-    setPage(1);
+    setPage('');
     setHasMore(true);
     setData([]);
     
@@ -36,17 +37,17 @@ export const useChatList = (initialPageSize = 10) => {
       setIsLoading(true);
       setError(null);
       
-      const response = await getChatList(1, initialPageSize);
+      const response = await getChatList();
       
-      setData(response.data);
-      setHasMore(response.hasNextPage);
-      setPage(response.nextPage || 1);
+      setData(response.content);
+      setHasMore(response.hasNext);
+      setPage(response.nextCursor || '');
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Failed to refresh chat list'));
     } finally {
       setIsLoading(false);
     }
-  }, [initialPageSize]);
+  }, []);
 
   return {
     data,

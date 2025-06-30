@@ -1,55 +1,34 @@
 import {
   ChatMessageListType,
-  ChatMessageType,
+  CommonResponseType,
 } from '@/types/ResponseDataTypes';
+import { instance } from '@/utils/requestHandler';
 
-function generateDummyMessages(
-  startId: string,
-  count: number
-): ChatMessageType[] {
-  const messages: ChatMessageType[] = [];
-  for (let i = 0; i < count; i++) {
-    const idNum = Number(startId) + i;
-    messages.push({
-      id: idNum.toString(),
-      senderUuid: (idNum % 2 === 0 ? 'user-a-' : 'user-b-') + idNum,
-      messageType: 'TEXT',
-      content: `과거 메시지입니다 ${idNum}`,
-      read: Math.random() < 0.5,
-      sentAt: `2025-06-17 14:${50 - i}:00`,
-    });
-  }
-  return messages;
-}
-
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+interface GetChatMessagesParams {
+  chatRoomId: string;
+  participantUuid: string;
+  sentAt?: string;
+  pageSize?: number;
 }
 
 export async function getChatMessages(
-  cursor: string | null
-): Promise<{ data: ChatMessageListType }> {
-  await delay(5000);
-
-  const pageSize = 20;
-  const allMessages = generateDummyMessages('11', 100);
-
-  const startIndex = cursor
-    ? allMessages.findIndex((msg) => msg.id === cursor) + 1
-    : 0;
-
-  const pagedMessages = allMessages.slice(startIndex, startIndex + pageSize);
-  const nextCursor =
-    startIndex + pageSize < allMessages.length
-      ? (allMessages[startIndex + pageSize - 1]?.id ?? null)
-      : null;
-
-  return Promise.resolve({
-    data: {
-      content: pagedMessages,
-      nextCursor,
-      hasNext: nextCursor !== null,
-      pageSize,
-    },
+  params: GetChatMessagesParams
+): Promise<CommonResponseType<ChatMessageListType>> {
+  const { chatRoomId, participantUuid, sentAt, pageSize = 20 } = params;
+  
+  const queryParams = new URLSearchParams({
+    chatRoomId,
+    participantUuid,
+    pageSize: pageSize.toString(),
+  });
+  
+  if (sentAt) {
+    queryParams.append('sentAt', sentAt);
+  }
+  
+  const url = `/chat-service/api/v1/chat-message/search?${queryParams.toString()}`;
+  
+  return await instance.get<ChatMessageListType>(url, {
+    requireAuth: true,
   });
 }

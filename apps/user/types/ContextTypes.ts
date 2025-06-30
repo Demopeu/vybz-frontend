@@ -5,6 +5,17 @@ export type ChatContextType = {
   setComment: React.Dispatch<React.SetStateAction<string>>;
 };
 
+export type ChatRoomContextType = {
+  buskerUuid: string | null;
+  setBuskerUuid: React.Dispatch<React.SetStateAction<string | null>>;
+  userUuid: string | null;
+  setUserUuid: React.Dispatch<React.SetStateAction<string | null>>;
+  messages: import('@/types/ResponseDataTypes').ChatMessageType[];
+  addMessage: (newMessage: import('@/types/ResponseDataTypes').ChatMessageType) => void;
+  addMessages: (newMessages: import('@/types/ResponseDataTypes').ChatMessageType[]) => void;
+  clearMessages: () => void;
+};
+
 export type ModalContextType = {
   isOpen: boolean;
   feedId: string;

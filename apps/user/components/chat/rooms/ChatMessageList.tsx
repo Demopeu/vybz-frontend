@@ -1,5 +1,6 @@
 'use client';
 
+import { use, useEffect } from 'react';
 import ChatMessageItem from '@/components/chat/rooms/ChatMessageItem';
 import {
   ChatMessageListType,
@@ -7,30 +8,69 @@ import {
 } from '@/types/ResponseDataTypes';
 import ReverseInfiniteScrollWrapper from '@/components/common/layouts/wrapper/ReverseInfiniteScrollWrapper';
 import { useInfiniteCursorQuery } from '@/hooks/useInfiniteCursorQuery';
-import { getChatMessages } from '@/services/chat-services';
+import { getChatMessages } from '@/services/chat-services/chat-message-list-services';
+import { ChatRoomContext } from '@/context/ChatRoomContext';
+import EmptyList from '@/components/chat/rooms/EmptyList';
 
-export default function ChatMessageList({
-  chatListData,
-  userUuid,
-}: {
-  chatListData: ChatMessageListType;
+interface ChatMessageListProps {
+  chatRoomId: string | null;
   userUuid: string;
-}) {
+  buskerUuid: string;
+}
+
+export default function ChatMessageList({ chatRoomId, userUuid, buskerUuid }: ChatMessageListProps) {
   const {
-    items: messages,
+    messages: contextMessages,
+    addMessages,
+  } = use(ChatRoomContext);
+
+  const {
+    items: fetchedMessages,
     fetchMore,
     hasMore,
     isLoading,
   } = useInfiniteCursorQuery<ChatMessageListType, ChatMessageType>({
-    queryKey: 'chatMessageList',
+    queryKey: `chatMessageList-${chatRoomId}-${userUuid}`,
     queryFn: async (cursor: string | null) => {
-      const response = await getChatMessages(cursor);
-      return response.data;
+      if (!chatRoomId || !userUuid || !buskerUuid) {
+        return {
+          content: [],
+          nextCursor: null,
+          hasNext: false,
+          pageSize: 0,
+        };
+      }
+
+      const response = await getChatMessages({
+        chatRoomId: chatRoomId.toString(),
+        participantUuid: buskerUuid,
+        sentAt: cursor || undefined,
+        pageSize: 20,
+      });
+      return response.result;
     },
     getNextCursor: (lastPage) => lastPage.nextCursor,
     selectItems: (pages) => pages.flatMap((page) => page.content),
-    initialData: chatListData,
+    initialData: {
+      content: [],
+      nextCursor: null,
+      hasNext: false,
+      pageSize: 0,
+    },
   });
+
+  useEffect(() => {
+    if (fetchedMessages.length > 0 && contextMessages.length === 0) {
+      addMessages(fetchedMessages);
+    }
+  }, [fetchedMessages, contextMessages.length, addMessages]);
+
+  if (!chatRoomId || !userUuid) {
+    return <EmptyList />;
+  }
+
+  const displayMessages =
+    contextMessages.length > 0 ? contextMessages : fetchedMessages;
 
   return (
     <ReverseInfiniteScrollWrapper
@@ -39,13 +79,15 @@ export default function ChatMessageList({
       fetchMore={fetchMore}
     >
       <section className="w-full px-2 pb-20 flex flex-col-reverse">
-        {messages.map((msg) => (
-          <ChatMessageItem
-            key={msg.id}
-            message={msg}
-            currentUserUuid={userUuid}
-          />
-        ))}
+        {displayMessages
+          .filter((msg: ChatMessageType) => msg.content !== 'ping')
+          .map((msg: ChatMessageType) => (
+            <ChatMessageItem
+              key={msg.id}
+              message={msg}
+              currentUserUuid={userUuid || ''}
+            />
+          ))}
       </section>
     </ReverseInfiniteScrollWrapper>
   );

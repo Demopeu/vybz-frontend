@@ -203,3 +203,32 @@ export type ChatMessageListType = {
   hasNext: boolean;
   pageSize: number;
 };
+
+export type ChatRoomParticipantType = {
+  participantUuid: string;
+  unreadCount: number;
+  hidden: boolean;
+};
+
+export type ChatRoomType = {
+  chatRoomId: string;
+  participant: ChatRoomParticipantType[];
+  content: string;
+  messageType: 'TEXT' | 'VIDEO' | 'IMAGE' | string;
+  sentAt: string;
+};
+
+export interface SendMessageRequest {
+  chatRoomId: string;
+  senderUuid: string;
+  receiverUuid: string;
+  messageType: 'TEXT' | 'VIDEO' | 'IMAGE';
+  content: string;
+}
+
+export type ChatRoomListResponseType = {
+  content: ChatRoomType[];
+  nextCursor: string;
+  hasNext: boolean;
+  pageSize: number;
+};
