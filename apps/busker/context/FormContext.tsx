@@ -2,7 +2,7 @@
 
 import { createContext, useState } from 'react';
 import { BuskerDataType } from '@/types/ResponseDataTypes';
-import { FormContextType } from '@/types/ConstextTypes';
+import { FormContextType } from '@/types/ContextTypes';
 
 export const FormContext = createContext<FormContextType>(
   {} as FormContextType

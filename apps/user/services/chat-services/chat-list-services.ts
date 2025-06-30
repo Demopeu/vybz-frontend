@@ -1,44 +1,34 @@
-import { ChatListType } from '@/types/ResponseDataTypes';
+'use server';
 
-const generateDummyChats = (count: number, page: number, pageSize: number): ChatListType[] => {
-  const chats: ChatListType[] = [];
-  const startIndex = (page - 1) * pageSize;
-  
-  for (let i = 0; i < count; i++) {
-    const index = startIndex + i;
-    const unreadCount = Math.floor(Math.random() * 10);
-    const hoursAgo = Math.floor(Math.random() * 24 * 7);
-    const lastMessageTime = new Date(Date.now() - hoursAgo * 60 * 60 * 1000).toISOString();
+import { ChatRoomListResponseType } from '@/types/ResponseDataTypes';
+import { instance } from '@/utils/requestHandler';
+import { getServerSession } from 'next-auth';
+import { options } from '@/app/api/auth/[...nextauth]/options';
+
+export async function getChatList(
+  sentAt?: string,
+): Promise<ChatRoomListResponseType> {
+  try {
+    const session = await getServerSession(options);
+    if (!session?.user?.userUuid) {
+      throw new Error('사용자 정보를 가져올 수 없습니다.');
+    }
     
-    chats.push({
-      chatId: `chat_${index}`,
-      buskerName: `버스커${index + 1}`, 
-      buskerProfileImage: '/buskerUrl.jpg',
-      lastMessage: `마지막 메시지 내용입니다. 이 채팅방의 ${index + 1}번째 메시지입니다.`,
-      lastMessageTime,
-      unreadCount,
-    });
+    const queryParams = new URLSearchParams();
+    if (sentAt) {
+      queryParams.append('sentAt', sentAt);
+    }
+
+    const response = await instance.get<ChatRoomListResponseType>(
+      `/chat-service/api/v1/chat-room/search?participantUuid=${session.user.userUuid}${queryParams.toString() ? `&${queryParams.toString()}` : ''}`,
+      {
+        requireAuth: true,
+      }
+    );
+
+    return response.result;
+  } catch (error) {
+    console.error('채팅 목록을 불러오는 중 오류가 발생했습니다:', error);
+    throw error;
   }
-  
-  return chats;
-};
-
-export interface ChatListResponse {
-  data: ChatListType[];
-  hasNextPage: boolean;
-  nextPage: number | null;
 }
-
-export const getChatList = async (page: number, pageSize: number = 10): Promise<ChatListResponse> => {
-  // 5초 대기
-  await new Promise(resolve => setTimeout(resolve, 5000));
-  
-  const data = generateDummyChats(pageSize, page, pageSize);
-  const isLastPage = page >= 5;
-  
-  return {
-    data,
-    hasNextPage: !isLastPage,
-    nextPage: isLastPage ? null : page + 1,
-  };
-};

@@ -12,9 +12,9 @@ export default function CategoryBox({
   buskerCategoryList: BuskerCategoryResponseType[];
 }) {
   const { artistGenre, setArtistGenre } = use(FormContext);
-  
+
   // 초기 카테고리 ID 목록 추출
-  const initialCategoryIds = buskerCategoryList.map(item => item.categoryId);
+  const initialCategoryIds = buskerCategoryList.map((item) => item.categoryId);
 
   const isSelected = (categoryId: number) => {
     return artistGenre.includes(categoryId);
@@ -24,7 +24,7 @@ export default function CategoryBox({
     if (categoryId === 1) return;
 
     const newGenres = artistGenre.includes(categoryId)
-      ? artistGenre.filter((id) => id !== categoryId)
+      ? artistGenre.filter((id: number) => id !== categoryId)
       : [...artistGenre, categoryId];
 
     setArtistGenre(newGenres);
@@ -53,19 +53,19 @@ export default function CategoryBox({
           )
         )}
       </div>
-      
+
       {/* 초기 카테고리 상태를 폼으로 전송하기 위한 필드 */}
-      <input 
-        type="hidden" 
-        name="initialCategories" 
-        value={JSON.stringify(initialCategoryIds)} 
+      <input
+        type="hidden"
+        name="initialCategories"
+        value={JSON.stringify(initialCategoryIds)}
       />
-      
+
       {/* 현재 상태를 폼으로 전송하기 위한 필드 */}
-      <input 
-        type="hidden" 
-        name="artistGenre" 
-        value={JSON.stringify(artistGenre)} 
+      <input
+        type="hidden"
+        name="artistGenre"
+        value={JSON.stringify(artistGenre)}
       />
     </section>
   );

@@ -69,3 +69,78 @@ export type BuskerUpdateSNSResponseType = {
   oldSnsUrl?: string;
   newSnsUrl: string;
 }
+export type ChatListType = {
+  chatId: string;
+  buskerName: string;
+  buskerProfileImage: string;
+  lastMessage: string;
+  lastMessageTime: string;
+  unreadCount: number;
+}
+
+export type ChatListDataType = {
+ data: ChatListType[] | [];
+ page: number;
+ totalPages: number;
+}
+
+export type ChatMessageType = {
+  id: string;
+  senderUuid: string;
+  messageType: 'TEXT' | 'VIDEO' | 'IMAGE';
+  content: string;
+  read: boolean;
+  sentAt: string;
+}
+
+export type ChatMessageListType = {
+  content: ChatMessageType[];
+  nextCursor: string | null;
+  hasNext: boolean;
+  pageSize: number;
+};
+
+export type ChatRoomParticipantType = {
+  participantUuid: string;
+  unreadCount: number;
+  hidden: boolean;
+};
+
+export type ChatRoomType = {
+  chatRoomId: string;
+  participant: ChatRoomParticipantType[];
+  content: string;
+  messageType: 'TEXT' | 'VIDEO' | 'IMAGE' | string;
+  sentAt: string;
+};
+
+export type ChatRoomListResponseType = {
+  content: ChatRoomType[];
+  nextCursor: string;
+  hasNext: boolean;
+  pageSize: number;
+};
+
+export type FollowingDataType = {
+  buskerUuid: string;
+  nickname: string;
+  profileImageUrl: string;
+};
+
+export type NotificationDataType = {
+  id: string;
+  date: string;
+  buskerName: string;
+  buskerProfileImage: string;
+  buskerUuid: string;
+  feedId: string;
+  message: string;
+}
+
+export type UserInfoDataType = {
+  nickname: string;
+  profileImageUrl: string;
+  followingCount: number;
+  subscribeCount: number;
+  vticketCount: number;
+}
