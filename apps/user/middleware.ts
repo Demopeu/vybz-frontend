@@ -37,6 +37,11 @@ const withOutAuth = async (
 const PUBLIC_ROUTES = ['/', routes.signIn];
 
 export default async function middleware(request: NextRequest) {
+  // manifest.json은 무조건 통과
+  if (request.nextUrl.pathname === '/manifest.json') {
+    return NextResponse.next();
+  }
+
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
@@ -47,6 +52,15 @@ export default async function middleware(request: NextRequest) {
   const callbackUrl = searchParams.get('callbackUrl');
 
   const isPublic = PUBLIC_ROUTES.includes(pathname);
+
+  // 아이콘 파일은 예외처리
+  if (
+    pathname.startsWith('/vybz_icon_192.png') ||
+    pathname.startsWith('/vybz_icon_512.png') ||
+    pathname.startsWith('/firebase-messaging-sw.js')
+  ) {
+    return NextResponse.next();
+  }
 
   if (pathname === routes.signIn) {
     return withOutAuth(request, Boolean(accessToken), callbackUrl);

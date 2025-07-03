@@ -258,3 +258,12 @@ export type BuskerSNSResponseType = {
   buskerUuid: string;
   snsUrl: string;
 }
+
+export type BuskerResponseType = {
+  nickname: string;
+  profileImageUrl: string;
+  introduction: string;
+  followerCount: number;
+  displayFollowerCount: string;
+  subscribedCount: number;
+};

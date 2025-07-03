@@ -1,8 +1,12 @@
 import SearchBar from '@/components/common/form/SearchBar';
 import FollowingList from '@/components/mypage/Followings/FollowingList';
 import { getFollowingsUsers } from '@/services/following-services/following-services';
+import { getServerSession } from 'next-auth';
+import { options } from '@/app/api/auth/[...nextauth]/options';
 
 export default async function FollowingsPage() {
+  const session = await getServerSession(options);
+  const userUuid = session?.user?.userUuid || '';
   const initialFollowings = await getFollowingsUsers();
 
   return (
@@ -16,7 +20,10 @@ export default async function FollowingsPage() {
       ) : (
         <>
           <SearchBar placeholder="검색" />
-          <FollowingList initialFollowings={initialFollowings} />
+          <FollowingList
+            initialFollowings={initialFollowings}
+            userUuid={userUuid}
+          />
         </>
       )}
     </main>
