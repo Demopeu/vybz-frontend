@@ -25,7 +25,10 @@ export default async function LivePage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Live Video Section */}
             <div className="lg:col-span-2">
-              <LiveStream liveData={currentLiveStream} />
+              <LiveStream
+                viewerCount={currentLiveStream.viewerCount}
+                likeCount={currentLiveStream.likeCount}
+              />
               <LiveInfo />
             </div>
 

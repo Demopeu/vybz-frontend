@@ -27,22 +27,25 @@ export const liveFreeViewData: LiveFreeViewType[] = [
     liveName: '우리동네 아이돌',
     buskerProfileImage: '/buskerUrl.jpg',
     isMembership: true,
+    viewerCount: 103380,
   },
   {
     id: '2',
     buskerId: 'busker2',
     buskerName: '윈터',
     liveName: '겨울 특집 라이브',
-    buskerProfileImage: '/buskerUrl.jpg',
+    buskerProfileImage: '/buskerUrl2.jpg',
     isMembership: true,
+    viewerCount: 37380,
   },
   {
     id: '3',
     buskerId: 'busker3',
     buskerName: '닝닝',
     liveName: '신나는 공연',
-    buskerProfileImage: '/buskerUrl.jpg',
+    buskerProfileImage: '/buskerUrl3.jpg',
     isMembership: false,
+    viewerCount: 53380,
   },
 ];
 

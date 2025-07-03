@@ -26,21 +26,19 @@ export default function LiveHeader({
   return (
     <header className="bg-gray-800 border-b border-gray-700 p-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
           <Avatar className="h-10 w-10">
             <AvatarImage src={profileImageUrl} />
             <AvatarFallback>{nickname.charAt(0)}</AvatarFallback>
           </Avatar>
-          <div>
-            <h1 className="text-xl font-bold">{nickname}</h1>
-            <div className="flex items-center space-x-2">
-              {isLive && (
-                <Badge variant="destructive" className="animate-pulse">
-                  LIVE
-                </Badge>
-              )}
-              <span className="text-sm text-gray-400">{title}</span>
-            </div>
+          <h1 className="text-xl font-bold">{nickname}</h1>
+          <div className="flex items-center space-x-2">
+            {isLive && (
+              <Badge variant="destructive" className="animate-pulse">
+                LIVE
+              </Badge>
+            )}
+            <span className="text-sm text-gray-400">{title}</span>
           </div>
         </div>
         <div className="flex items-center space-x-4">
