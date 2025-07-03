@@ -5,19 +5,21 @@ import { Bell, ChevronLeft, Search } from '@repo/ui/components/icons';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { BuskerResponseType } from '@/types/ResponseDataTypes';
 
-export default function ChatHeader() {
+export default function ChatHeader({
+  buskerUuid,
+  buskerInfo,
+}: {
+  buskerUuid: string;
+  buskerInfo: BuskerResponseType;
+}) {
   const router = useRouter();
 
   const handleBack = () => {
     router.back();
   };
 
-  const buskerInfo = {
-    buskerId: '1',
-    buskerName: '카리나',
-    buskerProfileUrl: '/BuskerUrl.jpg',
-  };
   return (
     <header className="fixed top-10 left-0 right-0 z-54 w-full text-white flex items-center justify-between">
       <div className="flex items-center space-x-2 py-4 pl-4 pr-10  bg-blue-400 rounded-t-4xl flex-2/5 border-b-4 border-blue-400">
@@ -29,12 +31,12 @@ export default function ChatHeader() {
           <ChevronLeft />
         </Button>
         <Link
-          href={`/busker/${buskerInfo.buskerId}`}
+          href={`/busker/${buskerUuid}`}
           className="flex items-center space-x-2"
         >
           <div className="relative w-10 h-10 shrink-0">
             <Image
-              src={buskerInfo.buskerProfileUrl}
+              src={buskerInfo.profileImageUrl}
               alt="Busker"
               fill
               sizes="40px"
@@ -42,7 +44,7 @@ export default function ChatHeader() {
             />
           </div>
           <div className="ml-1">
-            <h3 className="font-bold">{buskerInfo.buskerName}</h3>
+            <h3 className="font-bold">{buskerInfo.nickname}</h3>
             <p className="text-sm text-gray-400">Busker</p>
           </div>
         </Link>

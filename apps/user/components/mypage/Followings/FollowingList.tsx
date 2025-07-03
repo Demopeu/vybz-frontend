@@ -12,8 +12,10 @@ import { getFollowingsUsers } from '@/services/following-services/following-serv
 
 export default function FollowingList({
   initialFollowings,
+  userUuid,
 }: {
   initialFollowings: FollowingsResponseDataType;
+  userUuid: string;
 }) {
   const [openedMenuId, setOpenedMenuId] = useState<string | null>(null);
 
@@ -70,6 +72,7 @@ export default function FollowingList({
         {followings.map((following) => (
           <div key={following.buskerUuid} data-busker-id={following.buskerUuid}>
             <FollowingBuskerBox
+              userUuid={userUuid}
               buskerName={following.nickname}
               buskerId={following.buskerUuid}
               buskerProfileImage={following.profileImageUrl}
