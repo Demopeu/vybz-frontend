@@ -49,4 +49,6 @@ export type LiveContextType = {
   toggleIsLive: () => void;
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
+  streamKey: string | null;
+  setStreamKey: React.Dispatch<React.SetStateAction<string | null>>;
 };

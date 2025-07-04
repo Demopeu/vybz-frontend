@@ -1,4 +1,4 @@
-import { ChatMessage, LiveStreamData } from '@/types/live';
+import { ChatMessage, LiveStreamData } from '@/types/liveTypes';
 
 // 초기 채팅 메시지 더미 데이터
 export const initialChatMessages: ChatMessage[] = [
@@ -60,7 +60,8 @@ export const randomUsernames = [
 export const currentLiveStream: LiveStreamData = {
   id: 'live-001',
   title: '거리의 음유시인',
-  description: '🎵 오늘은 어쿠스틱 기타와 함께 감성적인 곡들을 준비했습니다. 여러분의 신청곡도 받고 있으니 채팅으로 남겨주세요!',
+  description:
+    '🎵 오늘은 어쿠스틱 기타와 함께 감성적인 곡들을 준비했습니다. 여러분의 신청곡도 받고 있으니 채팅으로 남겨주세요!',
   buskerName: '거리의 음유시인',
   buskerProfileImage: '/placeholder.svg',
   isLive: true,

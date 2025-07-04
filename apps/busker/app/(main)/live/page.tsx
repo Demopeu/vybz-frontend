@@ -29,12 +29,14 @@ export default async function LivePage() {
                 viewerCount={currentLiveStream.viewerCount}
                 likeCount={currentLiveStream.likeCount}
               />
-              <LiveInfo />
+              <LiveInfo token={session?.user?.accessToken || ''} />
             </div>
 
             {/* Chat Section */}
             <div className="lg:col-span-1">
-              <LiveChat />
+              <LiveChat 
+                buskerUuid={buskerUuid || ''}
+              />
             </div>
           </div>
         </section>

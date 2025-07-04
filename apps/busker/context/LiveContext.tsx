@@ -10,6 +10,7 @@ export const LiveContext = createContext<LiveContextType>(
 export function UseLive({ children }: { children: React.ReactNode }) {
   const [isLive, setIsLive] = useState(false);
   const [title, setTitle] = useState('');
+  const [streamKey, setStreamKey] = useState<string | null>(null);
 
   const toggleIsLive = useCallback(() => setIsLive((prev) => !prev), []);
 
@@ -18,7 +19,9 @@ export function UseLive({ children }: { children: React.ReactNode }) {
     toggleIsLive,
     title,
     setTitle,
+    streamKey,
+    setStreamKey,
   };
 
-  return <LiveContext value={value}>{children}</LiveContext>;
+  return <LiveContext.Provider value={value}>{children}</LiveContext.Provider>;
 }
