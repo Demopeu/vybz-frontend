@@ -26,6 +26,7 @@ export default [
             'AWS_S3_BUCKET_NAME',
             'ANALYZE',
             'NEXTAUTH_SECRET',
+            'LIVE_BASE_URL',
           ],
         },
       ],

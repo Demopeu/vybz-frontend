@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
+    "@stomp/stompjs": "^7.1.1",
     "@tanstack/react-query": "^5.80.7",
     "dayjs": "^1.11.13",
     "firebase": "^11.9.1",
     "framer-motion": "^12.16.0",
+    "hls.js": "^1.6.6",
     "next": "^15.3.0",
     "next-auth": "^4.24.11",
     "next-pwa": "^5.6.0",

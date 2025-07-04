@@ -1,11 +1,16 @@
 import Link from 'next/link';
 import LiveFreeViewSwiper from '@/components/common/swiper/LiveFreeViewSwiper';
-import { LiveFreeViewType } from '@/types/ResponseDataTypes';
+import { LiveStreamItem } from '@/services/live-services/live-services';
+
+// 확장된 LiveStreamItem 타입 정의
+type EnrichedLiveStreamItem = LiveStreamItem & {
+  buskerNickname?: string;
+};
 
 export default function LiveFreeViewSection({
   data,
 }: {
-  data: LiveFreeViewType[];
+  data: EnrichedLiveStreamItem[];
 }) {
   return (
     <section className="absolute top-164 left-0 right-0 px-6 mt-10 pb-20">

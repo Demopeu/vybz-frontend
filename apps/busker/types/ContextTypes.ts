@@ -43,3 +43,12 @@ export type ChatRoomContextType = {
   addMessages: (newMessages: ChatMessageType[]) => void;
   clearMessages: () => void;
 };
+
+export type LiveContextType = {
+  isLive: boolean;
+  toggleIsLive: () => void;
+  title: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  streamKey: string | null;
+  setStreamKey: React.Dispatch<React.SetStateAction<string | null>>;
+};
