@@ -29,7 +29,7 @@ export default function LiveStream({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [streamError, setStreamError] = useState<string | null>(null);
-  const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
+  // webSocket state는 webSocketRef로 대체됨
   const [isConnected, setIsConnected] = useState(false);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   
@@ -41,6 +41,11 @@ export default function LiveStream({
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const sendQueueRef = useRef<ArrayBuffer[]>([]);
   const isSendingRef = useRef(false);
+  const isSetupRef = useRef(false); // 중복 설치 방지
+  const currentStreamRef = useRef<MediaStream | null>(null);
+  const webSocketRef = useRef<WebSocket | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const processQueueRef = useRef<((ws: WebSocket) => void) | null>(null);
 
   // 안정적인 데이터 전송 함수
   const processQueue = useCallback((ws: WebSocket) => {
@@ -69,6 +74,11 @@ export default function LiveStream({
     }
   }, []);
 
+  // processQueue ref 업데이트
+  useEffect(() => {
+    processQueueRef.current = processQueue;
+  }, [processQueue]);
+
   // 웹소켓 연결 함수
   const connectWebSocket = useCallback((streamKey: string, token: string) => {
     const wsUrl = `wss://back.vybz.kr/ws-live/stream?streamKey=${streamKey}&token=${token}`;
@@ -80,6 +90,12 @@ export default function LiveStream({
       setIsConnected(true);
       setReconnectAttempts(0);
       setStreamError(null);
+      
+      // 연결 성공 후 대기 중인 데이터 전송
+      if (sendQueueRef.current.length > 0) {
+        console.log(`🚀 대기 중인 데이터 ${sendQueueRef.current.length}개 전송 시작`);
+        processQueue(ws);
+      }
     };
     
     ws.onclose = (event) => {
@@ -102,9 +118,9 @@ export default function LiveStream({
       setIsConnected(false);
     };
     
-    setWebSocket(ws);
+    webSocketRef.current = ws;
     return ws;
-  }, [reconnectAttempts]);
+  }, [reconnectAttempts, processQueue]);
 
   // 스트리밍 웹소켓 연결
   useEffect(() => {
@@ -121,23 +137,34 @@ export default function LiveStream({
     }
   }, [isLive, streamKey, connectWebSocket]);
 
-  // 비디오 스트림 시작
+  // 비디오 스트림 시작 - 한 번만 실행되도록 수정
   useEffect(() => {
+    let currentStream: MediaStream | null = null;
+    let currentRecorder: MediaRecorder | null = null;
+    
     async function setupMediaStream() {
-      if (isLive) {
+      // 중복 설치 방지 및 Hot Reload 대응
+      if (isLive && !isSetupRef.current && !currentStreamRef.current) {
         try {
+          console.log('🎥 새로운 미디어 스트림 시작...');
+          isSetupRef.current = true;
+          
           const stream = await navigator.mediaDevices.getUserMedia({ 
             video: true,
             audio: true
           });
           
+          currentStream = stream;
+          currentStreamRef.current = stream;
+          
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
           }
           setMediaStream(stream);
+          mediaStreamRef.current = stream;
           setStreamError(null);
 
-          // 스트리밍이 활성화된 경우 MediaRecorder 설정
+          // MediaRecorder 설정
           const mimeTypeOptions = [
             "video/webm;codecs=vp8",
             "video/webm;codecs=vp9", 
@@ -156,15 +183,24 @@ export default function LiveStream({
             mediaRecorder = new MediaRecorder(stream);
           }
           
+          currentRecorder = mediaRecorder;
           mediaRecorderRef.current = mediaRecorder;
           
           mediaRecorder.ondataavailable = async (event) => {
             if (event.data.size > 0) {
-              const arrayBuffer = await event.data.arrayBuffer();
-              sendQueueRef.current.push(arrayBuffer);
-              // webSocket은 내부에서 체크하도록 processQueue에 위임
-              if (webSocket?.readyState === WebSocket.OPEN) {
-                processQueue(webSocket);
+              try {
+                const arrayBuffer = await event.data.arrayBuffer();
+                sendQueueRef.current.push(arrayBuffer);
+                
+                // WebSocket 상태를 동적으로 확인 - ref 사용
+                const currentWs = webSocketRef.current;
+                if (currentWs && currentWs.readyState === WebSocket.OPEN && processQueueRef.current) {
+                  processQueueRef.current(currentWs);
+                } else if (currentWs && currentWs.readyState !== WebSocket.OPEN) {
+                  console.warn('⚠️ WebSocket 연결이 끊어짐. 데이터 대기 중...');
+                }
+              } catch (error) {
+                console.error('❌ 데이터 처리 실패:', error);
               }
             }
           };
@@ -173,8 +209,13 @@ export default function LiveStream({
             console.log("🎥 MediaRecorder 정지됨");
           };
           
-          // 200ms 간격으로 데이터 전송 (더 부드러운 스트리밍)
+          mediaRecorder.onerror = (error) => {
+            console.error('🎥 MediaRecorder 오류:', error);
+          };
+          
+          // 200ms 간격으로 데이터 전송
           mediaRecorder.start(200);
+          console.log('🎥 MediaRecorder 시작됨');
           
         } catch (error) {
           console.error('미디어 스트림 가져오기 실패:', error);
@@ -186,6 +227,22 @@ export default function LiveStream({
                 : '미디어 스트림을 시작할 수 없습니다.'
           );
         }
+      } else if (!isLive && (mediaStreamRef.current || currentStreamRef.current)) {
+        // 라이브 중단 시 스트림 정리
+        console.log('🎥 라이브 중단 - 미디어 스트림 정리');
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+          mediaRecorderRef.current.stop();
+        }
+        if (currentStreamRef.current) {
+          currentStreamRef.current.getTracks().forEach(track => track.stop());
+          currentStreamRef.current = null;
+        }
+        if (mediaStreamRef.current) {
+          mediaStreamRef.current.getTracks().forEach((track: MediaStreamTrack) => track.stop());
+        }
+        setMediaStream(null);
+        mediaStreamRef.current = null;
+        isSetupRef.current = false;
       }
     }
 
@@ -193,14 +250,20 @@ export default function LiveStream({
 
     return () => {
       // 컴포넌트 언마운트 시 정리
-      if (mediaStream) {
-        mediaStream.getTracks().forEach(track => track.stop());
+      console.log('🎥 컴포넌트 언마운트 - 정리 작업');
+      if (currentRecorder && currentRecorder.state === 'recording') {
+        currentRecorder.stop();
       }
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
-        mediaRecorderRef.current.stop();
+      if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
       }
+      if (currentStreamRef.current) {
+        currentStreamRef.current.getTracks().forEach(track => track.stop());
+        currentStreamRef.current = null;
+      }
+      isSetupRef.current = false;
     };
-  }, [isLive, processQueue, webSocket, mediaStream]);
+  }, [isLive]); // webSocket, mediaStream, processQueue는 ref로 처리하여 의존성에서 제외
 
   const handleLike = () => {
     setIsLiked(!isLiked);

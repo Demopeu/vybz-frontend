@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback, use } from 'react';
-import { Client } from '@stomp/stompjs';
+import { useState, useEffect, useRef, use } from 'react';
+import { Client, Stomp } from '@stomp/stompjs';
 import { Button } from '@repo/ui/components/ui/button';
 import { Input } from '@repo/ui/components/ui/input';
 import { Badge } from '@repo/ui/components/ui/badge';
@@ -27,6 +27,8 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const maxReconnectAttempts = 5;
+  const isConnectingRef = useRef(false); // 중복 연결 방지
+  const currentClientRef = useRef<Client | null>(null);
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -36,32 +38,71 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
     scrollToBottom();
   }, [chatMessages]);
 
-  // 채팅 연결 함수
-  const connectToChat = useCallback(async () => {
+  // 채팅 연결 함수 - HTML 파일과 동일한 방식으로 변경
+  const connectToChat = async () => {
     if (!streamKey) {
       setError('스트림 키가 없어 채팅을 연결할 수 없습니다.');
       return;
     }
 
-    if (connecting) return;
+    if (isConnectingRef.current || connecting) {
+      console.log('⚠️ 이미 연결 시도 중...');
+      return;
+    }
 
+    console.log('💬 채팅 WebSocket 연결 시도...');
+    isConnectingRef.current = true;
     setConnecting(true);
     setError(null);
 
-    const client = new Client({
-      brokerURL: `wss://back.vybz.kr/ws/live-chat?liveId=${streamKey}`,
-      reconnectDelay: Math.min(5000 * Math.pow(2, reconnectAttempts), 30000), // 지수적 백오프
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-      debug: (str) => {
-        console.log('[STOMP Debug]:', str);
-      },
-      onConnect: () => {
-        console.log('✅ 채팅 WebSocket 연결 성공!');
+    // HTML 파일과 동일한 방식으로 WebSocket 직접 생성 후 Stomp.over() 사용
+    const socket = new WebSocket(`wss://back.vybz.kr/ws/live-chat?liveId=${streamKey}`);
+    const client = Stomp.over(socket);
+    
+    // debug 비활성화 (로그 감소)
+    client.debug = () => {}; // HTML에서는 null이지만 여기서는 빈 함수 사용
+    
+    // WebSocket 이벤트 핸들러 설정
+    socket.onopen = () => {
+      console.log('✅ WebSocket connected');
+    };
+    
+    socket.onclose = (event) => {
+      console.log('🔌 WebSocket closed:', event.code);
+      setConnected(false);
+      setConnecting(false);
+      isConnectingRef.current = false;
+      
+      // 비정상 종료인 경우 재연결 시도
+      if (event.code !== 1000 && reconnectAttempts < maxReconnectAttempts) {
+        setReconnectAttempts(prev => prev + 1);
+        setTimeout(() => {
+          console.log('연결이 끊어져 재연결을 시도합니다...');
+          if (!isConnectingRef.current) {
+            connectToChat();
+          }
+        }, 2000);
+      }
+    };
+    
+    socket.onerror = (error) => {
+      console.error('🚨 WebSocket error:', error);
+      setError('채팅 서버에 연결할 수 없습니다. 네트워크 연결을 확인해주세요.');
+      setConnected(false);
+      setConnecting(false);
+      isConnectingRef.current = false;
+    };
+
+    // STOMP 연결 - HTML 파일과 동일한 방식
+    client.connect({}, 
+      // 연결 성공 콜백
+      () => {
+        console.log('✅ STOMP 연결 성공');
         setConnected(true);
         setConnecting(false);
         setError(null);
         setReconnectAttempts(0);
+        isConnectingRef.current = false;
 
         // 해당 라이브 방 채팅 구독
         client.subscribe(`/topic/live-chat/${streamKey}`, (message) => {
@@ -71,7 +112,7 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
             
             const newMessage: ChatMessage = {
               id: receivedMessage.id || Date.now().toString(),
-              username: receivedMessage.senderName || receivedMessage.username || '익명',
+              username: receivedMessage.senderUuid || receivedMessage.senderName || receivedMessage.username || '익명',
               message: receivedMessage.content || receivedMessage.message || '',
               timestamp: new Date(receivedMessage.timestamp || Date.now()),
               isSupporter: receivedMessage.isSupporter || false,
@@ -83,66 +124,52 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
             console.error('원본 메시지:', message.body);
           }
         });
+        
+        // 클라이언트 참조 저장
+        setStompClient(client);
+        currentClientRef.current = client;
       },
-      onStompError: (frame) => {
-        console.error('STOMP 오류:', frame);
-        setError(`채팅 연결 오류: ${frame.headers?.message || '알 수 없는 오류'}`);
+      // 연결 실패 콜백
+      (error: unknown) => {
+        console.error('❌ STOMP 연결 실패:', error);
+        setError(`채팅 연결 오류: ${error}`);
         setConnected(false);
         setConnecting(false);
+        isConnectingRef.current = false;
         
         // 재연결 시도
         if (reconnectAttempts < maxReconnectAttempts) {
           setReconnectAttempts(prev => prev + 1);
           setTimeout(() => {
             console.log(`재연결 시도 ${reconnectAttempts + 1}/${maxReconnectAttempts}`);
-            connectToChat();
+            if (!isConnectingRef.current) {
+              connectToChat();
+            }
           }, 3000);
         } else {
           setError('최대 재연결 시도 횟수를 초과했습니다. 페이지를 새로고침해주세요.');
         }
-      },
-      onWebSocketError: (event) => {
-        console.error('WebSocket 오류:', event);
-        setError('채팅 서버에 연결할 수 없습니다. 네트워크 연결을 확인해주세요.');
-        setConnected(false);
-        setConnecting(false);
-      },
-      onWebSocketClose: (event) => {
-        console.log('WebSocket 연결 종료:', event);
-        setConnected(false);
-        setConnecting(false);
-        
-        // 비정상 종료인 경우 재연결 시도
-        if (event.code !== 1000 && reconnectAttempts < maxReconnectAttempts) {
-          setReconnectAttempts(prev => prev + 1);
-          setTimeout(() => {
-            console.log('연결이 끊어져 재연결을 시도합니다...');
-            connectToChat();
-          }, 2000);
-        }
-      },
-    });
+      }
+    );
+  };
 
-    try {
-      client.activate();
-      setStompClient(client);
-    } catch (error) {
-      console.error('클라이언트 활성화 실패:', error);
-      setError('채팅 클라이언트 초기화에 실패했습니다.');
-      setConnecting(false);
-    }
-  }, [streamKey, reconnectAttempts, connecting]);
-
-  // STOMP WebSocket 연결 설정
+  // STOMP WebSocket 연결 설정 - 의존성 최적화
   useEffect(() => {
-    connectToChat();
+    // 이미 연결되어 있으면 실행하지 않음
+    if (!connected && !isConnectingRef.current && streamKey) {
+      connectToChat();
+    }
 
     return () => {
-      if (stompClient && stompClient.connected) {
-        stompClient.deactivate();
+      console.log('💬 채팅 컴포넌트 언마운트 - 정리 작업');
+      if (currentClientRef.current && currentClientRef.current.connected) {
+        currentClientRef.current.deactivate();
+        currentClientRef.current = null;
       }
+      isConnectingRef.current = false;
     };
-  }, [connectToChat, stompClient]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [streamKey]); // connectToChat, connected는 무한 재연결 방지를 위해 의존성에서 제외
 
   // 메시지 전송 핸들러
   const handleSendMessage = async () => {
