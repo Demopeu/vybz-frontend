@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@repo/ui/components/ui/button';
 import { Card, CardContent } from '@repo/ui/components/ui/card';
 import { Badge } from '@repo/ui/components/ui/badge';
@@ -24,16 +24,102 @@ export default function LiveStream({
   viewerCount: number;
   likeCount: number;
 }) {
-  const { isLive } = use(LiveContext);
+  const { isLive, streamKey } = use(LiveContext);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [streamError, setStreamError] = useState<string | null>(null);
+  const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [reconnectAttempts, setReconnectAttempts] = useState(0);
   
   const [isLiked, setIsLiked] = useState(false);
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(true);
+  
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const sendQueueRef = useRef<ArrayBuffer[]>([]);
+  const isSendingRef = useRef(false);
+
+  // 안정적인 데이터 전송 함수
+  const processQueue = useCallback((ws: WebSocket) => {
+    if (isSendingRef.current || sendQueueRef.current.length === 0 || ws.readyState !== WebSocket.OPEN) {
+      return;
+    }
+    
+    isSendingRef.current = true;
+    const chunk = sendQueueRef.current.shift();
+    
+    if (chunk) {
+      try {
+        ws.send(chunk);
+      } catch (error) {
+        console.error('데이터 전송 실패:', error);
+        // 전송 실패 시 다시 큐에 추가
+        sendQueueRef.current.unshift(chunk);
+      }
+    }
+    
+    isSendingRef.current = false;
+    
+    // 큐에 데이터가 남아있으면 계속 처리
+    if (sendQueueRef.current.length > 0) {
+      setTimeout(() => processQueue(ws), 10);
+    }
+  }, []);
+
+  // 웹소켓 연결 함수
+  const connectWebSocket = useCallback((streamKey: string, token: string) => {
+    const wsUrl = `wss://back.vybz.kr/ws-live/stream?streamKey=${streamKey}&token=${token}`;
+    const ws = new WebSocket(wsUrl);
+    ws.binaryType = "arraybuffer";
+    
+    ws.onopen = () => {
+      console.log('✅ 스트리밍 WebSocket 연결 성공!');
+      setIsConnected(true);
+      setReconnectAttempts(0);
+      setStreamError(null);
+    };
+    
+    ws.onclose = (event) => {
+      console.log('❌ WebSocket 연결 종료:', event.code, event.reason);
+      setIsConnected(false);
+      
+      // 정상 종료가 아닌 경우 재연결 시도
+      if (event.code !== 1000 && reconnectAttempts < 5) {
+        setTimeout(() => {
+          console.log(`재연결 시도 ${reconnectAttempts + 1}/5`);
+          setReconnectAttempts(prev => prev + 1);
+          connectWebSocket(streamKey, token);
+        }, 2000 * Math.pow(2, reconnectAttempts)); // 지수 백오프
+      }
+    };
+    
+    ws.onerror = (error) => {
+      console.error('❌ WebSocket 오류:', error);
+      setStreamError('스트리밍 연결에 오류가 발생했습니다.');
+      setIsConnected(false);
+    };
+    
+    setWebSocket(ws);
+    return ws;
+  }, [reconnectAttempts]);
+
+  // 스트리밍 웹소켓 연결
+  useEffect(() => {
+    if (isLive && streamKey) {
+      const buskerAccessToken = process.env.NEXT_PUBLIC_BUSKER_ACCESS_TOKEN;
+      if (buskerAccessToken) {
+        const ws = connectWebSocket(streamKey, buskerAccessToken);
+        return () => {
+          if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.close(1000, '스트리밍 종료');
+          }
+        };
+      }
+    }
+  }, [isLive, streamKey, connectWebSocket]);
 
   // 비디오 스트림 시작
   useEffect(() => {
@@ -50,6 +136,46 @@ export default function LiveStream({
           }
           setMediaStream(stream);
           setStreamError(null);
+
+          // 스트리밍이 활성화된 경우 MediaRecorder 설정
+          const mimeTypeOptions = [
+            "video/webm;codecs=vp8",
+            "video/webm;codecs=vp9", 
+            "video/webm"
+          ];
+          
+          let mediaRecorder: MediaRecorder | null = null;
+          for (const mimeType of mimeTypeOptions) {
+            if (MediaRecorder.isTypeSupported(mimeType)) {
+              mediaRecorder = new MediaRecorder(stream, { mimeType });
+              break;
+            }
+          }
+          
+          if (!mediaRecorder) {
+            mediaRecorder = new MediaRecorder(stream);
+          }
+          
+          mediaRecorderRef.current = mediaRecorder;
+          
+          mediaRecorder.ondataavailable = async (event) => {
+            if (event.data.size > 0) {
+              const arrayBuffer = await event.data.arrayBuffer();
+              sendQueueRef.current.push(arrayBuffer);
+              // webSocket은 내부에서 체크하도록 processQueue에 위임
+              if (webSocket?.readyState === WebSocket.OPEN) {
+                processQueue(webSocket);
+              }
+            }
+          };
+          
+          mediaRecorder.onstop = () => {
+            console.log("🎥 MediaRecorder 정지됨");
+          };
+          
+          // 200ms 간격으로 데이터 전송 (더 부드러운 스트리밍)
+          mediaRecorder.start(200);
+          
         } catch (error) {
           console.error('미디어 스트림 가져오기 실패:', error);
           setStreamError(
@@ -66,12 +192,15 @@ export default function LiveStream({
     setupMediaStream();
 
     return () => {
-      // 컴포넌트 언마운트 시 미디어 스트림 정리
+      // 컴포넌트 언마운트 시 정리
       if (mediaStream) {
         mediaStream.getTracks().forEach(track => track.stop());
       }
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+        mediaRecorderRef.current.stop();
+      }
     };
-  }, [isLive, mediaStream]);
+  }, [isLive, processQueue, webSocket, mediaStream]);
 
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -142,12 +271,21 @@ export default function LiveStream({
             </div>
           )}
 
-          {/* Live Badge */}
+          {/* Live Badge and Connection Status */}
           {isLive && (
-            <div className="absolute top-4 left-4">
+            <div className="absolute top-4 left-4 flex space-x-2">
               <Badge variant="destructive" className="animate-pulse">
                 🔴 LIVE
               </Badge>
+              {isConnected ? (
+                <Badge variant="default" className="bg-green-600">
+                  연결됨
+                </Badge>
+              ) : (
+                <Badge variant="outline" className="bg-yellow-600">
+                  연결 중...
+                </Badge>
+              )}
             </div>
           )}
 
