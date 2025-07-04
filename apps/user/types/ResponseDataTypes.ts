@@ -32,17 +32,6 @@ export type CategoryDataType = {
   name: string;
 };
 
-export type LiveFreeViewType = {
-  id: string;
-  buskerId: string;
-  buskerName: string;
-  liveName: string;
-  buskerProfileImage: string;
-  isMembership: boolean;
-  viewerCount?: number;
-  realsId?: string;
-};
-
 export type ProfileDataType = {
   id: string;
   nickname: string;
@@ -132,7 +121,7 @@ export type UserInfoDataType = {
   followingCount: number;
   subscribeCount: number;
   vticketCount: number;
-}
+};
 
 export interface OtherUserDataType extends UserInfoDataType {
   buskerName: string;
@@ -140,13 +129,12 @@ export interface OtherUserDataType extends UserInfoDataType {
   createdAt: string;
 }
 
-
 export type PurchaseHistoryDataType = {
   id: string;
   date: string;
   vticketCount: number;
   amount: number;
-}
+};
 
 export type UseHistoryDataType = {
   id: string;
@@ -156,14 +144,14 @@ export type UseHistoryDataType = {
   buskerProfileImage: string;
   buskerUuid: string;
   message: string;
-}
+};
 
 export type HistoryDataType = {
- type: 'purchase' | 'use';
- data: PurchaseHistoryDataType[] | UseHistoryDataType[];
- page: number;
- totalPages: number;
-}
+  type: 'purchase' | 'use';
+  data: PurchaseHistoryDataType[] | UseHistoryDataType[];
+  page: number;
+  totalPages: number;
+};
 
 export type NotificationDataType = {
   id: string;
@@ -173,7 +161,7 @@ export type NotificationDataType = {
   buskerUuid: string;
   feedId: string;
   message: string;
-}
+};
 
 export type ChatListType = {
   chatId: string;
@@ -182,13 +170,13 @@ export type ChatListType = {
   lastMessage: string;
   lastMessageTime: string;
   unreadCount: number;
-}
+};
 
 export type ChatListDataType = {
- data: ChatListType[] | [];
- page: number;
- totalPages: number;
-}
+  data: ChatListType[] | [];
+  page: number;
+  totalPages: number;
+};
 
 export type ChatMessageType = {
   id: string;
@@ -197,7 +185,7 @@ export type ChatMessageType = {
   content: string;
   read: boolean;
   sentAt: string;
-}
+};
 
 export type ChatMessageListType = {
   content: ChatMessageType[];
@@ -257,7 +245,7 @@ export type FollowCheckResponseType = CommonResponseType<boolean>;
 export type BuskerSNSResponseType = {
   buskerUuid: string;
   snsUrl: string;
-}
+};
 
 export type BuskerResponseType = {
   nickname: string;
@@ -266,4 +254,31 @@ export type BuskerResponseType = {
   followerCount: number;
   displayFollowerCount: string;
   subscribedCount: number;
+};
+
+export type LiveStreamDataType = {
+  id: string;
+  buskerId: string;
+  buskerName: string;
+  liveName: string;
+  buskerProfileImage: string;
+  isMembership: boolean;
+  viewerCount: number;
+  startedAt: string;
+  liveStreamStatus: string;
+};
+
+export type LiveStreamResponse = {
+  content: {
+    streamKey: string;
+    title: string;
+    buskerUuid: string | null;
+    thumbnailUrl: string | null;
+    viewerCount: number;
+    liveStreamStatus: string;
+    startedAt: string;
+    membership: boolean;
+  }[];
+  hasNext: boolean;
+  nextCursor: string | null;
 };

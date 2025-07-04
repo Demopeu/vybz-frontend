@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
 
-export function useInfiniteScroll<T extends { realsId?: string }>({
+type ItemWithId = { id?: string; realsId?: string; streamKey?: string; };
+
+export function useInfiniteScroll<T extends ItemWithId>({
   fetchFn,
   initialItems = [],
   pageSize = 10,
@@ -19,8 +21,9 @@ export function useInfiniteScroll<T extends { realsId?: string }>({
   const fetchMore = useCallback(() => {
     if (loading || !hasMore) return;
 
-    // 마지막 아이템의 ID를 lastId로 사용
-    const currentLastId = items.length > 0 ? items[items.length - 1]?.realsId : undefined;
+    // 마지막 아이템의 ID를 lastId로 사용 (여러 ID 필드 중에서 사용 가능한 것 선택)
+    const lastItem = items[items.length - 1];
+    const currentLastId = lastItem?.streamKey || lastItem?.realsId || lastItem?.id;
     setLastId(currentLastId);
     
     setLoading(true);

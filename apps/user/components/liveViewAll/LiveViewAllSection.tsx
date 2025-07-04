@@ -4,24 +4,26 @@ import InfiniteScrollWrapper from '@/components/common/layouts/wrapper/InfiniteS
 import LiveCard from '@/components/common/card/LiveCard';
 
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-import { LiveFreeViewType } from '@/types/ResponseDataTypes';
-
+import { LiveStreamItem } from '@/services/live-services/live-services';
 import { generateLiveCards } from '@/utils/generateLiveCards';
+
+type EnrichedLiveStreamItem = LiveStreamItem & {
+  buskerNickname?: string;
+};
 
 export default function LiveViewAllSection({
   lives: initialLives,
 }: {
-  lives: LiveFreeViewType[];
+  lives: EnrichedLiveStreamItem[];
 }) {
   const fetchFn = async (
     size: number,
     lastId?: string
-  ): Promise<LiveFreeViewType[]> => {
-    // lastId를 페이지 번호로 변환 (없으면 1페이지로 간주)
-    const page = lastId ? parseInt(lastId) + 1 : 1;
+  ): Promise<EnrichedLiveStreamItem[]> => {
     await new Promise((res) => setTimeout(res, 1000));
-    // sortType을 사용하여 정렬 방식 적용 가능
-    return generateLiveCards((page - 1) * size, size);
+    // Generate new items with unique streamKeys based on lastId
+    const startIndex = lastId ? parseInt(lastId.split('-').pop() || '0') + 1 : 0;
+    return generateLiveCards(startIndex, size);
   };
 
   const {
@@ -29,7 +31,7 @@ export default function LiveViewAllSection({
     loading: isLoading,
     hasMore: hasNextPage,
     fetchMore,
-  } = useInfiniteScroll<LiveFreeViewType>({
+  } = useInfiniteScroll<EnrichedLiveStreamItem>({
     fetchFn,
     initialItems: initialLives,
     pageSize: 6,
@@ -44,7 +46,7 @@ export default function LiveViewAllSection({
       <section aria-label="Live busker list" className="pt-10">
         <ul className="grid grid-cols-3 gap-3">
           {lives.map((live) => (
-            <li key={live.id}>
+            <li key={live.streamKey}>
               <LiveCard item={live} />
             </li>
           ))}

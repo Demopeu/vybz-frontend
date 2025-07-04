@@ -101,7 +101,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@stomp/stompjs':
-        specifier: ^7.1.1
+        specifier: 7.1.1
         version: 7.1.1
       '@tanstack/react-query':
         specifier: ^5.80.7
@@ -197,6 +197,9 @@ importers:
       framer-motion:
         specifier: ^12.16.0
         version: 12.18.1(react-dom@19.1.0)(react@19.1.0)
+      hls.js:
+        specifier: ^1.6.6
+        version: 1.6.6
       next:
         specifier: ^15.3.0
         version: 15.3.4(@babel/core@7.27.7)(react-dom@19.1.0)(react@19.1.0)
@@ -6336,6 +6339,10 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       function-bind: 1.1.2
+
+  /hls.js@1.6.6:
+    resolution: {integrity: sha512-S4uTCwTHOtImW+/jxMjzG7udbHy5z682YQRbm/4f7VXuVNEoGBRjPJnD3Fxrufomdhzdtv24KnxRhPMXSvL6Fw==}
+    dev: false
 
   /html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
