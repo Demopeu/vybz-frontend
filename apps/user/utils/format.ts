@@ -22,18 +22,23 @@ export function formatNumberToKm(num: number): string {
   return num.toString();
 }
 
-export function formatAmount(amount: number, unit: string): string {
-  return amount.toLocaleString('ko-KR') + unit;
+export function formatAmount(
+  amount: number | undefined | null,
+  unit: string
+): string {
+  return (
+    (typeof amount === 'number' ? amount : 0).toLocaleString('ko-KR') + unit
+  );
 }
 
 export function categorizeAndFormatDate(dateString: string) {
   const targetDate = dayjs(dateString);
   const today = dayjs();
   const diffDays = today.diff(targetDate, 'day');
-  
+
   let category = '';
   let timeAgo = '';
-  
+
   if (targetDate.isToday()) {
     category = '오늘';
     timeAgo = '오늘';
@@ -50,7 +55,7 @@ export function categorizeAndFormatDate(dateString: string) {
     category = '이전 활동';
     timeAgo = `${diffDays}일 전`;
   }
-  
+
   return { category, timeAgo };
 }
 
@@ -65,8 +70,12 @@ export function formatTimeAgo(dateString: string) {
     const isAM = hours < 12;
 
     const formattedHour = isAM
-      ? hours === 0 ? 12 : hours
-      : hours > 12 ? hours - 12 : hours;
+      ? hours === 0
+        ? 12
+        : hours
+      : hours > 12
+        ? hours - 12
+        : hours;
 
     const ampm = isAM ? '오전' : '오후';
 
