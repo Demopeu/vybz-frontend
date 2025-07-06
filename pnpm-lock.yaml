@@ -188,6 +188,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.80.7
         version: 5.80.10(react@19.1.0)
+      '@tosspayments/payment-sdk':
+        specifier: ^1.9.1
+        version: 1.9.1
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
@@ -215,6 +218,9 @@ importers:
       react-dom:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
     devDependencies:
       '@aws-sdk/client-s3':
         specifier: ^3.821.0
@@ -4543,6 +4549,24 @@ packages:
       '@tanstack/query-core': 5.80.10
       react: 19.1.0
 
+  /@tosspayments/payment-sdk@1.9.1:
+    resolution: {integrity: sha512-OzDG2kOGOrb5JRvprR8R/mQzXFNnLW/6X09uLY1KF4+O7ASu6LrMoFCERd+WeAJMtRAARkclGDcJ/GSu+OHzzg==}
+    dependencies:
+      '@tosspayments/payment__types': 1.69.0
+    dev: false
+
+  /@tosspayments/payment__types@1.69.0:
+    resolution: {integrity: sha512-EbU36vLEWfhRpX/g4V0DyRiUmTkNeeVDYjJamD9aJiLmRbLl9PVdXi5QOQTMYma2RGRgA8drHY4yDMsjvKFwCg==}
+    dependencies:
+      '@tosspayments/sdk-constants': 0.2.2
+    dev: false
+
+  /@tosspayments/sdk-constants@0.2.2:
+    resolution: {integrity: sha512-qTIcD9JnVtN65/yiW5sPAlvK5fpQtDluv4IEyslubncbQLQKE+ePSnGZU1fLNPxcchv6QTnwmgj9Ndm6EN/Ymg==}
+    dependencies:
+      type-fest: 2.19.0
+    dev: false
+
   /@types/conventional-commits-parser@5.0.1:
     resolution: {integrity: sha512-7uz5EHdzz2TqoMfV7ee61Egf5y6NkcO4FB/1iCCQnbeiI1F3xzv3vK5dBCXUCLQgGYS+mUeigK1iKQzvED+QnQ==}
     dependencies:
@@ -8376,6 +8400,11 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /type-fest@2.19.0:
+    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
+    engines: {node: '>=12.20'}
+    dev: false
+
   /typed-array-buffer@1.0.3:
     resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
     engines: {node: '>= 0.4'}
@@ -8518,6 +8547,11 @@ packages:
     dependencies:
       react: 19.1.0
     dev: true
+
+  /uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+    dev: false
 
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}

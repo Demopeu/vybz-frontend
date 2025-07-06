@@ -12,6 +12,7 @@ import {
 } from '@/services/user-services/UserInfoServices';
 import { getServerSession } from 'next-auth';
 import { options } from '@/app/api/auth/[...nextauth]/options';
+import SubscribeButton from '@/components/common/button/SubscribeButton';
 
 export default async function Page({
   params,
@@ -51,9 +52,7 @@ export default async function Page({
             />
             <StateBox initialData={initialData} />
             <div className="flex gap-2">
-              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full">
-                구독하기
-              </Button>
+              <SubscribeButton buskerUuid={buskerUuid} />
               <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-full">
                 응원 메시지 보내기
               </Button>
