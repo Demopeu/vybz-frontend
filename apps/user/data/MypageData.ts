@@ -182,8 +182,23 @@ export const useHistoryData: UseHistoryDataType[] = [
 ];   
 
 export const historyData: HistoryDataType = {
- type: 'purchase',
- data: purchaseHistoryData,
- page: 1,
- totalPages: 10
+  type: 'purchase',
+  data: purchaseHistoryData.map(item => ({
+    amount: item.amount,
+    ticketCount: item.vticketCount,
+    approvedAt: item.date,
+    date: item.date,
+    vticketCount: item.vticketCount,
+    id: item.id
+  })),
+  page: 1,
+  size: 10,
+  totalCount: 100,
+  totalPages: 10,
+  pageNumList: [1, 2, 3, 4, 5],
+  prev: false,
+  next: true,
+  prevPage: 0,
+  nextPage: 2,
+  currentPage: 1
 };

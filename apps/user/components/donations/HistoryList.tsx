@@ -1,7 +1,7 @@
 import {
   HistoryDataType,
-  PurchaseHistoryDataType,
-  UseHistoryDataType,
+  PaymentHistoryItem,
+  UseHistoryDataItem,
 } from '@/types/ResponseDataTypes';
 import PurchaseHistoryItem from '@/components/donations/PurchaseHistoryItem';
 import UseHistoryItem from '@/components/donations/UseHistoryItem';
@@ -9,19 +9,24 @@ import PaginationController from '@/components/common/PaginationController';
 
 export default function HistoryList({
   historyData,
+  onPageChange,
 }: {
   historyData: HistoryDataType;
+  onPageChange: (page: number) => void;
 }) {
   const groupedData = historyData.data.reduce(
     (acc, history) => {
-      const date = history.date;
+      const date =
+        historyData.type === 'purchase'
+          ? (history as PaymentHistoryItem).approvedAt
+          : (history as UseHistoryDataItem).donatedAt;
       if (!acc[date]) {
         acc[date] = [];
       }
       acc[date].push(history);
       return acc;
     },
-    {} as Record<string, (PurchaseHistoryDataType | UseHistoryDataType)[]>
+    {} as Record<string, (PaymentHistoryItem | UseHistoryDataItem)[]>
   );
 
   const sortedDates = Object.keys(groupedData).sort(
@@ -37,14 +42,14 @@ export default function HistoryList({
               <PurchaseHistoryItem
                 date={date}
                 groupedData={
-                  groupedData as Record<string, PurchaseHistoryDataType[]>
+                  groupedData as Record<string, PaymentHistoryItem[]>
                 }
               />
             ) : (
               <UseHistoryItem
                 date={date}
                 groupedData={
-                  groupedData as Record<string, UseHistoryDataType[]>
+                  groupedData as Record<string, UseHistoryDataItem[]>
                 }
               />
             )}
@@ -54,6 +59,7 @@ export default function HistoryList({
       <PaginationController
         page={historyData.page}
         totalPages={historyData.totalPages}
+        onPageChange={onPageChange}
       />
     </>
   );

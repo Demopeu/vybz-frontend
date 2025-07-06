@@ -14,6 +14,7 @@ export async function getUserInfo(userUuid: string): Promise<UserInfoDataType> {
             profileImageUrl: '',
             followingCount: 0,
             subscribeCount: 0,
+            subscriptionCount: 0, // subscriptionCount 추가
             vticketCount: 0,
         };
     }

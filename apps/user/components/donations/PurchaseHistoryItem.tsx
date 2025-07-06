@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { PurchaseHistoryDataType } from '@/types/ResponseDataTypes';
+import { PaymentHistoryItem } from '@/types/ResponseDataTypes';
 import { formatAmount } from '@/utils/format';
 
 export default function PurchaseHistoryItem({
@@ -7,7 +7,7 @@ export default function PurchaseHistoryItem({
   groupedData,
 }: {
   date: string;
-  groupedData: Record<string, PurchaseHistoryDataType[]>;
+  groupedData: Record<string, PaymentHistoryItem[]>;
 }) {
   return (
     <>
@@ -29,7 +29,7 @@ export default function PurchaseHistoryItem({
 
             <div className="flex-1 mx-4">
               <p className=" font-semibold text-gray-600">
-                {formatAmount(history.vticketCount, '장')}
+                {formatAmount(history.ticketCount, '장')}
               </p>
             </div>
 
