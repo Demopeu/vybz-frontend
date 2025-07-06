@@ -119,7 +119,8 @@ export type UserInfoDataType = {
   nickname: string;
   profileImageUrl: string;
   followingCount: number;
-  subscribeCount: number;
+  subscriptionCount: number;
+  subscribeCount?: number; // 호환성을 위해 추가
   vticketCount: number;
 };
 
@@ -127,6 +128,7 @@ export interface OtherUserDataType extends UserInfoDataType {
   buskerName: string;
   buskerProfileImage: string;
   createdAt: string;
+  subscribeCount?: number; // 호환성을 위해 추가
 }
 
 export type PurchaseHistoryDataType = {
@@ -144,13 +146,6 @@ export type UseHistoryDataType = {
   buskerProfileImage: string;
   buskerUuid: string;
   message: string;
-};
-
-export type HistoryDataType = {
-  type: 'purchase' | 'use';
-  data: PurchaseHistoryDataType[] | UseHistoryDataType[];
-  page: number;
-  totalPages: number;
 };
 
 export type NotificationDataType = {
@@ -281,4 +276,120 @@ export type LiveStreamResponse = {
   }[];
   hasNext: boolean;
   nextCursor: string | null;
+};
+
+export type MemberShipStatus = 'SUCCESS' | 'CANCELED';
+
+export interface MemberShipType {
+  userUuid: string;
+  buskerUuid: string;
+  price: number;
+  memberShipStatus: MemberShipStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ExtendedMemberShipType extends MemberShipType {
+  buskerNickname: string;
+  profileImageUrl: string;
+  days: number;
+  months: number;
+  displayText: string;
+}
+
+export type PaymentResponseDataType = {
+  checkoutUrl: string;
+  orderId: string;
+};
+
+export type ResponseBillingKeyDto = {
+  billingKey: string;
+};
+
+export type SubscriptionBillingResponse = {
+  billingKey: string;
+  customerKey: string;
+  userUuid: string;
+  buskerUuid: string;
+  price: number;
+};
+
+export type PaymentHistoryItem = {
+  amount: number;
+  ticketCount: number;
+  approvedAt: string;
+  date?: string; // 호환성을 위해 추가
+  vticketCount?: number; // 호환성을 위해 추가
+  id?: string; // 호환성을 위해 추가
+};
+
+export type PaymentHistoryResponse = {
+  type: string;
+  dtoList: PaymentHistoryItem[];
+  requestPageDTO: {
+    page: number;
+    size: number;
+  };
+  pageNumList: number[];
+  totalCount: number;
+  prev: boolean;
+  next: boolean;
+  prevPage: number;
+  nextPage: number;
+  totalPage: number;
+  current: number;
+};
+
+export type UseHistoryDataItem = {
+  buskerUuid: string;
+  nickname: string;
+  profileImageUrl: string;
+  ticketCount: number;
+  message: string;
+  donatedAt: string;
+  date?: string; // 호환성을 위해 추가
+  vticketCount?: number; // 호환성을 위해 추가
+  amount?: number; // 호환성을 위해 추가
+  approvedAt?: string; // 호환성을 위해 추가
+  id?: string; // 호환성을 위해 추가
+};
+
+export type UseHistoryResponse = {
+  type: string;
+  dtoList: UseHistoryDataItem[];
+  requestPageDTO: {
+    page: number;
+    size: number;
+  };
+  pageNumList: number[];
+  totalCount: number;
+  prev: boolean;
+  next: boolean;
+  prevPage: number;
+  nextPage: number;
+  totalPage: number;
+  current: number;
+};
+
+export type HistoryDataType = {
+  type: 'purchase' | 'use';
+  data: PaymentHistoryItem[] | UseHistoryDataItem[];
+  page: number;
+  size: number;
+  totalCount: number;
+  totalPages: number;
+  pageNumList: number[];
+  prev: boolean;
+  next: boolean;
+  prevPage: number;
+  nextPage: number;
+  currentPage: number;
+};
+
+export type UserInfoDataChatType = {
+  nickname: string;
+  profileImageUrl: string;
+  followingCount: number;
+  subscribeCount: number;
+  vticketCount: number;
 };

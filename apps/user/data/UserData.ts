@@ -7,6 +7,7 @@ export const UserData: OtherUserDataType = {
     profileImageUrl: "/BuskerUrl.jpg",
     followingCount: 30,
     subscribeCount: 40,
+    subscriptionCount: 40, 
     vticketCount: 50,
     buskerName: "카리나",
     buskerProfileImage: "/BuskerUrl.jpg",

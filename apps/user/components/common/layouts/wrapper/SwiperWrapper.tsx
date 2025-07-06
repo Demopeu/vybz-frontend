@@ -9,7 +9,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import {
   BuskerInfoReadResponseType,
   ReelsUrlDataType,
-  UserInfoDataType,
+  UserInfoDataChatType,
 } from '@/types/ResponseDataTypes';
 import { getReelsVideos } from '@/services/reels-services/reels-services';
 import { getBuskerInfo } from '@/services/user-services/UserInfoServices';
@@ -60,7 +60,7 @@ export default function SwiperWrapper({
 
   // 사용자 정보를 저장할 상태
   const [userInfoMap, setUserInfoMap] = useState<
-    Record<string, UserInfoDataType>
+    Record<string, UserInfoDataChatType>
   >({});
   const [userInfoLoadingMap, setUserInfoLoadingMap] = useState<
     Record<string, boolean>
@@ -116,7 +116,7 @@ export default function SwiperWrapper({
         const promises = uuidsToFetch.map(async (uuid) => {
           try {
             // 캐시에서 먼저 확인
-            const cachedData = queryClient.getQueryData<UserInfoDataType>([
+            const cachedData = queryClient.getQueryData<UserInfoDataChatType>([
               'userInfo',
               uuid,
             ]);
@@ -154,7 +154,7 @@ export default function SwiperWrapper({
           results.forEach(({ uuid, data }) => {
             if (uuid && data && !newUserInfoMap[uuid]) {
               // BuskerInfoReadResponseType인지 UserInfoDataType인지 확인
-              const userInfo: UserInfoDataType = {
+              const userInfo: UserInfoDataChatType = {
                 nickname: data.nickname,
                 profileImageUrl: data.profileImageUrl,
                 followingCount:

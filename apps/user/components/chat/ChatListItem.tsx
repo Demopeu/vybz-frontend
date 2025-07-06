@@ -1,6 +1,6 @@
 'use client';
 
-import { UserInfoDataType } from '@/types/ResponseDataTypes';
+import { UserInfoDataChatType } from '@/types/ResponseDataTypes';
 import UnreadBadge from '@/components/common/badge/UnreadBadge';
 import Image from 'next/image';
 import { formatTimeAgo } from '@/utils/format';
@@ -10,7 +10,7 @@ import React from 'react';
 
 interface ChatListItemProps {
   chatId: string;
-  userInfo?: UserInfoDataType;
+  userInfo?: UserInfoDataChatType;
   lastMessage: string;
   lastMessageTime: string;
   unreadCount: number;

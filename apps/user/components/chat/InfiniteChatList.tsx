@@ -4,7 +4,7 @@ import {
   BuskerInfoReadResponseType,
   ChatRoomListResponseType,
   ChatRoomType,
-  UserInfoDataType,
+  UserInfoDataChatType,
 } from '@/types/ResponseDataTypes';
 import { useInfiniteCursorQuery } from '@/hooks/useInfiniteCursorQuery';
 import InfiniteScrollWrapper from '@/components/common/layouts/wrapper/InfiniteScrollWrapper';
@@ -65,7 +65,7 @@ export default function InfiniteChatList({
 
   // 사용자 정보를 저장할 상태
   const [userInfoMap, setUserInfoMap] = useState<
-    Record<string, UserInfoDataType>
+    Record<string, UserInfoDataChatType>
   >({});
   const [userInfoLoadingMap, setUserInfoLoadingMap] = useState<
     Record<string, boolean>
@@ -119,7 +119,7 @@ export default function InfiniteChatList({
         const promises = uuidsToFetch.map(async (uuid) => {
           try {
             // 캐시에서 먼저 확인
-            const cachedData = queryClient.getQueryData<UserInfoDataType>([
+            const cachedData = queryClient.getQueryData<UserInfoDataChatType>([
               'userInfo',
               uuid,
             ]);
@@ -155,7 +155,7 @@ export default function InfiniteChatList({
           results.forEach(({ uuid, data }) => {
             if (uuid && data && !newUserInfoMap[uuid]) {
               // BuskerInfoReadResponseType인지 UserInfoDataType인지 확인
-              const userInfo: UserInfoDataType = {
+              const userInfo: UserInfoDataChatType = {
                 nickname: data.nickname,
                 profileImageUrl: data.profileImageUrl,
                 followingCount:
