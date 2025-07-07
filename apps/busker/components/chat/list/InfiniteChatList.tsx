@@ -218,7 +218,7 @@ export default function InfiniteChatList({
                 userInfo={userInfo}
                 lastMessage={room.content || '삭제된 메세지 입니다'}
                 lastMessageTime={room.sentAt || new Date().toISOString()}
-                unreadCount={otherParticipant?.unreadCount || 0}
+                unreadCount={room.participant[0]?.unreadCount || 0}
                 messageType={room.messageType}
                 isSelected={selectedChatId === room.chatRoomId}
                 onSelect={handleSelect}

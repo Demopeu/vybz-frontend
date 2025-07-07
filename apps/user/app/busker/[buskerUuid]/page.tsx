@@ -1,7 +1,7 @@
 import { BackgroundWrapper } from '@/components/busker/about/BackgroundWrapper';
 import { BuskerProfileBox } from '@/components/busker/about/BuskerProfileBox';
 import { StateBox } from '@/components/busker/about/StateBox';
-import { Button } from '@repo/ui/components/ui/button';
+import { MessageButton } from '@/components/common/button/MessageButton';
 import { BuskerInfoSection } from '@/components/busker/about/BuskerInfoSection';
 import { SNSLinkBox } from '@/components/busker/about/SNSLinkBox';
 import { RecentBox } from '@/components/busker/about/RecentBox';
@@ -13,6 +13,8 @@ import {
 import { getServerSession } from 'next-auth';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import SubscribeButton from '@/components/common/button/SubscribeButton';
+import Link from 'next/link';
+import { createChatRoom } from '@/services/chat-services/chat-create-services';
 
 export default async function Page({
   params,
@@ -21,6 +23,7 @@ export default async function Page({
 }) {
   const { buskerUuid } = await params;
   const session = await getServerSession(options);
+  const userUuid = session?.user?.userUuid || '';
   const [initialData, snsLinks, isFollowing] = await Promise.all([
     getBuskerInfo(buskerUuid),
     getBuskerSNSList(buskerUuid),
@@ -53,9 +56,13 @@ export default async function Page({
             <StateBox initialData={initialData} />
             <div className="flex gap-2">
               <SubscribeButton buskerUuid={buskerUuid} />
-              <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-full">
-                응원 메시지 보내기
-              </Button>
+              <Link href={`/chat/list`} className="flex-1">
+                <MessageButton
+                  buskerUuid={buskerUuid}
+                  userUuid={userUuid}
+                  createChatRoom={createChatRoom}
+                />
+              </Link>
             </div>
           </div>
         </BackgroundWrapper>

@@ -149,6 +149,24 @@ export default async function Page() {
     const createdAt = favorite?.createdAt?.split('T')[0] ?? '';
     const displayText = favorite?.displayText ?? '1일째';
 
+    // 구독한 버스커가 없을 경우 배경을 검정색으로 설정
+    if (activeExtended.length === 0) {
+      return (
+        <div className="min-h-screen bg-black text-white font-poppins flex flex-col items-center justify-center">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold mb-4">구독한 버스커가 없습니다</h2>
+            <p className="text-gray-400">관심 있는 버스커를 구독해보세요</p>
+          </div>
+          {expiredExtended.length > 0 && (
+            <div className="w-full">
+              <ExpiredSubscriptionSection subscriptions={expiredExtended} />
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // 구독한 버스커가 있는 경우 기존 디자인 유지
     return (
       <ImageBackgroundWrapper
         src={favorite?.profileImageUrl || '/defaultProfile.png'}

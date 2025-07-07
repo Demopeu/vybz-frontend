@@ -10,7 +10,7 @@ export default function SubscribeButton({
   const router = useRouter();
   return (
     <Button
-      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full"
+      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full"
       onClick={() => router.push(`/busker/${buskerUuid}/subscribe`)}
     >
       구독하기
