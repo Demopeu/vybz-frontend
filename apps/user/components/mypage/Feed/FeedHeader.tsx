@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 interface FeedHeaderProps {
   profileImage: string;
@@ -14,7 +13,7 @@ export default function FeedHeader({
 }: FeedHeaderProps) {
   return (
     <div className="mx-4 pt-4 pb-2 mb-4 border-b-2 border-gray-700/50">
-      <Link href={`/busker/${username}`} className="flex items-center ">
+      <div className="flex items-center ">
         <div className="relative w-12 h-12 rounded-full overflow-hidden mr-3 border-2 border-blue-400/50">
           <Image
             src={profileImage}
@@ -33,7 +32,7 @@ export default function FeedHeader({
           </h3>
           <p className="text-sm text-gray-400">{timeAgo}</p>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }
