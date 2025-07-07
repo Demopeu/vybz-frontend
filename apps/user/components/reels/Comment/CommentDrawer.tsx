@@ -62,7 +62,13 @@ export default function CommentDrawer({
 
               <div className="flex-1 overflow-y-auto px-4">
                 {comments.map((c) => (
-                  <CommentItem key={c.id} {...c} />
+                  <CommentItem 
+                    key={c.id} 
+                    {...c} 
+                    commentId={String(c.id)}
+                    writerUuid="dummy-user-uuid" 
+                    writerType="USER"
+                  />
                 ))}
               </div>
               <CommentInputBox onSubmit={handleNewComment} />

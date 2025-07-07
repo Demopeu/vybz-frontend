@@ -4,7 +4,6 @@ import FeedImageBox from '@/components/mypage/Feed/FeedImageBox';
 import FeedButtonBox from '@/components/mypage/Feed/FeedButtonBox';
 
 export default function FeedArticle({ feed }: { feed: FanFeedDataType }) {
-  console.log('피드', feed);
   return (
     <article className="bg-div-background rounded-xl overflow-hidden border-div-background text-white">
       <FeedHeader
@@ -21,6 +20,8 @@ export default function FeedArticle({ feed }: { feed: FanFeedDataType }) {
           likesCount={feed.likesCount}
           commentsCount={feed.commentsCount}
           feedId={feed.id}
+          writerUuid="userUuid"
+          writerType="BUSKER"
         />
       </div>
     </article>

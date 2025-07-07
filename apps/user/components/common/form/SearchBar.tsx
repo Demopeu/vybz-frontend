@@ -3,7 +3,7 @@ import { Button } from '@repo/ui/components/ui/button';
 
 export default function SearchBar({ placeholder }: { placeholder: string }) {
   return (
-    <form className="w-full flex items-center bg-div-background rounded-full px-4 py-2 text-white">
+    <form className="relative w-full flex items-center bg-div-background rounded-full px-4 py-2 text-white">
       <input
         type="text"
         placeholder={placeholder}
