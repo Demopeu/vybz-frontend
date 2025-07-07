@@ -56,11 +56,21 @@ export default function SubscribeClient({
         throw new Error('Origin을 가져올 수 없습니다.');
       }
 
+      // URL 매개변수 인코딩 처리
+      const encodedCustomerKey = encodeURIComponent(customerKey);
+      const encodedUserUuid = encodeURIComponent(userUuid || '');
+      const encodedBuskerUuid = encodeURIComponent(buskerUuid || '');
+      const encodedPrice = encodeURIComponent(price?.toString() || '');
+
+      // 경로 정의 - 다양한 환경에서의 경로 구성 문제 해결
+      const successPath = `/subscription/success`;
+      const failPath = `/subscription/fail`;
+
       tossPayments
         .requestBillingAuth('카드', {
           customerKey,
-          successUrl: `${origin}/subscription/success?customerKey=${customerKey}&userUuid=${userUuid}&buskerUuid=${buskerUuid}&price=${price}`,
-          failUrl: `${origin}/subscription/fail?userUuid=${userUuid}&buskerUuid=${buskerUuid}&price=${price}`,
+          successUrl: `${origin}${successPath}?customerKey=${encodedCustomerKey}&userUuid=${encodedUserUuid}&buskerUuid=${encodedBuskerUuid}&price=${encodedPrice}`,
+          failUrl: `${origin}${failPath}?userUuid=${encodedUserUuid}&buskerUuid=${encodedBuskerUuid}&price=${encodedPrice}`,
         })
         .catch((err) => {
           console.error('Toss SDK Error:', err);

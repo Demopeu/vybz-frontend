@@ -241,6 +241,7 @@ export default function SwiperWrapper({
                   likeCount={item.realsLikeCount}
                   reelsCommentCount={item.realsCommentCount}
                   feedId={item.realsId}
+                  buskerUuid={item.buskerId}
                 />
                 <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-b from-black/0 via-black/70 to-black/90 pt-10 pb-16">
                   <div className="relative">

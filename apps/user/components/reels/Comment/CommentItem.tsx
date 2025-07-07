@@ -11,7 +11,14 @@ export default function CommentItem({
   text,
   timeAgo,
   likes,
-}: CommentDataType) {
+  commentId,
+  writerUuid,
+  writerType,
+}: CommentDataType & {
+  commentId: string;
+  writerUuid: string;
+  writerType: 'USER' | 'BUSKER';
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -37,7 +44,13 @@ export default function CommentItem({
           <p>{text}</p>
         </div>
         <div className="text-center ml-1 my-auto">
-          <HeartButton className="w-4 h-4 stroke-black fill-none [&_svg]:size-4" />
+          <HeartButton 
+            className="w-4 h-4 stroke-black fill-none [&_svg]:size-4" 
+            itemId={commentId}
+            itemType="comment"
+            writerUuid={writerUuid}
+            writerType={writerType}
+          />
           <p>{formatNumberToK(likes)}</p>
         </div>
       </div>

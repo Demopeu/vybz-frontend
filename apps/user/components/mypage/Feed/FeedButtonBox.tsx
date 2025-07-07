@@ -8,16 +8,26 @@ export default function FeedButtonBox({
   likesCount,
   commentsCount,
   feedId,
+  writerUuid,
+  writerType,
 }: {
   likesCount: number;
   commentsCount: number;
   feedId: string;
+  writerUuid: string;
+  writerType: 'USER' | 'BUSKER';
 }) {
   const { open } = use(ModalContext);
 
   return (
     <div className="flex justify-end space-x-2 items-center text-white">
-      <HeartButton className="-mr-2 [&_svg]:size-4" />
+      <HeartButton 
+        className="-mr-2 [&_svg]:size-4" 
+        itemId={feedId} 
+        itemType="post"
+        writerUuid={writerUuid}
+        writerType={writerType}
+      />
       <p>{likesCount}</p>
       <Button
         onClick={() => {
