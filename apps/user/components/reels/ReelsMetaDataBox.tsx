@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { getSafeImageUrl } from '@/lib/utils/imageUtils';
 import Link from 'next/link';
 
 export default function ReelsMetaDataBox({
@@ -36,7 +37,7 @@ export default function ReelsMetaDataBox({
             onClick={(e) => e.stopPropagation()}
           >
             <Image
-              src={buskerProfileImage}
+              src={getSafeImageUrl(buskerProfileImage)}
               alt={buskerName}
               fill
               className="rounded-full object-cover"

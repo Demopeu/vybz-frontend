@@ -7,7 +7,8 @@ import CommentDrawer from '@/components/reels/Comment/CommentDrawer';
 import { CommentsData } from '@/data/CommentData';
 import { getUserInfo } from '@/services/user-services/user-info-read-services';
 import { fetchActiveMemberships } from '@/services/payment-services/payment-services';
-import { FanFeedData } from '@/data/FanFeedData';
+import { fetchFanFeeds } from '@/services/fan-feed-services/fan-feed-services';
+import { FanFeedDataType } from '@/types/ResponseDataTypes';
 import { getServerSession } from 'next-auth';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 
@@ -35,13 +36,21 @@ export default async function page() {
       };
     }
 
+    // 팬 피드 데이터 가져오기
+    let fanFeedData: FanFeedDataType[] = [];
+    try {
+      fanFeedData = await fetchFanFeeds(10, undefined, 'LATEST');
+    } catch (error) {
+      console.error('팬 피드 데이터 가져오기 실패:', error);
+    }
+
     return (
       <main>
         <UserProfile userInfo={userInfo} />
         <Vticket vticketCount={userInfo.vticketCount} userUuid={userUuid} />
         <MypageButtonBox userInfo={userInfo} />
         <UseModal>
-          <FanFeedSection initialFeeds={FanFeedData} />
+          <FanFeedSection initialFeeds={fanFeedData} />
           <CommentDrawer commentData={CommentsData} />
         </UseModal>
       </main>

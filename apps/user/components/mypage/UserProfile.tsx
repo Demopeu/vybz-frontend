@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import SafeImage from '@/components/common/SafeImage';
 import Link from 'next/link';
 import { CrossedTools } from '@repo/ui/components/icons';
 import { UserInfoDataType } from '@/types/ResponseDataTypes';
@@ -20,7 +20,7 @@ export default function UserProfile({
   return (
     <section className="flex justify-between items-center px-6 pt-10 text-white font-poppins">
       <div className="relative w-10 h-10 shrink-0">
-        <Image
+        <SafeImage
           src={userInfo.profileImageUrl || '/defaultProfile.png'}
           alt="user avatar"
           fill
