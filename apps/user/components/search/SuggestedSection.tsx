@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { getSafeImageUrl } from '@/lib/utils/imageUtils';
 
 export default function SuggestedSection({
   data,
@@ -16,7 +17,7 @@ export default function SuggestedSection({
             className="relative w-full aspect-square rounded-xl overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
           >
             <Image
-              src={item.buskerUrl}
+              src={getSafeImageUrl(item.buskerUrl)}
               alt={item.buskerName}
               fill
               className="object-cover"

@@ -1,7 +1,7 @@
 import { Bell, ChevronLeft } from '@repo/ui/components/icons';
 import { Button } from '@repo/ui/components/ui';
 import Link from 'next/link';
-import Image from 'next/image';
+import SafeImage from '@/components/common/SafeImage';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 import { getUserInfo } from '@/services/user-services';
@@ -27,14 +27,8 @@ export default async function ProfileHeader() {
         </Link>
         <div className="relative w-8 h-8 shrink-0">
           <Link href="/mypage">
-            <Image
-              src={
-                userImage?.profileImageUrl
-                  ? userImage.profileImageUrl.startsWith('http:') 
-                    ? `/api/image-proxy?url=${encodeURIComponent(userImage.profileImageUrl)}`
-                    : userImage.profileImageUrl
-                  : '/defaultProfile.png'
-              }
+            <SafeImage
+              src={userImage?.profileImageUrl || '/defaultProfile.png'}
               alt="Busker"
               fill
               className="rounded-full object-cover"

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { getSafeImageUrl } from '@/lib/utils/imageUtils';
 import { Guitar } from '@repo/ui/components/icons';
 import { OtherUserDataType } from '@/types/ResponseDataTypes';
 
@@ -28,7 +29,7 @@ export default function UserpageButtonBox({
 
       <div className="relative flex-1 h-30  rounded-xl py-9 overflow-hidden">
         <Image
-          src={`${userInfo.buskerProfileImage}`}
+          src={getSafeImageUrl(userInfo.buskerProfileImage)}
           alt="buskerProfileImage"
           fill
           className="object-cover -z-10 opacity-55"
