@@ -183,9 +183,6 @@ export default function SuccessPage() {
             <button
               onClick={() => {
                 router.push('/mypage/subscriptions');
-                setTimeout(() => {
-                  window.location.reload();
-                }, 100);
               }}
               className="w-full bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
             >
@@ -203,7 +200,7 @@ export default function SuccessPage() {
               🔄 재구독하기
             </button>
             <button
-              onClick={() => router.push('/')}
+              onClick={() => router.push('/main')}
               className="w-full bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
             >
               홈으로 이동

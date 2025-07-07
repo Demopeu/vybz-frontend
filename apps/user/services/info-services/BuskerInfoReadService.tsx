@@ -30,22 +30,29 @@ export async function fetchMultipleBuskerInfo(
   // 모든 버스커 정보 요청을 병렬로 처리
   const buskerInfoPromises = uniqueUuids.map(uuid => 
     BuskerInfoReadService(uuid)
-      .catch(error => {
-        console.error(`Error fetching info for busker ${uuid}:`, error);
-        return null;
-      })
   );
 
-  const buskerInfoResults = await Promise.all(buskerInfoPromises);
+  // Promise.allSettled를 사용하여 모든 요청의 결과를 받음
+  // 성공한 요청과 실패한 요청을 모두 처리
+  const buskerInfoResults = await Promise.allSettled(buskerInfoPromises);
   
   // 결과를 uuid를 키로 하는 객체로 변환
   const buskerInfoMap: { [key: string]: BuskerResponseType } = {};
   uniqueUuids.forEach((uuid, index) => {
     const result = buskerInfoResults[index];
-    if (result) {
-      buskerInfoMap[uuid] = result;
+    if (result && result.status === 'fulfilled') {
+      // 성공한 요청만 결과에 추가
+      buskerInfoMap[uuid] = result.value;
+    } else if (result && result.status === 'rejected') {
+      // 실패한 요청 로그 출력
+      console.error(`버스커 정보 조회 실패 (${uuid}):`, result.reason);
     }
   });
+  
+  // 성공 비율 로깅
+  const successCount = Object.keys(buskerInfoMap).length;
+  const totalCount = uniqueUuids.length;
+  console.log(`버스커 정보 조회: ${successCount}/${totalCount} 성공`);
 
   return buskerInfoMap;
 }

@@ -30,12 +30,12 @@ export default function PaymentFailPage() {
     if (failInfo.userUuid && failInfo.buskerUuid) {
       router.push(`/busker/${failInfo.buskerUuid}/subscribe`);
     } else {
-      router.push('/');
+      router.push('/main');
     }
   };
 
   const handleGoHome = () => {
-    router.push('/');
+    router.push('/main');
   };
 
   return (
