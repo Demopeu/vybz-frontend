@@ -36,8 +36,8 @@ jobs:
           echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID}}" >> ./apps/user/.env.production
           echo "NEXT_PUBLIC_FIREBASE_VAPID_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_VAPID_KEY}}" >> ./apps/user/.env.production
 
-          echo "NEXT_PUBLIC_BASE_API_URL=${{NEXT_PUBLIC_BASE_API_URL}}" >> ./apps/user/.env.production
-          echo "NEXT_PUBLIC_WEBSOCKET_DOMAIN=${{NEXT_PUBLIC_WEBSOCKET_DOMAIN}}" >> ./apps/user/.env.production
+          echo "NEXT_PUBLIC_BASE_API_URL=${{ secrets.NEXT_PUBLIC_BASE_API_URL }}" >> ./apps/user/.env.production
+          echo "NEXT_PUBLIC_WEBSOCKET_DOMAIN=${{ secrets.NEXT_PUBLIC_WEBSOCKET_DOMAIN }}" >> ./apps/user/.env.production
 
           echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}" >> ./apps/busker/.env.production
           echo "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}" >> ./apps/busker/.env.production
@@ -48,8 +48,8 @@ jobs:
           echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID}}" >> ./apps/busker/.env.production
           echo "NEXT_PUBLIC_FIREBASE_VAPID_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_VAPID_KEY}}" >> ./apps/busker/.env.production
 
-          echo "NEXT_PUBLIC_BASE_API_URL=${{NEXT_PUBLIC_BASE_API_URL}}" >> ./apps/busker/.env.production
-          echo "NEXT_PUBLIC_WEBSOCKET_DOMAIN=${{NEXT_PUBLIC_WEBSOCKET_DOMAIN}}" >> ./apps/busker/.env.production
+          echo "NEXT_PUBLIC_BASE_API_URL=${{ secrets.NEXT_PUBLIC_BASE_API_URL }}" >> ./apps/busker/.env.production
+          echo "NEXT_PUBLIC_WEBSOCKET_DOMAIN=${{ secrets.NEXT_PUBLIC_WEBSOCKET_DOMAIN }}" >> ./apps/busker/.env.production
 
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/front-service:${{ github.sha }} .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/front-service:${{ github.sha }}
@@ -88,8 +88,8 @@ jobs:
             echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}" >> .env.user
             echo "NEXT_PUBLIC_FIREBASE_VAPID_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_VAPID_KEY }}" >> .env.user
 
-            echo "NEXT_PUBLIC_BASE_API_URL=${{NEXT_PUBLIC_BASE_API_URL}}" >> .env.user
-            echo "NEXT_PUBLIC_WEBSOCKET_DOMAIN=${{NEXT_PUBLIC_WEBSOCKET_DOMAIN}}" >> .env.user
+            echo "NEXT_PUBLIC_BASE_API_URL=${{ secrets.NEXT_PUBLIC_BASE_API_URL }}" >> .env.user
+            echo "NEXT_PUBLIC_WEBSOCKET_DOMAIN=${{ secrets.NEXT_PUBLIC_WEBSOCKET_DOMAIN }}" >> .env.user
 
             echo "[2] .env.busker 생성"
             echo "NEXTAUTH_URL=${{ secrets.BUSKER_NEXTAUTH_URL }}" > .env.busker
@@ -110,8 +110,8 @@ jobs:
             echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}" >> .env.busker
             echo "NEXT_PUBLIC_FIREBASE_VAPID_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_VAPID_KEY }}" >> .env.busker
 
-            echo "NEXT_PUBLIC_BASE_API_URL=${{NEXT_PUBLIC_BASE_API_URL}}" >> .env.busker
-            echo "NEXT_PUBLIC_WEBSOCKET_DOMAIN=${{NEXT_PUBLIC_WEBSOCKET_DOMAIN}}" >> .env.busker
+            echo "NEXT_PUBLIC_BASE_API_URL=${{ secrets.NEXT_PUBLIC_BASE_API_URL }}" >> .env.busker
+            echo "NEXT_PUBLIC_WEBSOCKET_DOMAIN=${{ secrets.NEXT_PUBLIC_WEBSOCKET_DOMAIN }}" >> .env.busker
 
             echo "[3] 컨테이너 정리"
             docker-compose down
