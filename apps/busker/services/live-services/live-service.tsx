@@ -19,7 +19,7 @@ export async function startLive(payload: {
   const accessToken = session?.user?.accessToken;
 
   const res = await fetch(
-    `${process.env.LIVE_BASE_URL}/live-service/api/v1/live/start`,
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/live-service/api/v1/live/start`,
     {
       method: 'POST',
       headers: {
@@ -44,7 +44,7 @@ export async function stopLive(payload: { streamKey: string }): Promise<{
   const accessToken = session?.user?.accessToken;
 
   const res = await fetch(
-    `${process.env.LIVE_BASE_URL}/live-service/api/v1/live/end?streamKey=${payload.streamKey}`,
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/live-service/api/v1/live/end?streamKey=${payload.streamKey}`,
     {
       method: 'POST',
       headers: {
