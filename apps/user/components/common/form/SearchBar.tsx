@@ -11,7 +11,7 @@ export default function SearchBar({ placeholder }: { placeholder: string }) {
       />
       <Button
         size="icon"
-        className="ml-2 rounded-full bg-gradient-to-tr from-cyan-400 via-blue-500 to-violet-500 text-black hover:opacity-90 border-none"
+        className="ml-2 rounded-full bg-gradient-to-tr from-cyan-400 via-blue-500 to-violet-500 text-black hover:opacity-90 border-none shrink-0"
       >
         <Search className="w-5 h-5" />
       </Button>

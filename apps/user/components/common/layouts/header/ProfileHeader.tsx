@@ -28,7 +28,13 @@ export default async function ProfileHeader() {
         <div className="relative w-8 h-8 shrink-0">
           <Link href="/mypage">
             <Image
-              src={userImage?.profileImageUrl || '/defaultProfile.png'}
+              src={
+                userImage?.profileImageUrl
+                  ? userImage.profileImageUrl.startsWith('http:') 
+                    ? `/api/image-proxy?url=${encodeURIComponent(userImage.profileImageUrl)}`
+                    : userImage.profileImageUrl
+                  : '/defaultProfile.png'
+              }
               alt="Busker"
               fill
               className="rounded-full object-cover"
