@@ -42,3 +42,5 @@ export { Mic } from './Mic';
 export { MicOff } from './MicOff';
 export { Video } from './Video';
 export { VideoOff } from './VideoOff';
+export { Bookmark } from './Bookmark';
+export { PlusSquare } from './PlusSquare';
