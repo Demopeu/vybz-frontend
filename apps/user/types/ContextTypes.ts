@@ -14,6 +14,8 @@ export type ChatRoomContextType = {
   addMessage: (newMessage: import('@/types/ResponseDataTypes').ChatMessageType) => void;
   addMessages: (newMessages: import('@/types/ResponseDataTypes').ChatMessageType[]) => void;
   clearMessages: () => void;
+  updateMessageReadStatus: (messageId: string, isRead: boolean) => void;
+  updateMultipleMessagesReadStatus: (messageIds: string[], isRead: boolean) => void;
 };
 
 export type ModalContextType = {

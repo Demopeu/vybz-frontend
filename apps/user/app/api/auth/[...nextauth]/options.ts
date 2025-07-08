@@ -87,12 +87,24 @@ export const options: NextAuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
+      // 이미 /main으로 끝나는 URL인 경우 그대로 반환
+      if (url.endsWith('/main')) {
+        return url;
+      }
+      
+      // 내부 URL이고 baseUrl과 다르면 그대로 리다이렉트
       const isInternalUrl = url.startsWith(baseUrl);
-
       if (isInternalUrl && url !== baseUrl) {
         return url;
       }
-
+      
+      // baseUrl이 이미 포함된 경우 중복 방지
+      if (url.includes(baseUrl)) {
+        const path = url.replace(baseUrl, '');
+        return `${baseUrl}${path || '/main'}`;
+      }
+      
+      // 기본 리다이렉트
       return `${baseUrl}/main`;
     },
   },
