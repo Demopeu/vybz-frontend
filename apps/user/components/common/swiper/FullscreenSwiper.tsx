@@ -7,8 +7,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperCore } from 'swiper/types';
 import { Pagination } from 'swiper/modules';
 import { Maximize, Volume2, VolumeX } from '@repo/ui/components/icons';
-import { useRouter } from 'next/navigation';
 import { Button } from '@repo/ui/components/ui/button';
+import ReelsModal from '../modal/ReelsModal';
 
 export default function FullscreenSwiper({
   data,
@@ -20,7 +20,7 @@ export default function FullscreenSwiper({
   const [bgVideoSrc, setBgVideoSrc] = useState('');
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
-  const router = useRouter();
+  const [openModalId, setOpenModalId] = useState<string | null>(null);
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
 
   useEffect(() => {
@@ -59,13 +59,13 @@ export default function FullscreenSwiper({
     }
   };
 
-  const handleMaximizeClick = useCallback(
-    (e: React.MouseEvent, id: string) => {
-      e.stopPropagation();
-      router.push(`/reels/${id}`);
-    },
-    [router]
-  );
+  // 최대화 버튼 클릭 시 현재 활성화된 동영상 인덱스 전달
+  const handleMaximizeClick = useCallback((e: React.MouseEvent, id: string, index: number) => {
+    e.stopPropagation();
+    console.log(`Opening modal for video id: ${id}, index: ${index}`);
+    // 현재 활성화된 비디오 인덱스와 ID 저장
+    setOpenModalId(id);
+  }, []);
 
   const handleToggleMute = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -139,7 +139,7 @@ export default function FullscreenSwiper({
                     size="icon"
                     variant="ghost"
                     className="bg-transparent text-white"
-                    onClick={(e) => handleMaximizeClick(e, item.realsId)}
+                    onClick={(e) => handleMaximizeClick(e, item.realsId, index)}
                   >
                     <Maximize style={{ width: '30px', height: '30px' }} />
                   </Button>
@@ -159,6 +159,45 @@ export default function FullscreenSwiper({
       <div className="flex justify-center mt-4">
         <div className="swiper-pagination"></div>
       </div>
+
+      {/* 유효한 비디오 데이터만 사용 */}
+      {(() => {
+        // 유효한 동영상만 필터링
+        const validVideos = data
+          .filter((item) => item.realsUrl && item.realsUrl.trim() !== '')
+          .map((item) => ({
+            id: item.realsId,
+            url: item.realsUrl,
+            thumbnail: item.realsThumbnailUrl,
+          }));
+        
+        // 클릭된 비디오 인덱스 찾기
+        let initialIndex = 0;
+        
+        if (openModalId) {
+          // 1. 클릭된 ID와 일치하는 유효한 비디오 찾기
+          const clickedIndex = validVideos.findIndex((video) => video.id === openModalId);
+          
+          if (clickedIndex !== -1) {
+            initialIndex = clickedIndex;
+            console.log(`Found video at index ${clickedIndex} with id ${openModalId}`);
+          } else {
+            // 2. 현재 활성화된 비디오 사용
+            initialIndex = activeIndex;
+            console.log(`Using active index ${activeIndex} as fallback`);
+          }
+        }
+        
+        return (
+          <ReelsModal
+            open={openModalId !== null}
+            onClose={() => setOpenModalId(null)}
+            videos={validVideos}
+            initialIndex={initialIndex}
+          />
+        );
+      })()}
+      
     </section>
   );
 }
