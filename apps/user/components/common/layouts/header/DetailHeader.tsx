@@ -14,9 +14,9 @@ interface DetailHeaderProps {
 }
 
 export default function DetailHeader({
-  username = 'john_photographer',
-  location = 'Seoul, South Korea',
-  avatarUrl = '/placeholder.svg?height=40&width=40',
+  username,
+  location,
+  avatarUrl,
   onMenuClick,
 }: DetailHeaderProps) {
   const getInitials = (name: string) => {
@@ -33,11 +33,11 @@ export default function DetailHeader({
         <Avatar className="w-10 h-10">
           <AvatarImage src={avatarUrl} alt={username} />
           <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">
-            {getInitials(username)}
+            {getInitials(username || '')}
           </AvatarFallback>
         </Avatar>
         <div>
-          <div className="font-semibold text-sm">{username}</div>
+          <div className="font-semibold text-sm">{username || ''}</div>
           {location && <div className="text-gray-400 text-xs">{location}</div>}
         </div>
       </div>
