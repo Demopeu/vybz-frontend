@@ -86,13 +86,8 @@ export const options: NextAuthOptions = {
       };
       return session;
     },
-    async redirect({ url, baseUrl }) {
-      const isInternalUrl = url.startsWith(baseUrl);
-
-      if (isInternalUrl && url !== baseUrl) {
-        return url;
-      }
-
+    async redirect({ baseUrl }) {
+      console.log(baseUrl);
       return `/main`;
     },
   },
