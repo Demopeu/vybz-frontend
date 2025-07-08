@@ -23,7 +23,19 @@ export default function ChatMessageList({
   userUuid,
   buskerUuid,
 }: ChatMessageListProps) {
-  const { messages: contextMessages, addMessages } = use(ChatRoomContext);
+  const { 
+    messages: contextMessages,
+    setBuskerUuid,
+    setUserUuid,
+    setChatRoomId
+  } = use(ChatRoomContext);
+
+  // context에 uuid와 chatRoomId 설정 (로컬 저장소 복원을 위해)
+  useEffect(() => {
+    if (buskerUuid) setBuskerUuid(buskerUuid);
+    if (userUuid) setUserUuid(userUuid);
+    if (chatRoomId) setChatRoomId(chatRoomId);
+  }, [buskerUuid, userUuid, chatRoomId, setBuskerUuid, setUserUuid, setChatRoomId]);
 
   const {
     items: fetchedMessages,
@@ -60,18 +72,37 @@ export default function ChatMessageList({
     },
   });
 
-  useEffect(() => {
-    if (fetchedMessages.length > 0 && contextMessages.length === 0) {
-      addMessages(fetchedMessages);
-    }
-  }, [fetchedMessages, contextMessages.length, addMessages]);
+  // 더 이상 서버 메시지를 context에 추가하지 않음 (중복 방지)
+  // displayMessages에서 만 합쳐서 표시
 
   if (!chatRoomId || !userUuid) {
     return <EmptyList />;
   }
 
-  const displayMessages =
-    contextMessages.length > 0 ? contextMessages : fetchedMessages;
+  // context 메시지와 서버 메시지를 합치고 중복 제거
+  const messageMap = new Map<string, ChatMessageType>();
+  
+  // 1. context 메시지를 먼저 추가 (임시 메시지 우선)
+  contextMessages.forEach((msg) => {
+    messageMap.set(msg.id, msg);
+  });
+  
+  // 2. 서버 메시지는 중복되지 않는 경우만 추가
+  fetchedMessages.forEach((fetchedMsg) => {
+    if (!messageMap.has(fetchedMsg.id)) {
+      messageMap.set(fetchedMsg.id, fetchedMsg);
+    }
+  });
+  
+  // 3. Map에서 배열로 변환 후 시간순 정렬
+  const displayMessages = Array.from(messageMap.values()).sort((a, b) => 
+    new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime()
+  );
+  
+  // 디버깅 로그
+  console.log('Context 메시지 수:', contextMessages.length);
+  console.log('Fetched 메시지 수:', fetchedMessages.length);
+  console.log('최종 표시 메시지 수:', displayMessages.length);
 
   return (
     <ReverseInfiniteScrollWrapper

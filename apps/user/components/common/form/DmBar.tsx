@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useState } from 'react';
+import { use, useState, useEffect } from 'react';
 import { cn } from '@repo/ui/lib/utils';
 import { Input } from '@repo/ui/components/ui/input';
 import { Button } from '@repo/ui/components/ui/button';
@@ -22,7 +22,7 @@ export default function DmBar({
   const { showEmojibox, toggleShowEmojibox, comment, setComment } =
     use(ChatContext);
 
-  const { addMessage } = use(ChatRoomContext);
+  const { addMessage, setBuskerUuid, setUserUuid, setChatRoomId } = use(ChatRoomContext);
 
   const [isSending, setIsSending] = useState(false);
 
@@ -31,6 +31,13 @@ export default function DmBar({
 
   const buskerId = params.buskerId as string;
   const chatRoomId = searchParams.get('chatId');
+
+  // context에 uuid와 chatRoomId 설정 (로컬 저장소 연동을 위해)
+  useEffect(() => {
+    if (buskerId) setBuskerUuid(buskerId);
+    if (userUuid) setUserUuid(userUuid);
+    if (chatRoomId) setChatRoomId(chatRoomId);
+  }, [buskerId, userUuid, chatRoomId, setBuskerUuid, setUserUuid, setChatRoomId]);
 
   console.log('buskerId', buskerId);
   console.log('userUuid', userUuid);
