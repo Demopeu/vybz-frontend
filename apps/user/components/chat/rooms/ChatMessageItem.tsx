@@ -28,15 +28,15 @@ export default function ChatMessageItem({
       case 'TEXT':
         return (
           <div
-            className={`max-w-xs px-4 py-3 rounded-br-3xl rounded-bl-3xl ${
+            className={`max-w-xs px-5 py-3 rounded-2xl shadow-md font-semibold text-base
+            ${
               isMyMessage
-                ? 'bg-white text-gray-800 rounded-tl-3xl'
-                : 'bg-indigo-800 text-white rounded-tr-3xl'
-            }`}
+                ? 'bg-gradient-to-r from-blue-400 to-purple-400 text-white rounded-br-2xl rounded-tl-2xl'
+                : 'bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-bl-2xl rounded-tr-2xl'
+            }
+          `}
           >
-            <p className="text-sm font-medium whitespace-pre-wrap break-words">
-              {message.content}
-            </p>
+            <p className="whitespace-pre-wrap break-words">{message.content}</p>
           </div>
         );
 
@@ -68,7 +68,7 @@ export default function ChatMessageItem({
 
   return (
     <div
-      className={`flex items-end gap-2 mb-3 font-poppins ${
+      className={`flex items-end gap-3 mb-3 font-poppins ${
         isMyMessage ? 'justify-end' : 'justify-start'
       }`}
     >
