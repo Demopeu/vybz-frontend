@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, useCallback } from 'react';
+import { createContext, useState, useCallback, useEffect } from 'react';
 import { ChatRoomContextType } from '@/types/ContextTypes';
 import { ChatMessageType } from '@/types/ResponseDataTypes';
 
@@ -8,10 +8,68 @@ export const ChatRoomContext = createContext<ChatRoomContextType>(
   {} as ChatRoomContextType
 );
 
+// localStorage 키 생성 함수
+const getChatStorageKey = (buskerUuid: string, userUuid: string) => 
+  `chat_messages_${buskerUuid}_${userUuid}`;
+
+// localStorage에서 메시지 백업 불러오기
+const loadMessagesFromStorage = (buskerUuid: string, userUuid: string): ChatMessageType[] => {
+  if (typeof window === 'undefined') return [];
+  
+  try {
+    const key = getChatStorageKey(buskerUuid, userUuid);
+    const stored = localStorage.getItem(key);
+    if (stored) {
+      const messages = JSON.parse(stored) as ChatMessageType[];
+      // 30분 이상 오된 메시지는 제거
+      const thirtyMinutesAgo = Date.now() - 30 * 60 * 1000;
+      return messages.filter(msg => 
+        new Date(msg.sentAt).getTime() > thirtyMinutesAgo
+      );
+    }
+  } catch (error) {
+    console.error('로컬 저장소에서 메시지 불러오기 실패:', error);
+  }
+  return [];
+};
+
+// localStorage에 메시지 백업 저장
+const saveMessagesToStorage = (buskerUuid: string, userUuid: string, messages: ChatMessageType[]) => {
+  if (typeof window === 'undefined') return;
+  
+  try {
+    const key = getChatStorageKey(buskerUuid, userUuid);
+    // 최대 50개 메시지만 저장 (메모리 절약)
+    const messagesToStore = messages.slice(0, 50);
+    localStorage.setItem(key, JSON.stringify(messagesToStore));
+  } catch (error) {
+    console.error('로컬 저장소에 메시지 저장 실패:', error);
+  }
+};
+
 export function UseChatRoom({ children }: { children: React.ReactNode }) {
   const [buskerUuid, setBuskerUuid] = useState<string | null>(null);
   const [userUuid, setUserUuid] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
+  const [chatRoomId, setChatRoomId] = useState<string | null>(null);
+
+  // buskerUuid와 userUuid가 설정되면 localStorage에서 메시지 복원
+  useEffect(() => {
+    if (buskerUuid && userUuid && messages.length === 0) {
+      const storedMessages = loadMessagesFromStorage(buskerUuid, userUuid);
+      if (storedMessages.length > 0) {
+        console.log(`localStorage에서 ${storedMessages.length}개 메시지 복원`);
+        setMessages(storedMessages);
+      }
+    }
+  }, [buskerUuid, userUuid, messages.length]);
+
+  // 메시지가 변경될 때마다 localStorage에 저장
+  useEffect(() => {
+    if (buskerUuid && userUuid && messages.length > 0) {
+      saveMessagesToStorage(buskerUuid, userUuid, messages);
+    }
+  }, [messages, buskerUuid, userUuid]);
 
   const addMessage = useCallback((newMessage: ChatMessageType) => {
     setMessages((prevMessages) => {
@@ -98,6 +156,8 @@ export function UseChatRoom({ children }: { children: React.ReactNode }) {
     setBuskerUuid,
     userUuid,
     setUserUuid,
+    chatRoomId,
+    setChatRoomId,
     messages,
     addMessage,
     addMessages,

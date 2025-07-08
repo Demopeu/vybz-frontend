@@ -10,6 +10,8 @@ export type ChatRoomContextType = {
   setBuskerUuid: React.Dispatch<React.SetStateAction<string | null>>;
   userUuid: string | null;
   setUserUuid: React.Dispatch<React.SetStateAction<string | null>>;
+  chatRoomId: string | null;
+  setChatRoomId: React.Dispatch<React.SetStateAction<string | null>>;
   messages: import('@/types/ResponseDataTypes').ChatMessageType[];
   addMessage: (newMessage: import('@/types/ResponseDataTypes').ChatMessageType) => void;
   addMessages: (newMessages: import('@/types/ResponseDataTypes').ChatMessageType[]) => void;
