@@ -180,6 +180,7 @@ export type ChatMessageType = {
   content: string;
   read: boolean;
   sentAt: string;
+  isTemporary?: boolean; // 로컬 임시 메시지 표시용
 };
 
 export type ChatMessageListType = {

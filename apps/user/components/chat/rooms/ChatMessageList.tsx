@@ -18,11 +18,12 @@ interface ChatMessageListProps {
   buskerUuid: string;
 }
 
-export default function ChatMessageList({ chatRoomId, userUuid, buskerUuid }: ChatMessageListProps) {
-  const {
-    messages: contextMessages,
-    addMessages,
-  } = use(ChatRoomContext);
+export default function ChatMessageList({
+  chatRoomId,
+  userUuid,
+  buskerUuid,
+}: ChatMessageListProps) {
+  const { messages: contextMessages, addMessages } = use(ChatRoomContext);
 
   const {
     items: fetchedMessages,
@@ -43,7 +44,7 @@ export default function ChatMessageList({ chatRoomId, userUuid, buskerUuid }: Ch
 
       const response = await getChatMessages({
         chatRoomId: chatRoomId.toString(),
-        participantUuid: buskerUuid,
+        participantUuid: userUuid,
         sentAt: cursor || undefined,
         pageSize: 20,
       });
@@ -81,9 +82,9 @@ export default function ChatMessageList({ chatRoomId, userUuid, buskerUuid }: Ch
       <section className="w-full px-2 pb-20 flex flex-col-reverse">
         {displayMessages
           .filter((msg: ChatMessageType) => msg.content !== 'ping')
-          .map((msg: ChatMessageType) => (
+          .map((msg: ChatMessageType, index) => (
             <ChatMessageItem
-              key={msg.id}
+              key={`${msg.id}-${msg.sentAt}-${index}`}
               message={msg}
               currentUserUuid={userUuid || ''}
             />

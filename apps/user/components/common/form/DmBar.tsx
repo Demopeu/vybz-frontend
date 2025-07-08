@@ -1,6 +1,6 @@
 'use client';
 
-import { use } from 'react';
+import { use, useState } from 'react';
 import { cn } from '@repo/ui/lib/utils';
 import { Input } from '@repo/ui/components/ui/input';
 import { Button } from '@repo/ui/components/ui/button';
@@ -24,6 +24,8 @@ export default function DmBar({
 
   const { addMessage } = use(ChatRoomContext);
 
+  const [isSending, setIsSending] = useState(false);
+
   const params = useParams();
   const searchParams = useSearchParams();
 
@@ -36,6 +38,8 @@ export default function DmBar({
 
   // 메시지 전송 로직
   const sendMessageAction = async () => {
+    if (isSending) return; // Prevent duplicate submissions while sending
+
     if (!comment.trim()) {
       alert('메시지를 입력해주세요.');
       return;
@@ -45,6 +49,8 @@ export default function DmBar({
       alert('채팅방 정보가 없습니다.');
       return;
     }
+
+    setIsSending(true); // Set sending state to true when starting transmission
 
     try {
       const messageData = {
@@ -59,14 +65,15 @@ export default function DmBar({
       const response = await sendMessage(messageData);
 
       if (response.isSuccess) {
-        // 즉시 로컬 상태에 메시지 추가
+        // 즉시 로컬 상태에 메시지 추가 (임시 메시지)
         const newMessage = {
-          id: Date.now().toString(), // 임시 ID
+          id: `temp-${Date.now()}`, // 임시 ID로 표시
           senderUuid: userUuid,
           messageType: 'TEXT' as const,
           content: comment.trim(),
           sentAt: new Date().toISOString(),
           read: false,
+          isTemporary: true, // 임시 메시지 표시
         };
         addMessage(newMessage);
 
@@ -78,6 +85,8 @@ export default function DmBar({
     } catch (error) {
       console.error('메시지 전송 오류:', error);
       alert('메시지 전송 중 오류가 발생했습니다.');
+    } finally {
+      setIsSending(false); // Reset sending state whether successful or not
     }
   };
 
@@ -107,7 +116,7 @@ export default function DmBar({
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             onKeyDown={(e: React.KeyboardEvent) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
+              if (e.key === 'Enter' && !e.shiftKey && !isSending) {
                 e.preventDefault();
                 sendMessageAction();
               }
@@ -119,7 +128,13 @@ export default function DmBar({
         <Button
           type="submit"
           size="icon"
-          disabled={!comment.trim() || !chatRoomId || !userUuid || !buskerId}
+          disabled={
+            !comment.trim() ||
+            !chatRoomId ||
+            !userUuid ||
+            !buskerId ||
+            isSending
+          }
           className="w-11 h-11 rounded-full border-0 backdrop-blur-md bg-white cursor-pointer [&_svg]:size-8 shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <SendHorizontal fill="#60a5fa" />

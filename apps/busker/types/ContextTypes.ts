@@ -42,6 +42,8 @@ export type ChatRoomContextType = {
   addMessage: (newMessage: ChatMessageType) => void;
   addMessages: (newMessages: ChatMessageType[]) => void;
   clearMessages: () => void;
+  updateMessageReadStatus: (messageId: string, isRead: boolean) => void;
+  updateMultipleMessagesReadStatus: (messageIds: string[], isRead: boolean) => void;
 };
 
 export type LiveContextType = {

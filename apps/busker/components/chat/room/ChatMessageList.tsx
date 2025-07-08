@@ -78,9 +78,9 @@ export default function ChatMessageList() {
       <section className="w-full px-2 pb-20 flex flex-col-reverse">
         {displayMessages
           .filter((msg) => msg.content !== 'ping')
-          .map((msg) => (
+          .map((msg, index) => (
             <ChatMessageItem
-              key={msg.id}
+              key={`${msg.id}-${msg.sentAt}-${index}`}
               message={msg}
               currentUserUuid={buskerUuid || ''}
             />

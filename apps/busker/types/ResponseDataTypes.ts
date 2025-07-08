@@ -91,6 +91,7 @@ export type ChatMessageType = {
   content: string;
   read: boolean;
   sentAt: string;
+  isTemporary?: boolean;
 }
 
 export type ChatMessageListType = {

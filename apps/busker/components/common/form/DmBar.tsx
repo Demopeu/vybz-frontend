@@ -15,7 +15,7 @@ export default function DmBar({ className }: { className?: string }) {
   const { showEmojibox, toggleShowEmojibox, comment, setComment } =
     use(ChatContext);
 
-  const { chatRoomId, userUuid, buskerUuid } = use(ChatRoomContext);
+  const { chatRoomId, userUuid, buskerUuid, addMessage } = use(ChatRoomContext);
 
   // 메시지 전송 로직
   const sendMessageAction = async () => {
@@ -38,10 +38,23 @@ export default function DmBar({ className }: { className?: string }) {
         content: comment.trim(),
       };
 
+      // 로컬에 임시 메시지 추가 (UX 개선)
+      const tempMessage = {
+        id: `temp-${Date.now()}`,
+        senderUuid: buskerUuid,
+        messageType: 'TEXT' as const,
+        content: comment.trim(),
+        read: false,
+        sentAt: new Date().toISOString(),
+        isTemporary: true,
+      };
+      
+      addMessage(tempMessage);
+      setComment(''); // 입력 필드 즉시 클리어
+
       const response = await sendMessage(messageData);
 
       if (response.isSuccess) {
-        setComment('');
         console.log('메시지가 전송되었습니다.');
       } else {
         alert(response.message || '메시지 전송에 실패했습니다.');

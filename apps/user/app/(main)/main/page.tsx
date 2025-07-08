@@ -13,10 +13,12 @@ export default async function page() {
   const LiveFreeViewData = await getLiveStreams(10);
   console.log(LiveFreeViewData);
   // 라이브 스트림 데이터에서 버스커 UUID 추출
-  const buskerUuids = LiveFreeViewData.map((item) => item.buskerUuid).filter((uuid): uuid is string => uuid !== null);
+  const buskerUuids = LiveFreeViewData.map((item) => item.buskerUuid).filter(
+    (uuid): uuid is string => uuid !== null
+  );
 
   // 각 버스커 정보를 개별적으로 요청하고 Promise.allSettled로 결과 처리
-  const buskerInfoPromises = buskerUuids.map(uuid => 
+  const buskerInfoPromises = buskerUuids.map((uuid) =>
     BuskerInfoReadService(uuid)
   );
 
@@ -42,12 +44,17 @@ export default async function page() {
   // 라이브 스트림 데이터에 버스커 닉네임 정보 추가
   const enrichedLiveData = LiveFreeViewData.map((item) => {
     const uuid = item.buskerUuid;
-    const nickname = 
+    const nickname =
       uuid && buskerInfoMap[uuid] ? buskerInfoMap[uuid].nickname : '익명';
+    const profileImageUrl =
+      uuid && buskerInfoMap[uuid]
+        ? buskerInfoMap[uuid].profileImageUrl
+        : '/defaultProfile.png';
 
     return {
       ...item,
       buskerNickname: nickname,
+      profileImageUrl,
     };
   });
 
