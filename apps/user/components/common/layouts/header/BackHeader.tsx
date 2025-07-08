@@ -52,7 +52,7 @@ export default function BackHeader({
           <div className="relative w-8 h-8 shrink-0">
             <Link href="/mypage">
               <Image
-                src={image || '/BuskerUrl.jpg'}
+                src={image || '/defaultProfile.png'}
                 alt="Busker"
                 fill
                 className="rounded-full object-cover"
