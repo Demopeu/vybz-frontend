@@ -153,7 +153,7 @@ export default function ReelsModal({
             {/* 네비게이션 버튼 */}
             <Button
               onClick={goToPrevious}
-              className={`absolute left-6 md:left-12 transform -translate-y-1/2 top-1/2 rounded-full w-12 h-12 text-whitetransition-transform duration-200 [&_svg]:size-10 bg-transparent border-0 `}
+              className={`absolute left-6 md:left-12 transform -translate-y-1/2 top-1/2 rounded-full w-12 h-12 text-whitetransition-transform text-white duration-200 [&_svg]:size-10 bg-transparent border-0 `}
             >
               <ChevronLeft className="h-7 w-7" />
             </Button>
