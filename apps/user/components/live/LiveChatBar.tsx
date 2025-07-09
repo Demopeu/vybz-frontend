@@ -156,7 +156,8 @@ export default function LiveChatBar({
                 console.log('⚠️ 중복 메시지 방지:', newMessage);
                 return prev;
               }
-              return [...prev, newMessage];
+              // 최대 50개 메시지 유지
+              return [...prev.slice(-49), newMessage];
             });
           } catch (error) {
             console.error('메시지 파싱 오류:', error);

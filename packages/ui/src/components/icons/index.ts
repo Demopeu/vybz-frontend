@@ -57,4 +57,6 @@ export { UserCheck } from './UserCheck';
 export { Calendar } from './Calendar';
 export { CheckIcon } from './CheckIcon';
 export { Circle } from './Circle';
+export { MessageSquare } from './MessageSquare';
+export { Play } from './Play';
 
