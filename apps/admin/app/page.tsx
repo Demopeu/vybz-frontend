@@ -8,7 +8,6 @@ import {
   FileText,
   CreditCard,
   BarChart3,
-  Search,
   Bell,
   Settings,
   Plus,
@@ -212,7 +211,7 @@ export default function VYBZAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-purple-50 text-black">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="flex items-center justify-between px-6 py-4">
@@ -231,7 +230,6 @@ export default function VYBZAdmin() {
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input placeholder="검색..." className="pl-10 w-64" />
             </div>
             <Button variant="ghost" size="icon">
@@ -241,7 +239,7 @@ export default function VYBZAdmin() {
               <Settings className="h-5 w-5" />
             </Button>
             <Avatar>
-              <AvatarImage src="/placeholder.svg?height=32&width=32" />
+              <AvatarImage src="/defaultProfile.png" />
               <AvatarFallback>관리자</AvatarFallback>
             </Avatar>
           </div>

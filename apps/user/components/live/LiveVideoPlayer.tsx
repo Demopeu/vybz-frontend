@@ -3,8 +3,8 @@
 import Hls from 'hls.js';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getLiveDetail, getCategoryList } from '../../api/liveServiceApi';
-import type { Live, Category } from '../../api/liveServiceApi';
+import { getLiveDetail } from '@/api/liveServiceApi';
+import type { LiveEnterResult } from '@/api/liveServiceApi';
 
 interface LiveVideoPlayerProps {
   streamKey: string;
@@ -33,9 +33,10 @@ export default function LiveVideoPlayer({
 
   const [isEnded, setIsEnded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [live, setLive] = useState<Live | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [live, setLive] = useState<LiveEnterResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [needsUserInteraction, setNeedsUserInteraction] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // 라이브 정보 가져오기
   useEffect(() => {
@@ -43,36 +44,23 @@ export default function LiveVideoPlayer({
       console.warn('스트림 키가 없습니다');
       return;
     }
-    
-    if (!userUuid || !userAccessToken) {
-      console.warn('사용자 인증 정보가 없습니다. 일부 기능이 제한될 수 있습니다.');
-      // 인증 정보 없이도 비디오 플레이어 자체는 사용 가능
-      return;
-    }
 
     const fetchData = async () => {
       try {
-        console.log('라이브 정보 가져오기 시도:', { streamKey, userUuid });
-        
-        // 각 API 호출을 개별적으로 처리하여 하나가 실패해도 다른 하나는 실행되게 함
-        try {
-          const liveDetail = await getLiveDetail(streamKey, userUuid, userAccessToken);
-          setLive(liveDetail.live);
-          console.log('라이브 정보 가져오기 성공:', liveDetail);
-        } catch (liveError) {
-          console.error('라이브 정보 가져오기 실패:', liveError);
-        }
-        
-        try {
-          const categoryList = await getCategoryList(userAccessToken, userUuid);
-          setCategories(categoryList.result);
-          console.log('카테고리 리스트 가져오기 성공:', categoryList.result.length);
-        } catch (categoryError) {
-          console.error('카테고리 리스트 가져오기 실패:', categoryError);
-        }
+        console.log('라이브 정보 가져오기 시도:', { streamKey, userUuid, hasToken: !!userAccessToken });
+
+        // 라이브 정보 가져오기 (인증 정보 선택적)
+        const liveDetail = await getLiveDetail(
+          streamKey,
+          userUuid,
+          userAccessToken
+        );
+        setLive(liveDetail.result);
+        console.log('라이브 정보 가져오기 성공:', liveDetail);
       } catch (error) {
         console.error('라이브 정보 가져오기 실패:', error);
-        const errorMessage = '라이브 정보를 가져올 수 없습니다. 하지만 스트림은 계속 재생됩니다.';
+        const errorMessage =
+          '라이브 정보를 가져올 수 없습니다. 하지만 스트림은 계속 재생됩니다.';
         setError(null); // 스트림은 계속 보여주기 위해 오류 표시 안 함
         onError?.(errorMessage);
       }
@@ -134,12 +122,65 @@ export default function LiveVideoPlayer({
   useEffect(() => {
     if (!streamKey || !videoRef.current) return;
 
-    // 환경 변수에서 HLS 서버 URL을 가져오거나 기본값 사용
-    const HLS_SERVER = process.env.NEXT_PUBLIC_HLS_SERVER || 'https://back.vybz.kr';
+    // HLS 서버 URL 설정
+    const HLS_SERVER = 'http://13.124.91.96:8090';
     const streamUrl = `${HLS_SERVER}/hls/${streamKey}.m3u8`;
     console.log('HLS 스트림 URL:', streamUrl);
     const video = videoRef.current;
     let hls: Hls;
+
+    // Auto play attempt function
+    const tryAutoPlay = async (videoElement: HTMLVideoElement) => {
+      try {
+        // Step 1: Try muted autoplay
+        videoElement.muted = true;
+        await videoElement.play();
+        console.log('Muted autoplay successful');
+        setIsPlaying(true);
+        setNeedsUserInteraction(false);
+        
+        // Try to unmute after user interaction
+        const tryUnmute = () => {
+          if (videoElement.muted) {
+            videoElement.muted = false;
+            console.log('Audio unmuted');
+          }
+        };
+        
+        // Unmute on user click
+        const handleUserInteraction = () => {
+          tryUnmute();
+          document.removeEventListener('click', handleUserInteraction);
+          document.removeEventListener('touchstart', handleUserInteraction);
+        };
+        
+        document.addEventListener('click', handleUserInteraction, { once: true });
+        document.addEventListener('touchstart', handleUserInteraction, { once: true });
+        
+      } catch (error) {
+        console.error('Autoplay failed:', error);
+        setIsPlaying(false);
+        setNeedsUserInteraction(true);
+        
+        // Wait for user interaction
+        const handleUserClick = async () => {
+          try {
+            videoElement.muted = false;
+            await videoElement.play();
+            console.log('Play successful after user interaction');
+            setIsPlaying(true);
+            setNeedsUserInteraction(false);
+            document.removeEventListener('click', handleUserClick);
+            document.removeEventListener('touchstart', handleUserClick);
+          } catch (playError) {
+            console.error('Play failed even after user interaction:', playError);
+          }
+        };
+        
+        document.addEventListener('click', handleUserClick, { once: true });
+        document.addEventListener('touchstart', handleUserClick, { once: true });
+      }
+    };
 
     const setupHls = () => {
       if (Hls.isSupported()) {
@@ -151,11 +192,9 @@ export default function LiveVideoPlayer({
         hls.loadSource(streamUrl);
         hls.attachMedia(video);
 
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        hls.on(Hls.Events.MANIFEST_PARSED, async () => {
           setIsLoading(false);
-          video.play().catch((error) => {
-            console.error('자동 재생 실패:', error);
-          });
+          await tryAutoPlay(video);
         });
 
         hls.on(Hls.Events.ERROR, (_, data) => {
@@ -181,11 +220,9 @@ export default function LiveVideoPlayer({
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         // iOS Safari에서는 네이티브 HLS 재생 사용
         video.src = streamUrl;
-        video.addEventListener('loadedmetadata', () => {
+        video.addEventListener('loadedmetadata', async () => {
           setIsLoading(false);
-          video.play().catch((error) => {
-            console.error('자동 재생 실패:', error);
-          });
+          await tryAutoPlay(video);
         });
       }
     };
@@ -193,12 +230,16 @@ export default function LiveVideoPlayer({
     // 재시도 횟수 확인을 위한 로컬 변수
     let retryCount = 0;
     const MAX_RETRIES = 5;
-    
+
     const tryLoad = () => {
       if (retryCount >= MAX_RETRIES) {
-        console.error(`최대 재시도 횟수(${MAX_RETRIES}회) 도달. 스트림 로드 실패`);
+        console.error(
+          `최대 재시도 횟수(${MAX_RETRIES}회) 도달. 스트림 로드 실패`
+        );
         setIsLoading(false);
-        setError(`스트림을 로드할 수 없습니다. 재접속하거나 나중에 다시 시도해 주세요.`);
+        setError(
+          `스트림을 로드할 수 없습니다. 재접속하거나 나중에 다시 시도해 주세요.`
+        );
         return;
       }
 
@@ -211,7 +252,9 @@ export default function LiveVideoPlayer({
             console.log('✅ 스트림 마니페스트 발견!');
             setupHls();
           } else {
-            console.warn(`❌ 스트림 로드 실패 (${res.status}): ${res.statusText}, 재시도 중...`);
+            console.warn(
+              `❌ 스트림 로드 실패 (${res.status}): ${res.statusText}, 재시도 중...`
+            );
             setTimeout(tryLoad, 2000); // 더 긴 재시도 간격
           }
         })
@@ -292,12 +335,6 @@ export default function LiveVideoPlayer({
     }
   };
 
-  // 카테고리 이름 찾기
-  const categoryName =
-    live && categories.length > 0
-      ? categories.find((cat) => cat.id === live.categoryId)?.name
-      : undefined;
-
   if (error) {
     return (
       <div
@@ -323,9 +360,6 @@ export default function LiveVideoPlayer({
         {live && (
           <div className="text-gray-300 text-sm">
             <span>호스트: {live.buskerUuid}</span>
-            {categoryName && (
-              <span className="ml-2">카테고리: {categoryName}</span>
-            )}
           </div>
         )}
       </div>
@@ -346,10 +380,37 @@ export default function LiveVideoPlayer({
               autoPlay
               className="w-full h-full object-contain bg-black"
               playsInline
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
             />
             {isLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="text-white text-lg">로딩 중...</div>
+              </div>
+            )}
+            {needsUserInteraction && !isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-75">
+                <div className="text-center">
+                  <button
+                    onClick={async () => {
+                      if (videoRef.current) {
+                        try {
+                          await videoRef.current.play();
+                          setIsPlaying(true);
+                          setNeedsUserInteraction(false);
+                        } catch (error) {
+                          console.error('Manual play failed:', error);
+                        }
+                      }
+                    }}
+                    className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-full text-xl font-semibold transition-colors flex items-center gap-2"
+                  >
+                    ▶️ 재생
+                  </button>
+                  <p className="text-gray-300 mt-4 text-sm">
+                    브라우저 정책으로 인해 수동 재생이 필요합니다
+                  </p>
+                </div>
               </div>
             )}
           </>
@@ -358,6 +419,11 @@ export default function LiveVideoPlayer({
 
       {/* 컨트롤 버튼 */}
       <div className="p-4 bg-gray-900 flex justify-between items-center">
+        {!isEnded && !isLoading && (
+          <div className="text-sm text-gray-300 mr-2">
+            {isPlaying ? '▶️ 재생 중' : '⏸️ 일시 중지됨'}
+          </div>
+        )}
         {isHost && !isLoading && !isEnded && (
           <button
             onClick={handleEnd}

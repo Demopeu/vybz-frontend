@@ -1,10 +1,11 @@
 import { UseChat } from '@/context/ChatContext';
-import ChatBar from '@/components/common/form/ChatBar';
+import LiveChatBar from '@/components/live/LiveChatBar';
 import BuskerInfoBox from '@/components/live/BuskerInfoBox';
 import LiveVideoPlayer from '@/components/live/LiveVideoPlayer';
 import { getBuskerInfo } from '@/services/user-services/UserInfoServices';
 import { getServerSession } from 'next-auth';
 import { options } from '@/app/api/auth/[...nextauth]/options';
+import { getUserInfo } from '@/services/user-services';
 
 export default async function Page({
   params,
@@ -17,6 +18,8 @@ export default async function Page({
   const session = await getServerSession(options);
   const userUuid = session?.user?.userUuid;
   const userAccessToken = session?.user?.accessToken;
+  const nickname = (await getUserInfo(userUuid || ''))?.nickname || '익명';
+
   return (
     <main className="relative h-screen overflow-hidden text-white font-poppins">
       {/* 비디오 플레이어가 배경으로 전체 화면 차지 */}
@@ -31,15 +34,17 @@ export default async function Page({
       </div>
 
       {/* 오버레이 - 비디오 위에 표시될 컨텐츠 */}
-      <div className="relative z-10 h-full px-4 flex flex-col justify-between">
+      <div className="relative z-10 h-full flex flex-col justify-between">
         <div className="pt-20">
-          <BuskerInfoBox data={buskerInfo} />
+          <BuskerInfoBox data={buskerInfo} className="px-4" />
         </div>
-        <div className="pb-4">
-          <UseChat>
-            <ChatBar />
-          </UseChat>
-        </div>
+        <UseChat>
+          <LiveChatBar
+            streamKey={streamKey}
+            userUuid={userUuid || ''}
+            nickname={nickname}
+          />
+        </UseChat>
       </div>
     </main>
   );

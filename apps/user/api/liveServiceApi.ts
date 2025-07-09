@@ -4,15 +4,14 @@
 const BASE_URL = process.env.NEXT_PUBLIC_LIVE_API_URL || 'https://back.vybz.kr';
 console.log('API BASE_URL:', BASE_URL);
 
-export interface Live {
-  streamKey: string;
+export interface LiveEnterResult {
   title: string;
   buskerUuid: string;
-  thumbnailUrl: string | null;
+  likeCount: number;
   viewerCount: number;
-  liveStreamStatus: string;
-  startedAt: string;
+  streamKey: string;
   categoryId: number;
+  membership: boolean;
 }
 
 export interface Category {
@@ -20,9 +19,15 @@ export interface Category {
   name: string;
 }
 
-export interface LiveDetailResponse {
-  live: Live;
+// 표준 API 응답 래퍼
+export interface ApiResponse<T> {
+  isSuccess: boolean;
+  message: string;
+  code: number;
+  result: T;
 }
+
+export type LiveDetailResponse = ApiResponse<LiveEnterResult>;
 
 export interface CategoryListResponse {
   result: Category[];
@@ -30,24 +35,30 @@ export interface CategoryListResponse {
 
 export async function getLiveDetail(
   streamKey: string, 
-  userUuid: string, 
-  accessToken: string
+  userUuid?: string, 
+  accessToken?: string
 ): Promise<LiveDetailResponse> {
-  const url = `${BASE_URL}/live/enter/${streamKey}`;
+  const url = `${BASE_URL}/live-service/api/v1/live/enter/${streamKey}`;
   console.log('🔍 getLiveDetail API 호출:', {
     url,
     userUuid,
-    headers: { 
-      'X-User-Id': userUuid,
-      'Authorization': `Bearer ${accessToken}`
-    }
+    hasToken: !!accessToken
   });
 
+  const headers: Record<string, string> = {
+    'accept': '*/*',
+  };
+
+  // 토큰과 userUuid가 있으면 헤더에 추가
+  if (accessToken) {
+    headers['Authorization'] = `Bearer ${accessToken}`;
+  }
+  if (userUuid) {
+    headers['X-User-Id'] = userUuid;
+  }
+
   const res = await fetch(url, {
-    headers: {
-      'X-User-Id': userUuid,
-      'Authorization': `Bearer ${accessToken}`,
-    },
+    headers,
   });
   
   console.log('📡 getLiveDetail 응답:', {
@@ -62,7 +73,9 @@ export async function getLiveDetail(
     throw new Error(`Failed to fetch live detail: ${res.status} ${res.statusText}`);
   }
   
-  return res.json();
+  const response: LiveDetailResponse = await res.json();
+  console.log('✅ getLiveDetail 성공:', response);
+  return response;
 }
 
 export async function getCategoryList(
