@@ -14,9 +14,10 @@ import { LiveContext } from '@/context/LiveContext';
 
 interface LiveChatProps {
   buskerUuid: string | null;
+  nickname: string | null;
 }
 
-export default function LiveChat({ buskerUuid }: LiveChatProps) {
+export default function LiveChat({ buskerUuid, nickname }: LiveChatProps) {
   const { streamKey } = use(LiveContext);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatMessage, setChatMessage] = useState('');
@@ -26,12 +27,21 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
   const [error, setError] = useState<string | null>(null);
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const maxReconnectAttempts = 5;
   const isConnectingRef = useRef(false); // 중복 연결 방지
   const currentClientRef = useRef<Client | null>(null);
 
+  // ScrollArea 박스 내부에서만 스크롤을 아래로 이동
   const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (scrollAreaRef.current) {
+      const scrollContainer = scrollAreaRef.current.querySelector(
+        '[data-radix-scroll-area-viewport]'
+      );
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
+    }
   };
 
   useEffect(() => {
@@ -56,26 +66,28 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
     setError(null);
 
     // HTML 파일과 동일한 방식으로 WebSocket 직접 생성 후 Stomp.over() 사용
-    const socket = new WebSocket(`wss://back.vybz.kr/ws/live-chat?liveId=${streamKey}`);
+    const socket = new WebSocket(
+      `wss://back.vybz.kr/ws/live-chat?liveId=${streamKey}`
+    );
     const client = Stomp.over(socket);
-    
+
     // debug 비활성화 (로그 감소)
     client.debug = () => {}; // HTML에서는 null이지만 여기서는 빈 함수 사용
-    
+
     // WebSocket 이벤트 핸들러 설정
     socket.onopen = () => {
       console.log('✅ WebSocket connected');
     };
-    
+
     socket.onclose = (event) => {
       console.log('🔌 WebSocket closed:', event.code);
       setConnected(false);
       setConnecting(false);
       isConnectingRef.current = false;
-      
+
       // 비정상 종료인 경우 재연결 시도
       if (event.code !== 1000 && reconnectAttempts < maxReconnectAttempts) {
-        setReconnectAttempts(prev => prev + 1);
+        setReconnectAttempts((prev) => prev + 1);
         setTimeout(() => {
           console.log('연결이 끊어져 재연결을 시도합니다...');
           if (!isConnectingRef.current) {
@@ -84,7 +96,7 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
         }, 2000);
       }
     };
-    
+
     socket.onerror = (error) => {
       console.error('🚨 WebSocket error:', error);
       setError('채팅 서버에 연결할 수 없습니다. 네트워크 연결을 확인해주세요.');
@@ -94,7 +106,8 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
     };
 
     // STOMP 연결 - HTML 파일과 동일한 방식
-    client.connect({}, 
+    client.connect(
+      {},
       // 연결 성공 콜백
       () => {
         console.log('✅ STOMP 연결 성공');
@@ -109,10 +122,14 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
           try {
             const receivedMessage = JSON.parse(message.body);
             console.log('수신된 메시지:', receivedMessage);
-            
+
             const newMessage: ChatMessage = {
               id: receivedMessage.id || Date.now().toString(),
-              username: receivedMessage.senderUuid || receivedMessage.senderName || receivedMessage.username || '익명',
+              username:
+                receivedMessage.nickname ||
+                receivedMessage.senderUuid ||
+                receivedMessage.username ||
+                '익명',
               message: receivedMessage.content || receivedMessage.message || '',
               timestamp: new Date(receivedMessage.timestamp || Date.now()),
               isSupporter: receivedMessage.isSupporter || false,
@@ -124,7 +141,7 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
             console.error('원본 메시지:', message.body);
           }
         });
-        
+
         // 클라이언트 참조 저장
         setStompClient(client);
         currentClientRef.current = client;
@@ -136,18 +153,22 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
         setConnected(false);
         setConnecting(false);
         isConnectingRef.current = false;
-        
+
         // 재연결 시도
         if (reconnectAttempts < maxReconnectAttempts) {
-          setReconnectAttempts(prev => prev + 1);
+          setReconnectAttempts((prev) => prev + 1);
           setTimeout(() => {
-            console.log(`재연결 시도 ${reconnectAttempts + 1}/${maxReconnectAttempts}`);
+            console.log(
+              `재연결 시도 ${reconnectAttempts + 1}/${maxReconnectAttempts}`
+            );
             if (!isConnectingRef.current) {
               connectToChat();
             }
           }, 3000);
         } else {
-          setError('최대 재연결 시도 횟수를 초과했습니다. 페이지를 새로고침해주세요.');
+          setError(
+            '최대 재연결 시도 횟수를 초과했습니다. 페이지를 새로고침해주세요.'
+          );
         }
       }
     );
@@ -174,7 +195,7 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
   // 메시지 전송 핸들러
   const handleSendMessage = async () => {
     if (!chatMessage.trim()) return;
-    
+
     if (!stompClient || !stompClient.connected) {
       setError('채팅 서버에 연결되지 않았습니다. 잠시 후 다시 시도해주세요.');
       return;
@@ -183,12 +204,13 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
     try {
       const message = {
         senderUuid: buskerUuid || 'anonymous',
+        nickname: nickname || '익명',
         content: chatMessage.trim(),
         timestamp: new Date().toISOString(),
       };
 
       console.log('메시지 전송:', message);
-      
+
       stompClient.publish({
         destination: '/app/live-chat/sendMessage',
         body: JSON.stringify(message),
@@ -208,7 +230,7 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
   };
 
   return (
-    <Card className="bg-gray-800 border-gray-700 h-[600px] flex flex-col">
+    <Card className="bg-gray-800 border-gray-700 h-[700px] flex flex-col">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold">실시간 채팅</h3>
@@ -220,7 +242,10 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
               연결됨
             </Badge>
           ) : connecting ? (
-            <Badge variant="outline" className="bg-yellow-600 text-white text-xs">
+            <Badge
+              variant="outline"
+              className="bg-yellow-600 text-white text-xs"
+            >
               연결 중...
             </Badge>
           ) : (
@@ -252,7 +277,11 @@ export default function LiveChat({ buskerUuid }: LiveChatProps) {
         )}
 
         {/* Chat Messages */}
-        <ScrollArea className="flex-1 px-4 h-[calc(100%-100px)]" type="always">
+        <ScrollArea
+          className="px-4 h-[500px]"
+          type="always"
+          ref={scrollAreaRef}
+        >
           {chatMessages.length === 0 && !error ? (
             <div className="flex items-center justify-center h-32 text-gray-400 text-sm">
               아직 채팅 메시지가 없습니다.
