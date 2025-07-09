@@ -7,3 +7,5 @@ export * from './avatar';
 export * from './card';
 export * from './tabs';
 export * from './textarea';
+export * from './table';
+export * from './dropdownmenu';

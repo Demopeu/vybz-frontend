@@ -44,3 +44,17 @@ export { Video } from './Video';
 export { VideoOff } from './VideoOff';
 export { Bookmark } from './Bookmark';
 export { PlusSquare } from './PlusSquare';
+export { FileText } from './FileText';
+export { Music } from './Music';
+export { CreditCard } from './CreditCard';
+export { BarChart3 } from './BarChart3';
+export { Plus } from './Plus';
+export { Eye } from './Eye';
+export { Trash2 } from './Trash2';
+export { DollarSign } from './DollarSign';
+export { TrendingUp } from './TrendingUp';
+export { UserCheck } from './UserCheck';
+export { Calendar } from './Calendar';
+export { CheckIcon } from './CheckIcon';
+export { Circle } from './Circle';
+
