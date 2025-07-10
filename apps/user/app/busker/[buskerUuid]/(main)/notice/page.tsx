@@ -12,12 +12,14 @@ export default async function Page({ params }: Props) {
   const { buskerUuid } = resolvedParams;
 
   // 팬 피드 데이터 가져오기
-  let fanFeedData: FanFeedDataType[] = [];
-  try {
-    fanFeedData = await fetchFanFeeds(10, undefined, 'LATEST', buskerUuid);
-  } catch (error) {
-    console.error('팬 피드 데이터 가져오기 실패:', error);
-  }
+  const fanFeedData: FanFeedDataType[] = await fetchFanFeeds(
+    10,
+    undefined,
+    'LATEST',
+    buskerUuid
+  );
+
+  console.log(fanFeedData);
 
   return (
     <>

@@ -40,7 +40,7 @@ export const fetchFanFeeds = async (
 ): Promise<FanFeedDataType[]> => {
   try {
     const writerUuid = Uuid || '4774f95c-42bf-4615-bf0e-0f499ed3711a'; // 특정 버스커의 UUID
-    const baseUrl = 'http://3.38.58.133:8000/feed-read-service/api/v1/read/feed/fan/busker';
+    const baseUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/feed-read-service/api/v1/read/feed/fan/busker`;
     
     // URL 쿼리 파라미터 구성
     const queryParams = new URLSearchParams();

@@ -120,9 +120,6 @@ export default function ReelViewAllSection({
               {/* Bottom gradient overlay */}
               <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black to-transparent">
                 <div className="absolute bottom-2 left-2 right-2 text-white">
-                  <p className="text-sm font-medium line-clamp-2">
-                    {reel.content}
-                  </p>
                   <div className="flex items-center mt-1 space-x-4 text-xs">
                     <span className="flex items-center">
                       <Heart className="w-3 h-3 mr-1" />

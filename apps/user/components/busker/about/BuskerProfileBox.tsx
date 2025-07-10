@@ -11,6 +11,7 @@ import {
   addFollow,
   removeFollow,
 } from '@/services/user-services/UserInfoServices';
+import { useRouter } from 'next/navigation';
 
 interface BuskerProfileBoxProps {
   artistName: string;
@@ -33,6 +34,7 @@ export function BuskerProfileBox({
 }: BuskerProfileBoxProps) {
   const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   return (
     <div className="flex flex-col w-full">
       <div className="flex items-center justify-between w-full">
@@ -120,12 +122,14 @@ export function BuskerProfileBox({
         <Button
           variant="outline"
           className="flex-1 bg-gray-600 border-gray-600 text-white hover:bg-gray-500 font-medium rounded-lg h-12"
+          onClick={() => router.push(`/busker/${buskerUuid}/subscribe`)}
         >
           구독하기
         </Button>
         <Button
           variant="outline"
           className="flex-1 bg-gray-600 border-gray-600 text-white hover:bg-gray-500 font-medium rounded-lg h-12"
+          onClick={() => router.push(`/chat/list`)}
         >
           메시지
         </Button>

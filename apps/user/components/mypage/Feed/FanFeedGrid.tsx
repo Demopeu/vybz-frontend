@@ -5,16 +5,39 @@ import Image from 'next/image';
 import InfiniteScrollWrapper from '@/components/common/layouts/wrapper/InfiniteScrollWrapper';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { fetchFanFeeds } from '@/services/fan-feed-services/fan-feed-services';
+import { useMemo } from 'react';
 
-// 기본 이미지 경로 설정
-const DEFAULT_IMAGE = '/feed.jpg';
+// 기본 이미지 경로 목록 설정
+const DEFAULT_IMAGES: readonly string[] = [
+  '/feed.jpg',
+  '/feed2.png',
+  '/feed3.jpg',
+  '/feed4.jpg',
+  '/feed5.jpg'
+];
 
-// 빈 문자열 체크 및 기본 이미지로 대체하는 함수
-const getValidImageSrc = (src: string | undefined): string => {
-  if (!src || src.trim() === '') {
-    return DEFAULT_IMAGE;
+// ID를 기반으로 피드 아이템에 고정된 이미지를 선택하는 함수
+const getFixedRandomImage = (id: string | number | undefined): string => {
+  // id가 undefined인 경우 랜덤 값 사용
+  if (id === undefined) {
+    const randomIndex = Math.floor(Math.random() * DEFAULT_IMAGES.length);
+    return DEFAULT_IMAGES[randomIndex] as string;
   }
-  return src;
+  
+  // 숫자로 처리하여 픽스해지는 인덱스 계산
+  let numericValue = 0;
+  if (typeof id === 'string') {
+    // 문자열 ID를 숫자로 변환 (예: 문자열의 코드점수 합)
+    for (let i = 0; i < id.length; i++) {
+      numericValue += id.charCodeAt(i);
+    }
+  } else {
+    numericValue = id;
+  }
+  
+  // 숫자 값을 이미지 배열 길이로 나눈 나머지 계산
+  const index = numericValue % DEFAULT_IMAGES.length;
+  return DEFAULT_IMAGES[index] as string;
 };
 
 interface FanFeedGridItemProps {
@@ -23,33 +46,54 @@ interface FanFeedGridItemProps {
 }
 
 function FanFeedGridItem({ feed, onClick }: FanFeedGridItemProps) {
-  // 이미지 여부 확인 - 개선된 아주 엄격한 검사\
-  console.log(feed.imageSrcList);
-  const validImages =
-    feed.imageSrcList?.filter(
-      (img) => img && typeof img === 'string' && img.trim() !== ''
-    ) || [];
+  // console.log(feed); // 디버깅용 로그 제거
 
-  const hasValidImage = validImages.length > 0;
-  const firstImage = hasValidImage ? validImages[0] : '';
   const content = feed.content || '';
+  
+  // feed.id를 사용해 고정된 랜덤 이미지 선택 (리렌더링 시에도 같은 이미지 유지)
+  const defaultImage = useMemo(() => {
+    return getFixedRandomImage(feed.id || Math.random().toString());
+  }, [feed.id]); // feed.id가 변경되지 않는 한 같은 이미지 유지
+
+  // imageSrcList 유효성 체크 - undefined 처리 추가
+  const hasImageList =
+    feed.imageSrcList &&
+    Array.isArray(feed.imageSrcList) &&
+    feed.imageSrcList.length > 0;
+
+  // 첫 번째 이미지가 null이 아닌지 체크 (타입스크립트 에러 수정)
+  const firstImage =
+    hasImageList && feed.imageSrcList ? feed.imageSrcList[0] : null;
+  const hasValidImage =
+    hasImageList && firstImage !== null && firstImage !== '';
 
   return (
     <div
       className="aspect-square relative overflow-hidden bg-div-background cursor-pointer"
       onClick={onClick}
     >
-      {hasValidImage ? (
+      {/* imageSrcList가 비어있으면 콘텐츠 표시, 이미지가 있지만 null이면 기본 이미지, 이미지가 정상이면 표시 */}
+      {!hasImageList ? (
+        // imageSrcList가 없거나 비어있을 때 -> 콘텐츠 표시
+        <div className="w-full h-full flex items-center justify-center text-white text-sm p-2 overflow-hidden">
+          <p className="line-clamp-6 text-center">{content}</p>
+        </div>
+      ) : hasValidImage ? (
+        // 정상적인 이미지가 있을 때 -> 이미지 표시
         <Image
-          src={getValidImageSrc(firstImage)}
+          src={firstImage || defaultImage}
           alt={`${feed.buskerName}'s feed`}
           fill
           className="object-cover"
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center text-white text-sm p-2 overflow-hidden">
-          <p className="line-clamp-6 text-center">{content}</p>
-        </div>
+        // 이미지 리스트는 있지만 첫 번째 값이 null/빈 문자열일 때 -> 기본 이미지 표시
+        <Image
+          src={defaultImage}
+          alt={`${feed.buskerName}'s feed`}
+          fill
+          className="object-cover"
+        />
       )}
     </div>
   );
@@ -100,13 +144,6 @@ export default function FanFeedGrid({
           </div>
         </div>
       </InfiniteScrollWrapper>
-
-      {/* 로딩 표시기 */}
-      {isLoading && (
-        <div className="flex justify-center p-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-        </div>
-      )}
 
       {/* 피드가 없을 때 메시지 */}
       {!isLoading && feeds.length === 0 && (
