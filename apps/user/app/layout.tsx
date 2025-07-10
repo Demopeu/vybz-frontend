@@ -70,8 +70,6 @@ export const metadata: Metadata = {
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
   icons: {
     icon: '/favicon.ico',
-    shortcut: '/public/logo/logo.png',
-    apple: '/public/logo/logo.png',
   },
 };
 
