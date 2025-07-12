@@ -70,6 +70,12 @@
 | @repo/typescript-config | workspace:\* | TypeScript 설정 공유 패키지   |
 | @next/bundle-analyzer   | 15.3.3       | 빌드 성능 분석 도구           |
 
+### **앱별 상세 개발 환경**
+
+- [User 앱 개발 환경 보기](./apps/user/README.md)
+- [Busker 앱 개발 환경 보기](./apps/busker/README.md)
+- [Admin 앱 개발 환경 보기](./apps/admin/README.md)
+
 [🔝 목차로 돌아가기](#목차)
 
 ## 3. 주요 기능
@@ -97,6 +103,26 @@
 [🔝 목차로 돌아가기](#목차)
 
 ## 4. 설계 문서
+
+### 시스템 아키텍쳐
+
+<img width="1002" height="430" alt="스크린샷 2025-07-11 오전 10 33 36" src="https://github.com/user-attachments/assets/b47a7f41-55a8-41f9-bd6e-8334a53a0a4a" />
+
+### CI/CD 아키텍쳐
+
+<img width="638" height="456" alt="스크린샷 2025-07-11 오전 10 32 11" src="https://github.com/user-attachments/assets/eb18a78c-6256-4362-9d19-32aacc3dece1" />
+
+### ERD 설계
+
+![ERD](./public/ERD.png)
+
+### 요구사항 정의서
+
+![요구사항 정의서](./public/요구사항정의서.png)
+
+### API 명세서
+
+![API 명세서](./public/API.png)
 
 [🔝 목차로 돌아가기](#목차)
 
@@ -190,17 +216,30 @@
 
 ### 7. 프로젝트 규칙
 
-#### 프로젝트 구조
+#### 📍 Google Docs
+
+프로젝트의 전반적인 내용과 작업 과정등을 google docs에 담아서 관리.
+[🔗 Google Docs](https://github.com/user-attachments/files/19932522/6.1.4.pdf)
+<br/>
+
+#### 📍 Notion 회고
+
+- 팀 노션에 동시 접속하여 [🔗 일일 회고](https://www.notion.so/1e59f61cd9ee81c9bef8f4694bc5a484)를 진행하고 진행사항을 파악.
+
+<img width="600" alt="front" src="https://github.com/user-attachments/assets/780bd714-07f6-4e7d-a914-4c7b9f7290da">
+<br/>
+
+#### 📍 Frontend 프로젝트 구조
 
 ```jsx
 frontend.vybz/
-├── apps/                                 
+├── apps/
 │   ├── user/                             # 일반 사용자용 앱
 │   │   ├── app/                          # Next.js 15 app 디렉토리
-│   │   ├── components/                  
+│   │   ├── components/
 │   │   ├── public/
-│   │   ├── next.config.js          
-│   │   ├── tsconfig.json              
+│   │   ├── next.config.js
+│   │   ├── tsconfig.json
 │   │   └── package.json
 │   │
 │   ├── busker/                         # (선택) 버스커용 앱
@@ -215,12 +254,12 @@ frontend.vybz/
 ├── .prettierrc
 ├── .prettierignore
 ├── pnpm-workspace.yaml
-├── turbo.json                        
-├── package.json                      
+├── turbo.json
+├── package.json
 └── pnpm-lock.yaml
 ```
 
-#### 코드 컨벤션
+#### 📍 Frontend 코드 컨벤션
 
 - **한 줄에 최대 80자까지만 작성**
 - **함수명, 폴더명은 카멜케이스로 작성** (ex. userIdtabWidth)
