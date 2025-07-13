@@ -3,10 +3,11 @@
 <table align="center">
   <tr>
     <td align="center">
-       <img width="600" alt="스크린샷2" src="https://github.com/user-attachments/assets/c0191e9d-73dc-4866-813d-687da167fc63">
+       <img width="1669" height="919" alt="localhost_3002_" src="https://github.com/user-attachments/assets/05d57a34-826a-4566-93f9-8b20a7d76dea" />
     </td>
   </tr>
 </table>
+
 
 > 🎤 팬과 버스커가 함께 만드는 무대, 실시간 소통 기반 팬 플랫폼 SNS
 >
