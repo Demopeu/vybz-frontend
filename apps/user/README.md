@@ -69,6 +69,7 @@
   - 페이지별 구조화된 데이터 적용
 
   - 결과 : Google Search Console에서 정상적으로 인덱싱됨
+
     ![image](./assets/seo.png)
 
 - **서버 사이드 렌더링 구현**
