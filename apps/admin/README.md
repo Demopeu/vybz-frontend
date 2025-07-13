@@ -28,7 +28,6 @@
 | Node.js      | >=18   | JavaScript 런타임            |
 | Next.js      | 15.3.0 | React 기반 프레임워크        |
 | React        | 19.1.0 | UI 라이브러리                |
-| React DOM    | 19.1.0 | React DOM 렌더러             |
 | TypeScript   | 5.8.2  | 타입 안정성 제공             |
 | Tailwind CSS | 4.1.5  | 유틸리티 우선 CSS 프레임워크 |
 

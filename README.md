@@ -53,22 +53,22 @@
 
 ### 공통 패키지
 
-| 이름                    | 버전         | 설명                          |
-| ----------------------- | ------------ | ----------------------------- |
-| turbo                   | 2.5.3        | 모노레포 빌드 시스템          |
-| pnpm                    | 8.15.6       | 패키지 매니저                 |
-| Node.js                 | >=18         | JavaScript 런타임             |
-| tailwindcss             | 4.1.5        | CSS 프레임워크                |
-| tailwind-merge          | 3.3.0        | Tailwind 클래스 병합 유틸리티 |
-| tailwindcss-animate     | 1.0.7        | Tailwind 애니메이션 플러그인  |
-| clsx                    | 2.1.1        | React 컴포넌트 조합 유틸리티  |
-| prettier                | 3.5.3        | 코드 포매터                   |
-| husky                   | 9.1.7        | Git 훅 관리                   |
-| @commitlint/cli         | 19.8.1       | 커밋 메시지 검증 도구         |
-| @repo/eslint-config     | workspace:\* | ESLint 설정 공유 패키지       |
-| @repo/tailwind-config   | workspace:\* | Tailwind 설정 공유 패키지     |
-| @repo/typescript-config | workspace:\* | TypeScript 설정 공유 패키지   |
-| @next/bundle-analyzer   | 15.3.3       | 빌드 성능 분석 도구           |
+| 이름                 | 버전         | 설명                          |
+| -------------------- | ------------ | ----------------------------- |
+| turbo                | 2.5.3        | 모노레포 빌드 시스템          |
+| pnpm                 | 8.15.6       | 패키지 매니저                 |
+| Node.js              | >=18         | JavaScript 런타임             |
+| tailwindcss          | 4.1.5        | CSS 프레임워크                |
+| tailwind-merge       | 3.3.0        | Tailwind 클래스 병합 유틸리티 |
+| tailwindcss-animate  | 1.0.7        | Tailwind 애니메이션 플러그인  |
+| clsx                 | 2.1.1        | React 컴포넌트 조합 유틸리티  |
+| prettier             | 3.5.3        | 코드 포매터                   |
+| husky                | 9.1.7        | Git 훅 관리                   |
+| commitlint/cli       | 19.8.1       | 커밋 메시지 검증 도구         |
+| eslint-config        | workspace:\* | ESLint 설정 공유 패키지       |
+| tailwind-config      | workspace:\* | Tailwind 설정 공유 패키지     |
+| typescript-config    | workspace:\* | TypeScript 설정 공유 패키지   |
+| next/bundle-analyzer | 15.3.3       | 빌드 성능 분석 도구           |
 
 ### **앱별 상세 개발 환경**
 

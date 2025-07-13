@@ -30,20 +30,21 @@
 | Node.js        | >=18    | JavaScript 런타임                           |
 | Next.js        | 15.3.0  | React 기반 프레임워크                       |
 | React          | 19.1.0  | UI 라이브러리                               |
-| React DOM      | 19.1.0  | React DOM 렌더러                            |
-| tanstack-query | 5.80.7  | 서버 상태 관리 라이브러리                   |
-| next-auth      | 4.24.11 | 인증 솔루션                                 |
+| TypeScript     | 5.8.2   | 타입 안정성 제공                            |
+| Tailwind CSS   | 4.1.5   | 유틸리티 우선 CSS 프레임워크                |
+| Tanstack Query | 5.80.7  | 서버 상태 관리                              |
+| NextAuth.js    | 4.24.11 | 인증 솔루션                                 |
 | Firebase       | 11.9.1  | 백엔드 서비스 플랫폼                        |
 | Framer Motion  | 12.16.0 | 애니메이션 라이브러리                       |
-| @stomp/stompjs | 7.1.1   | STOMP 프로토콜을 위한 JavaScript 클라이언트 |
+| stomp/stompjs  | 7.1.1   | STOMP 프로토콜을 위한 JavaScript 클라이언트 |
 | next-pwa       | 5.6.0   | Progressive Web App 지원                    |
 
 ### 개발 도구
 
-| 이름                           | 버전   | 설명                  |
-| ------------------------------ | ------ | --------------------- |
-| pnpm                           | 8.15.6 | 패키지 매니저         |
-| @tanstack/react-query-devtools | 5.80.7 | React Query 개발 도구 |
+| 이름                          | 버전   | 설명                  |
+| ----------------------------- | ------ | --------------------- |
+| pnpm                          | 8.15.6 | 패키지 매니저         |
+| tanstack/react-query-devtools | 5.80.7 | React Query 개발 도구 |
 
 ### 공유 패키지
 
@@ -56,9 +57,38 @@
 
 ## 2. 기술 소개
 
+### 2-1. 실시간 스트리밍 기술
+
+- **WebRTC 기반 실시간 스트리밍**
+
+  - MediaRecorder API를 활용한 라이브 비디오 스트리밍 구현
+  - 웹소켓(WebSocket) 프로토콜을 통한 실시간 데이터 전송
+  - 지연 시간을 최소화한 고품질 스트리밍 서비스
+
+- **스트리밍 안정성 최적화**
+  - 데이터 전송 큐 시스템으로 네트워크 불안정 상황에서도 안정적인 스트리밍 보장
+  - 지수 백오프(Exponential Backoff) 알고리즘을 적용한 자동 재연결 메커니즘
+
+### 2-2. Next.js Parallel Routes
+
+- **채팅 시스템에 Parallel Routes 적용**
+  - 동일 레이아웃에서 독립적인 라우팅 상태 관리
+  - 채팅 인터페이스와 메인 콘텐츠의 동시 렌더링 구현
+  - 페이지 전환 없이 채팅 상태 유지 가능
+
 [🔝 목차로 돌아가기](#목차)
 
 ## 3. 트러블 슈팅
+
+### 3-1. Parallel Routes 사이 상태 공유 이슈
+
+- **문제**: Next.js Parallel Routes를 사용한 채팅 시스템에서 라우트 간 상태 공유가 어려웠음. 각 라우트가 독립적인 렌더링 상태를 가지기 때문에 데이터 공유가 불가능했음
+- **해결**: React Context API를 활용하여 라우트 간 상태 공유 메커니즘을 구현. 채팅 상태를 관리하는 ChatContext를 생성하여 모든 Parallel Routes에서 접근 가능하게 함
+
+### 3-2. LiveService API 인증 헤더 불일치 이슈
+
+- **문제**: 라이브 서비스 API와 통신 시 백엔드에서 요구하는 인증 헤더 형식이 백엔드 팀의 변경으로 인해 일관성이 없어 API 호출 실패 발생
+- **해결**: API 호출 시 헤더 형식을 통합하는 중앙화된 헤더 관리 시스템을 구현하여 모든 API 호출에서 일관된 헤더 형식 적용
 
 [🔝 목차로 돌아가기](#목차)
 
