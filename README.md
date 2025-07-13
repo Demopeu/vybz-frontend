@@ -114,7 +114,7 @@
 
 ### ERD 설계
 
-![ERD](./public/ERD.png)
+<img width="1311" height="734" alt="erd" src="https://github.com/user-attachments/assets/9f010386-c8f7-4d61-8db1-28c75f969eda" />
 
 ### 요구사항 정의서
 
@@ -154,7 +154,7 @@
   - 메시지 형식: `<타입>: <제목>` (예: `feat: 로그인 기능 구현`)
   - 최대 길이: 50자
 
-![husky](./public/husky.png)
+<img width="556" height="730" alt="husky" src="https://github.com/user-attachments/assets/4e08efa0-6635-4725-a1b0-48e25785cc8d" />
 
 #### 5-3-2. PNPM
 
