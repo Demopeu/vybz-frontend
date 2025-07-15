@@ -187,7 +187,12 @@
 - 코드 분석 및 자동 리뷰
 - AI 기반으로 시멘틱 태그 품질을 PR단계에서 검사
 
+- [User 앱 기술 소개 보기](./apps/user/README.md)
+- [Busker 앱 기술 소개 보기](./apps/busker/README.md)
+
 ![mcp](./public/mcp.png)
+
+
 
 [🔝 목차로 돌아가기](#목차)
 
@@ -211,6 +216,9 @@
 - **해결**: Tailwind CSS 4의 새로운 기능을 활용하여 해결
   - `@source` 디렉티브: 특정 폴더/파일의 클래스를 포함하도록 명시적 지정
   - `@theme` 디렉티브: 테마 변수 정의 및 동적 테마 관리 지원
+
+- [User 앱 트러블 슈팅 보기](./apps/user/README.md)
+- [Busker 앱 트러블 슈팅 보기](./apps/busker/README.md)
 
 [🔝 목차로 돌아가기](#목차)
 
