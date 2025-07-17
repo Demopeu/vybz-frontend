@@ -70,8 +70,7 @@
 
   - 결과 : Google Search Console에서 정상적으로 인덱싱됨
 
-  <img width="1043" height="1739" alt="seo" src="https://github.com/user-attachments/assets/fa6fcfa2-c741-4df6-9482-98ab4639080e" />
-
+  <img width="1042" height="440" alt="image" src="https://github.com/user-attachments/assets/236e987c-ff79-49a3-90ba-9c6bb5599ce8" />
 
 - **서버 사이드 렌더링 구현**
   - 검색 엔진 최적화를 위한 초기 페이지 로딩 성능 향상
